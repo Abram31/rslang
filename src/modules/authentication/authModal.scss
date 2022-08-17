@@ -1,0 +1,100 @@
+@import '../../utils/scss/constants.scss';
+@import '../../utils/scss/mixin.scss';
+
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  background-color: rgba(252, 251, 251, 0.6);
+  z-index: 2;
+}
+
+.modal-window {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-radius: 10px;
+  font-size: 15px;
+  background-color: $colorBackground;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: $colorBlack;
+  padding: 25px 45px;
+}
+
+.title {
+  @include font(3.2rem, 700);
+  text-align: center;
+}
+
+.title-item {
+  @include font(1.6rem, 700);
+  text-align: left;
+}
+
+.input {
+  background: $colorWhite;
+  box-shadow: inset 0px 0px 3px rgba(13, 96, 111, 0.08),
+    inset 0px 2px 3px rgba(13, 96, 111, 0.16);
+  border-radius: 10px;
+  border: none;
+  padding: 20px;
+  @include font(2.5rem, 400);
+  width: 100%;
+}
+
+.btn-auth {
+  padding: 15px;
+  border: none;
+  @include font(2rem, 700);
+  color: $colorWhite;
+  background-color: $colorRed;
+  box-shadow: 0px 0px 3px rgba(13, 96, 111, 0.08),
+    0px 2px 3px rgba(13, 96, 111, 0.16);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    color: $colorBlack;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.line {
+  height: 1px;
+  background-color: $colorBlack;
+  width: 100%;
+  border: none;
+}
+
+.question {
+  text-align: center;
+  @include font(1.5rem, 700);
+  color: rgba(0, 0, 0, 0.5);
+  text-shadow: 0px 2px 3px rgba(255, 255, 255, 0.16);
+}
+
+.open-link {
+  @include font(1.5rem, 700);
+  text-decoration-line: underline;
+  color: $colorRed;
+  text-shadow: 0px 2px 3px rgba(255, 255, 255, 0.16);
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    color: $colorBlack;
+  }
+}
+
+.error-message {
+  @include font(2rem, 700);
+  text-align: center;
+  color: $colorRed;
+}
+
+
