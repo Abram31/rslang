@@ -45,6 +45,7 @@ export const createWordContainer = (word: IdataFromServer) => {
     parentElement: containerWord,
   };
   const textMeaning = createDomNode(descriptionTextMeaning);
+  textMeaning.setAttribute('data-path-audio', word.audioMeaning);
 
   const descriptionTextMeaningTranslate = {
     typeElement: 'span',
@@ -61,6 +62,8 @@ export const createWordContainer = (word: IdataFromServer) => {
     parentElement: containerWord,
   };
   const textExample = createDomNode(descriptionTextExample);
+  textExample.setAttribute('data-path-audio', word.audioExample);
+
 
   const descriptionTextExampleTranslate = {
     typeElement: 'span',

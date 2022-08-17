@@ -86,7 +86,6 @@ export const containerWords = createDomNode(descriptionContainerWords);
 
 fetchRequest.getNewWordsLIst({ page: '0', group: '0' })
   .then((data) => {
-    console.log(data);
     containerWords.innerHTML = '';
     for (let i = 0; i <= 2; i += 1) {
       const fragmentWord = createWordContainer(data[i]);
@@ -96,7 +95,10 @@ fetchRequest.getNewWordsLIst({ page: '0', group: '0' })
 
 wrapperTutorial.addEventListener('click', (event) => {
   const element = event.target as HTMLHRElement;
-  if (element.classList.contains('container-word__title')) {
+  if (element.classList.contains('container-word__title')
+    || element.classList.contains('container-word__text-meaning')
+    || element.classList.contains('container-word__text-example')) {
+
     const pathAudio = element.getAttribute('data-path-audio');
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     pathAudio ? playAudio(pathAudio) : '';

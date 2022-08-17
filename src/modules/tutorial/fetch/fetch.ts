@@ -30,4 +30,3 @@ class FetchRequest {
 export const fetchRequest = new FetchRequest();
 
 export const getWords = fetchRequest.getNewWordsLIst.bind(fetchRequest);
-// getWords(descriptionWords).then((data) => { console.log(data); });
