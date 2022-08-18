@@ -15,6 +15,8 @@ export default class HeaderRender {
 
   private navigationList;
 
+  private navigationLi;
+
   private navigationTextbook;
 
   private navigationGame;
@@ -38,14 +40,19 @@ export default class HeaderRender {
     this.headerWrapper = createDomNode('div', ['wrapper', 'header-wrapper'], this.header);
     this.leftSide = createDomNode('div', ['left-side'], this.headerWrapper);
 
-    this.logo = createDomNode('div', ['logo'], this.leftSide);
+    this.logo = createDomNode('a', ['logo'], this.leftSide, '', [{ href: '#' }]);
 
     this.navigation = createDomNode('nav', ['navigation'], this.leftSide);
     this.navigationList = createDomNode('ul', ['navigation-list'], this.navigation);
-    this.navigationTextbook = createDomNode('li', ['navigation-item'], this.navigationList, 'Учебник');
-    this.navigationGame = createDomNode('li', ['navigation-item'], this.navigationList, 'Мини-игры');
-    this.navigationStatistics = createDomNode('li', ['navigation-item'], this.navigationList, 'Статистика');
-    this.navigationTeam = createDomNode('li', ['navigation-item'], this.navigationList, 'О команде');
+
+    this.navigationLi = createDomNode('li', [], this.navigationList);
+    this.navigationTextbook = createDomNode('a', ['navigation-item'], this.navigationLi, 'Учебник', [{ href: '#' }]);
+    this.navigationLi = createDomNode('li', [], this.navigationList);
+    this.navigationGame = createDomNode('a', ['navigation-item'], this.navigationLi, 'Мини-игры', [{ href: '#' }]);
+    this.navigationLi = createDomNode('li', [], this.navigationList);
+    this.navigationStatistics = createDomNode('a', ['navigation-item'], this.navigationLi, 'Статистика', [{ href: '#' }]);
+    this.navigationLi = createDomNode('li', [], this.navigationList);
+    this.navigationTeam = createDomNode('a', ['navigation-item'], this.navigationLi, 'О команде', [{ href: '#' }]);
 
     this.rightSide = createDomNode('div', ['right-side'], this.headerWrapper);
     this.nameUser = createDomNode('p', ['user-name'], this.rightSide);

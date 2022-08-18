@@ -122,7 +122,6 @@ export default class AuthModal {
     if (VALIDATION_EMAIL.test(emailUser) && passwordUser) {
       await this.app.loginUser({ email: emailUser, password: passwordUser })
         .then((res) => {
-          // eslint-disable-next-line no-restricted-syntax
           for (const key of Object.keys(res)) {
             setStorage(key, res[key]);
           }

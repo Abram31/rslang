@@ -20,7 +20,9 @@ export default function createDomNode(
   if (attr) {
     attr.forEach((el) => {
       for (const key in el) {
-        elem.setAttribute(key, el[key]);
+        if (Object.prototype.hasOwnProperty.call(el, key)) {
+          elem.setAttribute(key, el[key]);
+        }
       }
     });
   }
