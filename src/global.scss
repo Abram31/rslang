@@ -1,5 +1,35 @@
-$color: rgb(79, 91, 94);
+@import './utils/scss/constants.scss';
+@import './utils/scss/mixin.scss';
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+}
 
 body {
-  background-color:$color;
+  max-width: 1440px;
+  margin: 0 auto;
+  background-color: $colorBackground;
+  font-family: $fontMain;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.wrapper {
+  padding: 20px 120px;
+
+  @media (max-width: 1000px) {
+    padding: 20px;
+  }
+}
+
+.hide {
+  display: none;
 }
