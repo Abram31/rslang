@@ -6,9 +6,13 @@ export default class FooterRender {
 
   private footerWrapper;
 
+  private rscontainer;
+
   private year;
 
   private githubWrapper;
+
+  private githubItem;
 
   private githubImage;
 
@@ -20,15 +24,23 @@ export default class FooterRender {
     this.footer = createDomNode('footer', ['footer'], document.body);
     this.footerWrapper = createDomNode('div', ['wrapper', 'footer-wrapper'], this.footer);
 
-    this.year = createDomNode('p', ['year'], this.footerWrapper, '2022');
+    this.rscontainer = createDomNode('div', ['rs-container'], this.footerWrapper);
+
+    this.year = createDomNode('p', ['year'], this.rscontainer, '2022');
+    this.rsImage = createDomNode('a', ['rs-image'], this.rscontainer, '', [{ href: 'https://rs.school/js/' }]);
 
     this.githubWrapper = createDomNode('div', ['github-wrapper'], this.footerWrapper);
-    this.githubImage = createDomNode('img', ['github-image'], this.githubWrapper, '', [{ src: '../../../assets/svg/Github.svg' }, { alt: 'GitHub' }]);
 
-    this.githubLink = createDomNode('a', ['github-link'], this.githubWrapper, 'veronika2811', [{ href: 'https://github.com/Veronika2811' }]);
-    this.githubLink = createDomNode('a', ['github-link'], this.githubWrapper, 'abram31', [{ href: 'https://github.com/abram31' }]);
-    this.githubLink = createDomNode('a', ['github-link'], this.githubWrapper, 'paulonio', [{ href: 'https://github.com/paulonio' }]);
+    this.githubItem = createDomNode('a', ['github-item'], this.githubWrapper, '', [{ href: 'https://github.com/Veronika2811' }]);
+    this.githubImage = createDomNode('img', ['github-image'], this.githubItem, '', [{ src: '../../../assets/svg/Github.svg' }, { alt: 'GitHub' }]);
+    this.githubLink = createDomNode('span', ['github-link'], this.githubItem, 'veronika2811');
 
-    this.rsImage = createDomNode('a', ['rs-image'], this.footerWrapper, '', [{ href: 'https://rs.school/js/' }]);
+    this.githubItem = createDomNode('a', ['github-item'], this.githubWrapper, '', [{ href: 'https://github.com/abram31' }]);
+    this.githubImage = createDomNode('img', ['github-image'], this.githubItem, '', [{ src: '../../../assets/svg/Github.svg' }, { alt: 'GitHub' }]);
+    this.githubLink = createDomNode('span', ['github-link'], this.githubItem, 'abram31');
+
+    this.githubItem = createDomNode('a', ['github-item'], this.githubWrapper, '', [{ href: 'https://github.com/paulonio' }]);
+    this.githubImage = createDomNode('img', ['github-image'], this.githubItem, '', [{ src: '../../../assets/svg/Github.svg' }, { alt: 'GitHub' }]);
+    this.githubLink = createDomNode('span', ['github-link'], this.githubItem, 'paulonio');
   }
 }

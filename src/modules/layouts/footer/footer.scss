@@ -1,29 +1,57 @@
 @import '../../../utils/scss/constants.scss';
 @import '../../../utils/scss/mixin.scss';
 
+.footer {
+  height: 140px;
+  // width: 100%;
+  background: url('../../../assets/png/footer.png') 100% 100% no-repeat;
+  // background-repeat: no-repeat;
+  // // height: 40px;
+  // // width: 100%;
+  // // background-size: 100%;
+  // // background-size: 1000px auto;
+  // background-size: contain;
+  background-size: cover;
+  // background-size: 50% auto;
+  display: flex;
+  align-items: flex-end;
+}
+
 .footer-wrapper {
+  width: 100%;
   @include flex($justify: space-between);
 }
 
-.year {
-  @include font(1.6rem, 400);
-}
-
-.github-wrapper {
+.rs-container {
   @include flex();
-  gap: 40px;
+  gap: 25px;
 }
 
-.github-link {
-  @include font(1.6rem, 400);
+.github-item {
+  @include flex();
+  gap: 10px;
   text-decoration: none;
-  color: $colorBlack;
   cursor: pointer;
   transition: 0.3s;
 
   &:hover {
-    color: $colorRed;
+    filter: $colorImageHover;
   }
+}
+
+.year {
+  @include font(2.4rem, 400);
+}
+
+.github-wrapper {
+  @include flex();
+  gap: 25px;
+}
+
+
+.github-link {
+  @include font(2.4rem, 400);
+  color: $colorBlack;
 }
 
 .rs-image {

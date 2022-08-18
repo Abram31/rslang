@@ -38,7 +38,7 @@ export default class HeaderRender {
     this.headerWrapper = createDomNode('div', ['wrapper', 'header-wrapper'], this.header);
     this.leftSide = createDomNode('div', ['left-side'], this.headerWrapper);
 
-    this.logo = createDomNode('p', ['logo'], this.leftSide, 'RSLang');
+    this.logo = createDomNode('div', ['logo'], this.leftSide);
 
     this.navigation = createDomNode('nav', ['navigation'], this.leftSide);
     this.navigationList = createDomNode('ul', ['navigation-list'], this.navigation);

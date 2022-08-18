@@ -12,23 +12,20 @@ export default class MainPageRender {
 
   private title;
 
-  private descriptionList;
-
   private descriptionItem;
 
   private btnTransparent;
 
   constructor() {
-    this.mainPage = createDomNode('div', ['main-page'], document.body);
-    this.mainWrapper = createDomNode('div', ['main-wrapper'], this.mainPage);
-
-    this.mainImage = createDomNode('img', ['main-image'], this.mainWrapper, '', [{ src: '../../../assets/mainImg.png' }, { alt: 'Pupil' }]);
+    this.mainPage = createDomNode('main', ['main-page'], document.body);
+    this.mainWrapper = createDomNode('div', ['wrapper', 'main-wrapper'], this.mainPage);
 
     this.description = createDomNode('div', ['description'], this.mainWrapper);
     this.title = createDomNode('h1', ['main-title'], this.description, 'Увеличивайте свой словарный запас вместе с нами');
-    this.descriptionList = createDomNode('ul', ['description-list'], this.description);
-    this.descriptionItem = createDomNode('li', ['description-item'], this.descriptionList, 'Сделайте изучение слов более увлекательным с помощью наших мини-игр');
-    this.descriptionItem = createDomNode('li', ['description-item'], this.descriptionList, 'У авторизованных пользователей отображается раздел "Сложные слова", прогресс изучения слов, изученные слова и статистика');
+    this.descriptionItem = createDomNode('p', ['description-item'], this.description, 'Сделайте изучение слов более увлекательным с помощью наших мини-игр');
+    this.descriptionItem = createDomNode('p', ['description-item'], this.description, 'Авторизовывайтесь и открывайте новые возможности');
     this.btnTransparent = createDomNode('button', ['btn-transparent'], this.description, 'Смотреть видео');
+
+    this.mainImage = createDomNode('img', ['main-image'], this.mainWrapper, '', [{ src: '../../../assets/svg/girl-main.svg' }, { alt: 'Girl' }]);
   }
 }
