@@ -1,0 +1,59 @@
+.container-game-audio-call {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style: none;
+
+    .container-game-audio-call__wrapper-step-game {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: none;
+
+        .wrapper-step-game__step-game {
+            background: url(../../assets/svg/game-audio-call/Heart.svg);
+            display: block;
+            // mask-image: url(../../assets/svg/game-audio-call/Heart.svg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            width: 2.5rem;
+            height: 2.5rem;
+
+            &:hover {
+                background: url(../../assets/svg/game-audio-call/Heart-full.svg);
+            }
+        }
+    }
+
+    .container-game-audio-call__button-call-voice {
+        background: url(../../assets/svg/game-audio-call/voice.svg);
+        display: block;
+        // mask-image: url(../../assets/svg/game-audio-call/Heart.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        width: 7.5rem;
+        height: 7.5rem;
+    }
+
+    .container-game-audio-call__wrapper-words {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: none;
+
+        .wrapper-words__word,
+        .wrapper-words__dont-know {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px rgba(245, 68, 59, 1) solid;
+            border-radius: 6px;
+            width: 7.8rem;
+            height: 3.2rem;
+
+        }
+    }
+}

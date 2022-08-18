@@ -133,4 +133,4 @@ const descriptionSprintGame = {
 };
 const buttonSprintGame = createDomNode(descriptionSprintGame);
 
-body.appendChild(tutorilaFragmet);
+// body.appendChild(tutorilaFragmet);
