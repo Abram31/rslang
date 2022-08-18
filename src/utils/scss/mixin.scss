@@ -1,0 +1,15 @@
+@import './constants.scss';
+
+@mixin flex($align: center, $justify: center) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+}
+
+@mixin font(
+  $size,
+  $weight: normal,
+) {
+  font-size: $size;
+  font-weight: $weight;
+}
