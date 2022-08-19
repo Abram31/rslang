@@ -95,10 +95,7 @@ fetchRequest.getNewWordsLIst({ page: '0', group: '0' })
 
 wrapperTutorial.addEventListener('click', (event) => {
   const element = event.target as HTMLHRElement;
-  if (element.classList.contains('container-word__title')
-    || element.classList.contains('container-word__text-meaning')
-    || element.classList.contains('container-word__text-example')) {
-
+  if (element.classList.contains('container-word__title')) {
     const pathAudio = element.getAttribute('data-path-audio');
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     pathAudio ? playAudio(pathAudio) : '';
