@@ -1,7 +1,7 @@
 import createDomNode from '../../../utils/createDomNode';
 import './textbookLevel.scss';
 
-export default class TextbookLevel {
+export default class TextBookLevel {
   private textBook;
 
   private textBookWrapper;

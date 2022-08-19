@@ -1,0 +1,41 @@
+@import "../../../utils/scss/constants.scss";
+@import "../../../utils/scss/mixin.scss";
+
+.text-book-page-wrapper {
+  @include flex();
+  flex-direction: column;
+  gap: 20px;
+}
+
+.text-book-wrapper {
+  gap: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-center {
+  @include font(4rem, 600);
+  text-align: center;
+}
+
+.select-page {
+  border: 1px solid $colorRed;
+  width: 300px;
+  border-radius: 20px;
+  padding: 10px;
+
+  &:hover {
+    cursor: pointer;
+    border: 1px solid $colorYellow;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $colorRed;
+  }
+}
+
+.container-text-book {
+  @include flex();
+  flex-direction: column;
+}

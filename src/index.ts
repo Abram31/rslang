@@ -1,8 +1,8 @@
 import './global.scss';
-import ChooseSectionTextbook from './modules/layouts/textbookLevel/TextbookLevel';
 import FooterRender from './modules/layouts/footer/FooterRender';
 import HeaderRender from './modules/layouts/header/HeaderRender';
+import TextBookPage from './modules/layouts/textBookPage/textBookPage';
 
 new HeaderRender();
-new ChooseSectionTextbook();
+new TextBookPage();
 new FooterRender();
