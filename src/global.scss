@@ -14,7 +14,7 @@ html {
 body {
   max-width: 1440px;
   margin: 0 auto;
-  background-color: $colorBackground;
+  background-color: $colorWhite;
   font-family: $fontMain;
   min-height: 100vh;
   display: flex;
@@ -23,11 +23,11 @@ body {
 }
 
 .wrapper {
-  padding: 20px 120px;
+  padding: 20px 50px;
 
-  @media (max-width: 1000px) {
-    padding: 20px;
-  }
+  // @media (max-width: 1000px) {
+  //   padding: 20px;
+  // }
 }
 
 .hide {

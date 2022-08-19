@@ -6,18 +6,20 @@
 }
 
 .logo {
-  font-family: $fontLogo;
-  font-size: 3rem;
-  background: linear-gradient(180deg, #fec7c7 0%, #f5443b 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background-image: url('../../../assets/svg/logo.svg');
+  width: 70px;
+  height: 70px;
+
+  &:hover {
+    cursor: pointer;
+    transition: 0.3s;
+  }
 }
 
 .left-side,
 .right-side {
   @include flex();
-  gap: 40px;
+  gap: 30px;
 }
 
 .navigation-list {
@@ -27,9 +29,11 @@
 }
 
 .navigation-item {
-  @include font(1.5rem, 400);
+  @include font(2.4rem, 400);
   cursor: pointer;
   transition: 0.3s;
+  text-decoration: none;
+  color: $colorBlack;
 
   &:hover {
     color: $colorRed;
@@ -41,7 +45,7 @@
 }
 
 .user-name {
-  @include font(1.5rem, 400);
+  @include font(2.4rem, 400);
 }
 
 .btn {
@@ -65,7 +69,7 @@
   display: none;
 }
 
-@media (max-width: 784px) {
+@media (max-width: 1100px) {
   html,
   body {
     position: relative;
@@ -118,7 +122,7 @@
   .navigation {
     display: block;
     position: absolute;
-    background-color: $colorDarkGreen;
+    background-color: $colorYellow;
     right: -320px;
     max-width: 320px;
     top: 0;

@@ -2,29 +2,27 @@
 @import "../../../utils/scss/mixin.scss";
 
 .main-wrapper {
-  display: flex;
+  @include flex();
   gap: 30px;
-  align-items: center;
-  padding: 20px 120px 20px 0;
+  flex-wrap: wrap;
 }
 
-.description,
-.description-list {
+.description {
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
 
-.description-list ::marker {
-  color: $colorRed;
+.description {
+  max-width: 530px;
 }
 
 .main-title {
-  @include font(3.6rem, 600);
+  @include font(4rem, 600);
 }
 
 .description-item {
-  @include font(1.8rem, 400)
+  @include font(2.4rem, 400);
 }
 
 .btn-transparent {
@@ -35,4 +33,3 @@
   border-radius: 6px;
   @include font(1.6rem, 700)
 }
-

@@ -6,7 +6,7 @@
   height: 100vh;
   position: fixed;
   top: 0;
-  background-color: rgba(252, 251, 251, 0.6);
+  background-color: rgba(189, 195, 199, 0.6);
   z-index: 2;
 }
 
@@ -16,13 +16,16 @@
   gap: 15px;
   border-radius: 10px;
   font-size: 15px;
-  background-color: $colorBackground;
+  background-color: $colorWhite;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: $colorBlack;
   padding: 25px 45px;
+  background-image: url('../../assets/png/sign-modal.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .title {
