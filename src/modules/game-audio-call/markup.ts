@@ -30,7 +30,8 @@ const descriptionButtonCallVoice = {
   className: 'container-game-audio-call__button-call-voice',
   parentElement: containerAudioCall,
 };
-const buttonCallVoice = createDomNode(descriptionButtonCallVoice);
+// eslint-disable-next-line import/prefer-default-export
+export const buttonCallVoice = createDomNode(descriptionButtonCallVoice);
 
 const descriptionWrapperWords = {
   typeElement: 'ul',

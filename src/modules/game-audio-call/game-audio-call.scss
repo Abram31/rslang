@@ -1,6 +1,7 @@
 .container-game-audio-call {
     display: flex;
     flex-direction: column;
+        gap: 3rem;
     align-items: center;
     list-style: none;
 
@@ -39,8 +40,12 @@
 
     .container-game-audio-call__wrapper-words {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
         align-items: center;
+        column-gap: 6rem;
+        row-gap: 2rem;
         border: none;
 
         .wrapper-words__word,
@@ -53,7 +58,18 @@
             border-radius: 6px;
             width: 7.8rem;
             height: 3.2rem;
+            cursor: pointer;
+            transition: .4s;
+           
+            &:active {
+                transform: scale(.9);
+            }
 
         }
+                .wrapper-words__dont-know {
+                        flex-basis: 40%;
+                        background-color:rgba(245, 68, 59, 1);
+                }
+
     }
 }

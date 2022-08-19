@@ -4,6 +4,10 @@ import HeaderRender from './modules/layouts/header/HeaderRender';
 import MiniGamesListRender from './modules/layouts/miniGames/MiniGamesListRender';
 
 import './modules/game-audio-call/markup';
+import './modules/game-audio-call/get-voice-word';
+import './modules/game-audio-call/listeners';
+
+
 
 // import './modules/tutorial/fetch/fetch';
 // import './modules/get words/get-words';
