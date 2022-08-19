@@ -1,0 +1,148 @@
+@import "../../../utils/scss/constants.scss";
+@import "../../../utils/scss/mixin.scss";
+
+.text-book-wrapper {
+  gap: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-center {
+  @include font(4rem, 600);
+  text-align: center;
+}
+
+.container-text-book {
+  display: flex;
+  gap: 80px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.left-side-text-book {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.level-item {
+  // padding: 15px;
+  border-radius: 10px;
+  @include flex();
+  gap: 10px;
+  width: 565px;
+  height: 55px;
+}
+
+.level-item-1 {
+  background-color: #ca362f;
+}
+
+.level-item-2 {
+  background: #f5443b;
+}
+
+.level-item-3 {
+  background: #f57873;
+}
+
+.level-item-4 {
+  background: #44b9b9;
+}
+
+.level-item-5 {
+  background: #079292;
+}
+
+.level-item-6 {
+  background: #035959;
+}
+
+.level-item-7 {
+  background: #073d3d;
+}
+
+.level-item-text {
+  @include font(2rem, 700);
+  color: $colorWhite;
+}
+
+.right-side-text-book {
+  max-width: 565px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.container-item {
+  display: flex;
+  gap: 25px;
+}
+
+.level-item-input {
+  display: none;
+}
+
+.level-item-input + label:before {
+  height: 12px;
+  width: 12px;
+  margin-right: 10px;
+  content: " ";
+  display: inline-block;
+  vertical-align: baseline;
+  border: 1px solid #000000;
+}
+
+.level-item-input:checked + label:before {
+  background: $colorYellow;
+}
+
+.level-item-input + label:before {
+  border-radius: 50%;
+}
+
+.level-item-label {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.container-text-book-description {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.icons-info {
+  height: 37px;
+}
+
+.text {
+  @include font(2rem, 400);
+}
+
+.text-book-description {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.container-auth-user-description {
+  background-color: #fff2f3;
+  border-radius: 20px;
+  display: flex;
+  gap: 25px;
+  padding: 10px;
+  flex-direction: column;
+}
+
+.text-bold {
+  font-weight: 700;
+}

@@ -1,8 +1,10 @@
 import './global.scss';
 import FooterRender from './modules/layouts/footer/FooterRender';
 import HeaderRender from './modules/layouts/header/HeaderRender';
-import TextBookPage from './modules/layouts/textBookPage/textBookPage';
+import LevelGame from './modules/layouts/levelGame/LevelGame';
+// import TextBookLevel from './modules/layouts/textBookLevel/TextBookLevel';
 
 new HeaderRender();
-new TextBookPage();
+new LevelGame();
+// new TextBookLevel();
 new FooterRender();
