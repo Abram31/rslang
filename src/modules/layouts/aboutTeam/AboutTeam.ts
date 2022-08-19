@@ -28,6 +28,8 @@ export default class AboutTeam {
 
   private githubLink: HTMLElement | undefined;
 
+  private socialLinks: HTMLElement | undefined;
+
   constructor() {
     this.main = createDomNode('main', ['main-team'], document.body);
     this.teamWrapper = createDomNode('div', ['wrapper', 'wrapper-team'], this.main);
@@ -35,20 +37,32 @@ export default class AboutTeam {
     this.title = createDomNode('h1', ['title-team'], this.teamWrapper, 'О команде');
 
     this.teamContainer = createDomNode('div', ['team-container'], this.teamWrapper);
-    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Veronika', 'ФИО', 'Чем занимался?', 'https://github.com/Veronika2811');
-    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Artem', 'ФИО', 'Чем занимался?', 'https://github.com/abram31');
-    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Pasha', 'ФИО', 'Чем занимался?', 'https://github.com/paulonio');
+    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Veronika', 'ФИО', 'Чем занимался?', 'https://github.com/Veronika2811', 'https://www.linkedin.com/in/veranika-smiayun-9a2297235/', '#');
+    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Artem', 'ФИО', 'Чем занимался?', 'https://github.com/abram31', '#', '#');
+    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Pasha', 'ФИО', 'Чем занимался?', 'https://github.com/paulonio', '#', '#');
   }
 
-  createItemTeam(photo: string, photoAlt: string, name: string, didDo: string, linkGithub: string) {
+  createItemTeam(
+    photo: string,
+    photoAlt: string,
+    name: string,
+    didDo: string,
+    linkGithub: string,
+    linkLinkedin: string,
+    linkTelegram: string,
+  ) {
     this.teamItem = createDomNode('div', ['team-item'], this.teamContainer);
+    this.image = createDomNode('img', ['image'], this.teamItem, '', [{ src: `${photo}` }, { alt: `${photoAlt}` }]);
+
     this.teamItemWrapper = createDomNode('div', ['team-item-wrapper'], this.teamItem);
-    this.image = createDomNode('img', ['image'], this.teamItemWrapper, '', [{ src: `${photo}` }, { alt: `${photoAlt}` }]);
-    this.role = createDomNode('p', ['role'], this.teamItemWrapper, 'Developer');
+
     this.firstLastName = createDomNode('p', ['name'], this.teamItemWrapper, `${name}`);
+
     this.action = createDomNode('p', ['action'], this.teamItemWrapper, `${didDo}`);
-    this.line = createDomNode('hr', ['line'], this.teamItemWrapper);
-    this.githubLink = createDomNode('a', ['github-link', 'github-link-team'], this.teamItemWrapper, '', [{ href: `${linkGithub}` }]);
-    this.btn = createDomNode('button', ['btn'], this.githubLink, 'GitHub');
+
+    this.socialLinks = createDomNode('div', ['social-links'], this.teamItemWrapper);
+    this.githubLink = createDomNode('a', ['icon-link', 'in-link'], this.socialLinks, '', [{ href: `${linkGithub}` }]);
+    this.githubLink = createDomNode('a', ['icon-link', 'github-link-team'], this.socialLinks, '', [{ href: `${linkLinkedin}` }]);
+    this.githubLink = createDomNode('a', ['icon-link', 'telegram-link'], this.socialLinks, '', [{ href: `${linkTelegram}` }]);
   }
 }

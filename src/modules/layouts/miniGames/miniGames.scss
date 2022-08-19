@@ -1,64 +1,48 @@
 @import "../../../utils/scss/constants.scss";
 @import "../../../utils/scss/mixin.scss";
 
+.games {
+  background: url('../../../assets/png/mini-games.png') 100% 100% no-repeat;
+}
+
 .games-wrapper {
   @include flex();
   flex-direction: column;
   gap: 30px;
+  padding: 50px;
 }
 
 .title-center {
-  @include font(3.6rem, 600);
+  @include font(4rem, 600);
 }
 
-.game-item {
-  background: linear-gradient(
-    180deg,
-    #79b0b0 -53.38%,
-    rgba(121, 176, 176, 0.17) 100%
-  );
-  border: 3px solid #bceded;
-  box-shadow: 15px 18px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
-  // width: 276px;
-  // height: 334px;
-}
-
-.game-item-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  // width: 100%;
-  // gap: 20px;
-  // align-items:flex-end;
-  padding: 15px;
-  width: 276px;
-  height: 334px;
-}
-
-.games-list {
-  display: flex;
-  gap: 40px;
-  // justify-content: space-between;
-}
-
-.image-audio {
-  width: 115px;
-  height: 115px;
-  margin: 0 auto;
-}
-
-.image-sprint {
-  width: 140px;
-  height: 115px;
-  margin: 0 auto;
+.games-item {
+  @include flex();
+  gap: 100px;
+  flex-wrap: wrap;
 }
 
 .game-name {
-  @include font(1.8rem, 600);
+  @include font(4rem, 600);
 }
 
 .description-game {
-  @include font(1.4rem, 700);
-  color: rgba(0, 0, 0, 0.4);
+  @include font(2.4rem, 400);
+  color: $colorBlack;
+}
+
+.game-text {
+  max-width: 530px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.btn-transparent {
+  background-color: transparent;
+  color: $colorRed;
+  border: 2px solid $colorRed;
+  padding: 16px 32px;
+  border-radius: 6px;
+  @include font(1.6rem, 700)
 }
