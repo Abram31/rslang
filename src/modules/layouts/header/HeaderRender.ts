@@ -7,50 +7,51 @@ export default class HeaderRender {
 
   private headerWrapper;
 
-  private logo;
-
   private leftSide;
+
+  private rightSide;
+
+  protected logo;
 
   private navigation;
 
   private navigationList;
 
-  private navigationTextbook;
+  private navigationLi;
 
-  private navigationGame;
+  protected navigationItem;
 
-  private navigationStatistics;
-
-  private navigationTeam;
-
-  private rightSide;
-
-  private nameUser;
+  private userName;
 
   private authButton;
 
   private burger;
 
-  private burgerLine;
+  protected burgerLine;
 
   constructor() {
-    this.header = createDomNode('header', ['header'], document.body);
-    this.headerWrapper = createDomNode('div', ['wrapper', 'header-wrapper'], this.header);
-    this.leftSide = createDomNode('div', ['left-side'], this.headerWrapper);
+    this.header = createDomNode('header', [], document.body);
+    this.headerWrapper = createDomNode('div', ['header-wrapper'], this.header);
 
-    this.logo = createDomNode('p', ['logo'], this.leftSide, 'RSLang');
+    this.leftSide = createDomNode('div', ['header__left-side'], this.headerWrapper);
+    this.rightSide = createDomNode('div', ['header__right-side'], this.headerWrapper);
+
+    this.logo = createDomNode('a', ['logo'], this.leftSide, '', [{ href: '#/' }]);
 
     this.navigation = createDomNode('nav', ['navigation'], this.leftSide);
-    this.navigationList = createDomNode('ul', ['navigation-list'], this.navigation);
-    this.navigationTextbook = createDomNode('li', ['navigation-item'], this.navigationList, 'Учебник');
-    this.navigationGame = createDomNode('li', ['navigation-item'], this.navigationList, 'Мини-игры');
-    this.navigationStatistics = createDomNode('li', ['navigation-item'], this.navigationList, 'Статистика');
-    this.navigationTeam = createDomNode('li', ['navigation-item'], this.navigationList, 'О команде');
+    this.navigationList = createDomNode('ul', ['navigation__list'], this.navigation);
+    this.navigationLi = createDomNode('li', [], this.navigationList);
+    this.navigationItem = createDomNode('a', ['navigation__item'], this.navigationLi, 'Учебник', [{ href: '#/book' }]);
+    this.navigationLi = createDomNode('li', [], this.navigationList);
+    this.navigationItem = createDomNode('a', ['navigation__item'], this.navigationLi, 'Мини-игры', [{ href: '#/games' }]);
+    this.navigationLi = createDomNode('li', [], this.navigationList);
+    this.navigationItem = createDomNode('a', ['navigation__item'], this.navigationLi, 'Статистика', [{ href: '#/stats' }]);
+    this.navigationLi = createDomNode('li', [], this.navigationList);
+    this.navigationItem = createDomNode('a', ['navigation__item'], this.navigationLi, 'О команде', [{ href: '#/about' }]);
 
-    this.rightSide = createDomNode('div', ['right-side'], this.headerWrapper);
-    this.nameUser = createDomNode('p', ['user-name'], this.rightSide);
+    this.userName = createDomNode('p', ['user-name'], this.rightSide);
 
-    this.authButton = createDomNode('button', ['btn'], this.rightSide, 'Вход');
+    this.authButton = createDomNode('button', ['btn', 'btn_red'], this.rightSide, 'Вход');
     this.authButton.addEventListener('click', () => this.updateLoginButton());
 
     this.burger = createDomNode('div', ['burger'], this.rightSide);
@@ -59,7 +60,7 @@ export default class HeaderRender {
     this.burgerLine = createDomNode('span', ['burger__line'], this.burger);
 
     if (localStorage.getItem('name') !== null) {
-      this.nameUser.innerHTML = localStorage.getItem('name') as string;
+      this.userName.innerHTML = localStorage.getItem('name') as string;
       this.authButton.innerHTML = 'Выйти';
     }
   }
@@ -74,7 +75,7 @@ export default class HeaderRender {
       new AuthModal('Войти', 'Войдите в свою учетную запись').modalSignInRender();
     } else {
       localStorage.clear();
-      this.nameUser.innerHTML = '';
+      this.userName.innerHTML = '';
       this.authButton.innerHTML = 'Вход';
     }
   }

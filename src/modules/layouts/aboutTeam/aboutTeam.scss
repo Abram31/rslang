@@ -1,60 +1,68 @@
 @import "../../../utils/scss/constants.scss";
 @import "../../../utils/scss/mixin.scss";
 
-.wrapper-team {
+.team-wrapper {
   @include flex();
   flex-direction: column;
-  gap: 30px;
+  gap: 3em;
 }
 
-.team-container {
-  display: flex;
+.team__items {
+  @include flex();
   flex-wrap: wrap;
-  gap: 30px;
-  justify-content: center;
-}
-
-.title-team {
-  @include font(3.6rem, 600);
+  gap: 3em;
 }
 
 .team-item {
-  background: linear-gradient(
-    180deg,
-    #79b0b0 -53.38%,
-    rgba(121, 176, 176, 0.17) 100%
-  );
-  border: 3px solid #bceded;
-  box-shadow: 15px 18px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
+  box-shadow: 0px 13px 19px rgba(0, 0, 0, 0.07);
+  border-radius: 2em;
+}
+
+.photo {
+  width: 40em;
+  height: 30em;
+  border-radius: 2em 2em 0 0;
 }
 
 .team-item-wrapper {
-  display: flex;
+  @include flex();
   flex-direction: column;
-  gap: 20px;
-  padding: 15px;
+  gap: 2em;
+  padding: 3em;
 }
 
-.image {
-  width: 300px;
-  height: 300px;
+.name-item {
+  @include font(2.4rem, 600);
 }
 
-.role {
-  @include font(1.2rem, 700);
-  color: $colorRed;
-}
-
-.name {
-  @include font(1.8rem, 600);
-}
-
-.action {
+.action-description {
   color: rgba(0, 0, 0, 0.4);
-  @include font(1.4rem, 400);
+  @include font(2rem, 400);
+  
+}
+
+.social-links {
+  @include flex();
+  gap: 2em;
+}
+
+.icon-link {
+  width: 35px;
+  height: 35px;
 }
 
 .github-link-team {
-  margin: 0 auto;
+  background: url('../../../assets/svg/Github.svg') 100% 100% no-repeat;
+  background-size: contain;
 }
+
+.in-link {
+  background: url('../../../assets/svg/LinkedIN.svg') 100% 100% no-repeat;
+  background-size: contain;
+}
+
+.telegram-link {
+  background: url('../../../assets/svg/Telegram.svg') 100% 100% no-repeat;
+  background-size: contain;
+}
+

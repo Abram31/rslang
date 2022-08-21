@@ -1,34 +1,44 @@
-import createDomNode from '../../../utils/createDomNode';
 import './footer.scss';
+import createDomNode from '../../../utils/createDomNode';
 
 export default class FooterRender {
   private footer;
 
   private footerWrapper;
 
-  private year;
+  private rscontainer;
+
+  protected year;
+
+  protected rsIcon;
 
   private githubWrapper;
 
-  private githubImage;
+  protected githubSpan: HTMLSpanElement | undefined;
 
-  private githubLink;
+  protected githubIcon: HTMLImageElement | undefined;
 
-  private rsImage;
+  protected githubLink: HTMLAnchorElement | undefined;
 
   constructor() {
     this.footer = createDomNode('footer', ['footer'], document.body);
-    this.footerWrapper = createDomNode('div', ['wrapper', 'footer-wrapper'], this.footer);
+    this.footerWrapper = createDomNode('div', ['footer-wrapper'], this.footer);
 
-    this.year = createDomNode('p', ['year'], this.footerWrapper, '2022');
+    this.rscontainer = createDomNode('div', ['rs-container'], this.footerWrapper);
 
-    this.githubWrapper = createDomNode('div', ['github-wrapper'], this.footerWrapper);
-    this.githubImage = createDomNode('img', ['github-image'], this.githubWrapper, '', [{ src: '../../../assets/svg/Github.svg' }, { alt: 'GitHub' }]);
+    this.year = createDomNode('p', ['year'], this.rscontainer, '2022');
+    this.rsIcon = createDomNode('a', ['rs-icon'], this.rscontainer, '', [{ href: 'https://rs.school/js/' }]);
 
-    this.githubLink = createDomNode('a', ['github-link'], this.githubWrapper, 'veronika2811', [{ href: 'https://github.com/Veronika2811' }]);
-    this.githubLink = createDomNode('a', ['github-link'], this.githubWrapper, 'abram31', [{ href: 'https://github.com/abram31' }]);
-    this.githubLink = createDomNode('a', ['github-link'], this.githubWrapper, 'paulonio', [{ href: 'https://github.com/paulonio' }]);
+    this.githubWrapper = createDomNode('div', ['github', 'github-wrapper'], this.footerWrapper);
 
-    this.rsImage = createDomNode('a', ['rs-image'], this.footerWrapper, '', [{ href: 'https://rs.school/js/' }]);
+    this.createItemsGithub('https://github.com/Veronika2811', 'veronika2811');
+    this.createItemsGithub('https://github.com/abram31', 'abram31');
+    this.createItemsGithub('https://github.com/paulonio', 'paulonio');
+  }
+
+  createItemsGithub(linkGithub: string, nameGithub: string) {
+    this.githubLink = createDomNode('a', ['github__link'], this.githubWrapper, '', [{ href: `${linkGithub}` }]) as HTMLAnchorElement;
+    this.githubIcon = createDomNode('img', [], this.githubLink, '', [{ src: '../../../assets/svg/Github.svg' }, { alt: 'GitHub' }]) as HTMLImageElement;
+    this.githubSpan = createDomNode('span', ['github__name'], this.githubLink, `${nameGithub}`);
   }
 }

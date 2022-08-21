@@ -1,38 +1,18 @@
-@import "../../../utils/scss/constants.scss";
 @import "../../../utils/scss/mixin.scss";
 
 .main-wrapper {
-  display: flex;
-  gap: 30px;
-  align-items: center;
-  padding: 20px 120px 20px 0;
+  @include flex();
+  gap: 5em;
+  flex-wrap: wrap;
 }
 
-.description,
-.description-list {
+.main-page__description {
   display: flex;
   flex-direction: column;
-  gap: 25px;
-}
-
-.description-list ::marker {
-  color: $colorRed;
-}
-
-.main-title {
-  @include font(3.6rem, 600);
+  gap: 2.5em;
+  max-width: 50em;
 }
 
 .description-item {
-  @include font(1.8rem, 400)
+  @include font(2.4rem, 400);
 }
-
-.btn-transparent {
-  background-color: transparent;
-  color: $colorRed;
-  border: 2px solid $colorRed;
-  padding: 16px 32px;
-  border-radius: 6px;
-  @include font(1.6rem, 700)
-}
-
