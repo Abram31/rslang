@@ -2,7 +2,6 @@ import './authModal.scss';
 import App from '../../components/app';
 import createDomNode from '../../utils/createDomNode';
 import setStorage from '../../utils/storage';
-// import SuccessfulRegistration from './SucessfulRegistration';
 import { VALIDATION_EMAIL } from '../../utils/constants';
 
 export default class AuthModal {
@@ -43,7 +42,7 @@ export default class AuthModal {
 
     this.modalWindow = createDomNode('div', ['modal-window'], this.overlay);
 
-    this.title = createDomNode('h2', ['title'], this.modalWindow, `${title}`);
+    this.title = createDomNode('h2', ['title-modal'], this.modalWindow, `${title}`);
 
     this.titleItemName = createDomNode('div', ['title-item', 'hide'], this.modalWindow, 'Имя');
     this.inputName = createDomNode(

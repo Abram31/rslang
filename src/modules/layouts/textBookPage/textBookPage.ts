@@ -2,34 +2,34 @@ import createDomNode from '../../../utils/createDomNode';
 import './textBookPage.scss';
 
 export default class TextBookPage {
-  private textBookPage;
+  private pageTextbook;
 
   private textBookWrapper;
 
   private title;
 
-  private containerTextBook;
+  private selectPage;
 
-  private selectPage: HTMLElement | undefined;
+  private option;
 
-  private containerSelectPage: HTMLElement | undefined;
-
-  private option: HTMLElement | undefined;
-
-  private image;
+  private imageFriend;
 
   constructor() {
-    this.textBookPage = createDomNode('main', ['text-book-page'], document.body);
-    this.textBookWrapper = createDomNode('div', ['wrapper', 'text-book-page-wrapper'], this.textBookPage);
-    this.title = createDomNode('h1', ['title-center'], this.textBookWrapper, 'Выберите страницу');
+    this.pageTextbook = createDomNode('main', ['page-textbook'], document.body);
 
-    this.containerTextBook = createDomNode('div', ['container-text-book'], this.textBookWrapper);
-    this.containerSelectPage = createDomNode('div', ['container-select-page'], this.containerTextBook);
-    this.selectPage = createDomNode('select', ['select-page'], this.containerSelectPage, '', [{ required: '' }]);
-    this.option = createDomNode('option', [], this.selectPage, 'Выберите страницу', [{ hidden: '' }]);
+    this.textBookWrapper = createDomNode('div', ['wrapper', 'page-textbook-wrapper'], this.pageTextbook);
+    this.title = createDomNode('h1', ['title'], this.textBookWrapper, 'Выберите страницу');
+
+    this.selectPage = createDomNode('select', ['select-page'], this.textBookWrapper, '', [{ required: '' }]) as HTMLSelectElement;
+    this.selectPage.onchange = () => {
+      const currentURL = window.location.href;
+      window.location.href = `${currentURL}/${this.selectPage.value}`;
+    };
+
+    this.option = createDomNode('option', [], this.selectPage, 'Выберите страницу', [{ hidden: '' }, { value: '' }]);
     this.createSelectPage();
 
-    this.image = createDomNode('img', ['image-page'], this.containerTextBook, '', [{ src: '../../../assets/friends.jpg' }, { alt: 'friend' }]);
+    this.imageFriend = createDomNode('img', ['image-friend'], this.textBookWrapper, '', [{ src: '../../../assets/friends.jpg' }, { alt: 'friend' }]);
   }
 
   createSelectPage() {
