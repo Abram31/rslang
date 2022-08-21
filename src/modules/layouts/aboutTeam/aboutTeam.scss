@@ -1,59 +1,49 @@
 @import "../../../utils/scss/constants.scss";
 @import "../../../utils/scss/mixin.scss";
 
-.wrapper-team {
+.team-wrapper {
   @include flex();
   flex-direction: column;
-  gap: 30px;
+  gap: 3em;
 }
 
-.team-container {
-  display: flex;
+.team__items {
+  @include flex();
   flex-wrap: wrap;
-  gap: 30px;
-  justify-content: center;
-}
-
-.title-team {
-  @include font(3.6rem, 600);
+  gap: 3em;
 }
 
 .team-item {
   box-shadow: 0px 13px 19px rgba(0, 0, 0, 0.07);
-  border-radius: 20px;
+  border-radius: 2em;
+}
+
+.photo {
+  width: 40em;
+  height: 30em;
+  border-radius: 2em 2em 0 0;
 }
 
 .team-item-wrapper {
   @include flex();
   flex-direction: column;
-  gap: 20px;
-  padding: 15px;
+  gap: 2em;
+  padding: 3em;
 }
 
-.image {
-  width: 300px;
-  height: 300px;
-  border-radius: 20px 20px 0 0;
+.name-item {
+  @include font(2.4rem, 600);
 }
 
-.role {
-  @include font(1.2rem, 700);
-  color: $colorRed;
-}
-
-.name {
-  @include font(1.8rem, 600);
-}
-
-.action {
+.action-description {
   color: rgba(0, 0, 0, 0.4);
-  @include font(1.4rem, 400);
+  @include font(2rem, 400);
   
 }
 
 .social-links {
   @include flex();
-  gap: 20px;
+  gap: 2em;
 }
 
 .icon-link {

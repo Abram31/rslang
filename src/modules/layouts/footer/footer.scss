@@ -2,59 +2,62 @@
 @import '../../../utils/scss/mixin.scss';
 
 .footer {
-  height: 140px;
   background: url('../../../assets/png/footer.png') 100% 100% no-repeat;
   background-size: cover;
-  display: flex;
-  align-items: flex-end;
+  min-height: 18.1em;
+  @include flex($align: flex-end);
 }
 
 .footer-wrapper {
   width: 100%;
   @include flex($justify: space-between);
+  padding: 2em 5em;
+
+  @media (max-width: 925px) {
+    flex-wrap: wrap;
+    @include flex();
+    gap: 2em;
+  }
 }
 
 .rs-container {
   @include flex();
-  gap: 25px;
-}
-
-.github-item {
-  @include flex();
-  gap: 10px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: 0.3s;
-
-  &:hover {
-    filter: $colorImageHover;
-  }
+  gap: 2.5em;
 }
 
 .year {
   @include font(2.4rem, 400);
 }
 
-.github-wrapper {
-  @include flex();
-  gap: 25px;
-}
-
-
-.github-link {
-  @include font(2.4rem, 400);
-  color: $colorBlack;
-}
-
-.rs-image {
-  background-image: url('../../../assets/svg/rss.svg');
-  display: block;
-  height: 51px;
-  width: 149px;
-  cursor: pointer;
-  transition: 0.3s;
+.rs-icon {
+  background: url('../../../assets/svg/rss.svg') 100% 100% no-repeat;
+  height: 66px;
+  width: 159px;
 
   &:hover {
+    @include hover();
     filter: $colorImageHover;
   }
+}
+
+.github-wrapper {
+  @include flex();
+  flex-wrap: wrap;
+  gap: 2.5em;
+}
+
+.github__link {
+  @include flex();
+  gap: 1em;
+  text-decoration: none;
+
+  &:hover {
+    @include hover();
+    filter: $colorImageHover;
+  }
+}
+
+.github__name {
+  @include font(2.4rem, 400);
+  color: $colorBlack;
 }

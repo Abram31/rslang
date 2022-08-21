@@ -1,8 +1,8 @@
 import './global.scss';
 import FooterRender from './modules/layouts/footer/FooterRender';
 import HeaderRender from './modules/layouts/header/HeaderRender';
-import MiniGamesListRender from './modules/layouts/miniGames/MiniGamesListRender';
+import LevelGame from './modules/layouts/levelGame/LevelGame';
 
 new HeaderRender();
-new MiniGamesListRender();
+new LevelGame();
 new FooterRender();

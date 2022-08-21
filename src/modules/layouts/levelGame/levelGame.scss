@@ -1,0 +1,16 @@
+@import "../../../utils/scss/constants.scss";
+@import "../../../utils/scss/mixin.scss";
+
+@import '../../../utils/scss/mixin.scss';
+
+.level__right-side {
+  max-width: 56em;
+  @include flex($align: flex-start);
+  flex-direction: column;
+  gap: 2.5em;
+}
+
+.level__description {
+  @include flex();
+  gap: 2em;
+}
