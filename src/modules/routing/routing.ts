@@ -1,73 +1,46 @@
+import HeaderRender from '../layouts/header/HeaderRender';
+import FooterRender from '../layouts/footer/FooterRender';
+import MainPageRender from '../layouts/mainPage/MainPageRender';
+import MiniGamesListRender from '../layouts/miniGames/MiniGamesListRender';
+import AboutTeam from '../layouts/aboutTeam/AboutTeam';
+
 const generateRouter = () => {
 	let routes: { [key: string]: string | (() => void) } = {};
 	let templates: { [key: string]: (() => void) } = {};
 
 	let body = document.querySelector('body') as HTMLElement;
 
-	const generateHeader = () => {
-	let linksContainer = document.createElement('div');
-	let main = document.createElement('a');
-	main.href = '#/';
-	main.innerText = 'Main';
-	let book = document.createElement('a');
-	book.href = '#/book';
-	book.innerText = 'Book';
-	let games = document.createElement('a');
-	games.href = '#/games';
-	games.innerText = 'Games';
-	let stats = document.createElement('a');
-	stats.href = '#/stats';
-	stats.innerText = 'Stats';
-	let about = document.createElement('a');
-	about.href = '#/about';
-	about.innerText = 'About';
-
-	let linksArray = [main, book, games, stats, about];
-
-	linksArray.forEach(link => {
-		linksContainer.append(link);
-		})
-	body.append(linksContainer);
-	}
-
 	const home = () => {
 		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>Home</h1>';
-		body.append(div);
+		new HeaderRender();
+		new MainPageRender();
+		new FooterRender();
 	}
 
 	const book = () => {
 		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>Book</h1>';
-		body.append(div);
+		new HeaderRender();
+		new FooterRender();
 	}
 
 	const games = () => {
 		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>Games</h1>';
-		body.append(div);
+		new HeaderRender();
+		new MiniGamesListRender();
+		new FooterRender();
 	}
 
 	const stats = () => {
 		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>Stats</h1>';
-		body.append(div);
+		new HeaderRender();
+		new FooterRender();
 	}
 
 	const about = () => {
 		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>About</h1>';
-		body.append(div);
+		new HeaderRender();
+		new AboutTeam();
+		new FooterRender();
 	}
 
 	const route = (path: string, template: string | (() => void)) => {
@@ -129,6 +102,8 @@ const generateRouter = () => {
 
 	window.addEventListener('load', router);
 	window.addEventListener('hashchange', router);
+
+	console.log(document.querySelectorAll('.navigation__item'))
 }
 
 export { generateRouter };
