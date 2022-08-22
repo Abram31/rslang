@@ -1,134 +1,150 @@
+import createDomNode from '../../utils/createDomNode';
+import AboutTeam from '../layouts/aboutTeam/AboutTeam';
+import FooterRender from '../layouts/footer/FooterRender';
+import HeaderRender from '../layouts/header/HeaderRender';
+import LevelGame from '../layouts/levelGame/LevelGame';
+import MainPageRender from '../layouts/mainPage/MainPageRender';
+import MiniGamesListRender from '../layouts/miniGames/MiniGamesListRender';
+import TextBookChapter from '../layouts/textBookChapter/TextBookChapter';
+import TextBookPage from '../layouts/textBookPage/textBookPage';
+import VideoRender from '../layouts/video/VideoRender';
+
 const generateRouter = () => {
-	let routes: { [key: string]: string | (() => void) } = {};
-	let templates: { [key: string]: (() => void) } = {};
+  const routes: { [key: string]: string | (() => void) } = {};
+  const templates: { [key: string]: (() => void) } = {};
 
-	let body = document.querySelector('body') as HTMLElement;
+  const route = (path: string, template: string | (() => void)) => {
+    if (typeof template === 'function') {
+      routes[path] = template;
+    }
+    if (typeof template === 'string') {
+      routes[path] = templates[template];
+    }
+    return routes[path];
+  };
 
-	const generateHeader = () => {
-	let linksContainer = document.createElement('div');
-	let main = document.createElement('a');
-	main.href = '#/';
-	main.innerText = 'Main';
-	let book = document.createElement('a');
-	book.href = '#/book';
-	book.innerText = 'Book';
-	let games = document.createElement('a');
-	games.href = '#/games';
-	games.innerText = 'Games';
-	let stats = document.createElement('a');
-	stats.href = '#/stats';
-	stats.innerText = 'Stats';
-	let about = document.createElement('a');
-	about.href = '#/about';
-	about.innerText = 'About';
+  const template = (name: string, templateFunction: (() => void)) => {
+    templates[name] = templateFunction;
+    return templates[name];
+  };
 
-	let linksArray = [main, book, games, stats, about];
+  template('home', () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    new MainPageRender();
+    new FooterRender();
+  });
 
-	linksArray.forEach(link => {
-		linksContainer.append(link);
-		})
-	body.append(linksContainer);
-	}
+  template('book', () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    new TextBookChapter();
+    new FooterRender();
+  });
 
-	const home = () => {
-		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>Home</h1>';
-		body.append(div);
-	}
+  template('games', () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    new MiniGamesListRender();
+    new FooterRender();
+  });
 
-	const book = () => {
-		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>Book</h1>';
-		body.append(div);
-	}
+  template('stats', () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    createDomNode('h1', ['title'], document.body, 'В разработке');
+    new FooterRender();
+  });
 
-	const games = () => {
-		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>Games</h1>';
-		body.append(div);
-	}
+  template('video', () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    new VideoRender();
+    new FooterRender();
+  });
 
-	const stats = () => {
-		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>Stats</h1>';
-		body.append(div);
-	}
+  template('about', () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    new AboutTeam();
+    new FooterRender();
+  });
 
-	const about = () => {
-		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>About</h1>';
-		body.append(div);
-	}
+  template('selection-page', () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    new TextBookPage();
+    new FooterRender();
+  });
 
-	const route = (path: string, template: string | (() => void)) => {
-		if (typeof template === 'function') {
-			return routes[path] = template;
-		} else if (typeof template === 'string') {
-				return routes[path] = templates[template];
-		} else {
-				return;
-		};
-	};
+  template('game', () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    new LevelGame();
+    new FooterRender();
+  });
 
-	const template = (name: string, templateFunction: (() => void)) => {
-		return templates[name] = templateFunction;
-	};
+  template('game-level', () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    createDomNode('h1', ['title'], document.body, 'В разработке');
+  });
 
-	template('home', () => {
-		home();
-	});
+  template('page-book', () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    createDomNode('h1', ['title'], document.body, 'В разработке');
+    new FooterRender();
+  });
 
-	template('book', () => {
-		book();
-	});
+  route('/', 'home');
+  route('/book', 'book');
+  route('/games', 'games');
+  route('/stats', 'stats');
+  route('/about', 'about');
+  route('/video', 'video');
 
-	template('games', () => {
-		games();
-	});
+  for (let i = 0; i < 7; i += 1) {
+    route(`/book/section-${i}`, 'selection-page');
+  }
 
-	template('stats', () => {
-		stats();
-	});
+  route('/games/audio', 'game');
+  route('/games/sprint', 'game');
 
-	template('about', () => {
-		about();
-	});
+  for (let i = 0; i < 6; i += 1) {
+    route(`/games/audio/${i}`, 'game-level');
+  }
 
-	route('/', 'home');
-	route('/book', 'book');
-	route('/games', 'games');
-	route('/stats', 'stats');
-	route('/about', 'about');
+  for (let i = 0; i < 6; i += 1) {
+    route(`/games/sprint/${i}`, 'game-level');
+  }
 
-	const resolveRoute = (route: string) => {
-		try {
-			return routes[route];
-		} catch (e) {
-			throw new Error(`Route ${route} not found`);
-		};
-	};
+  for (let i = 0; i < 7; i += 1) {
+    for (let j = 0; j < 30; j += 1) {
+      route(`/book/section-${i}/${j}`, 'page-book');
+    }
+  }
 
-	const router = () => {
-		let url = window.location.hash.slice(1) || '/';
-		let route = resolveRoute(url);
+  const resolveRoute = (routeStr: string) => {
+    try {
+      return routes[routeStr];
+    } catch (e) {
+      throw new Error(`Route ${routeStr} not found`);
+    }
+  };
 
-		if (typeof route === 'function') {
-			route();
-		}
-	};
+  const router = () => {
+    const url = window.location.hash.slice(1) || '/';
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const route = resolveRoute(url);
 
-	window.addEventListener('load', router);
-	window.addEventListener('hashchange', router);
-}
+    if (typeof route === 'function') {
+      route();
+    }
+  };
 
-export { generateRouter };
+  window.addEventListener('load', router);
+  window.addEventListener('hashchange', router);
+};
+
+export default generateRouter;

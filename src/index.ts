@@ -1,11 +1,4 @@
 import './global.scss';
-import FooterRender from './modules/layouts/footer/FooterRender';
-import HeaderRender from './modules/layouts/header/HeaderRender';
-import { generateRouter } from './modules/routing/routing';
-import LevelGame from './modules/layouts/levelGame/LevelGame';
+import generateRouter from './modules/routing/routing';
 
-new HeaderRender();
-new LevelGame();
-new FooterRender();
-
-generateRouter(); 
+generateRouter();
