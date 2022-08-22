@@ -1,8 +1,11 @@
 import './global.scss';
 import FooterRender from './modules/layouts/footer/FooterRender';
 import HeaderRender from './modules/layouts/header/HeaderRender';
-import VideoRender from './modules/layouts/video/VideoRender';
+import { generateRouter } from './modules/routing/routing';
+import LevelGame from './modules/layouts/levelGame/LevelGame';
 
 new HeaderRender();
-new VideoRender();
+new LevelGame();
 new FooterRender();
+
+generateRouter(); 
