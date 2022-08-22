@@ -1,18 +1,20 @@
+$backroundHeart: url(../../assets/svg/game-audio-call/Heart.svg);
+$backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
+
 .container-game-audio-call {
     display: flex;
     flex-direction: column;
-        gap: 3rem;
+    gap: 3rem;
     align-items: center;
     list-style: none;
 
     .container-game-audio-call__wrapper-step-game {
         display: flex;
-        flex-direction: column;
         align-items: center;
         border: none;
 
         .wrapper-step-game__step-game {
-            background: url(../../assets/svg/game-audio-call/Heart.svg);
+            background-image: $backroundHeart;
             display: block;
             // mask-image: url(../../assets/svg/game-audio-call/Heart.svg);
             background-repeat: no-repeat;
@@ -21,10 +23,19 @@
             width: 2.5rem;
             height: 2.5rem;
 
-            &:hover {
-                background: url(../../assets/svg/game-audio-call/Heart-full.svg);
-            }
+
+        &.active-step {
+            display: block;
+            // mask-image: url(../../assets/svg/game-audio-call/Heart.svg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-image: $backroundFullHeart;
+
         }
+                }
     }
 
     .container-game-audio-call__button-call-voice {
@@ -36,13 +47,19 @@
         background-size: contain;
         width: 7.5rem;
         height: 7.5rem;
+        transition: .4s;
+        cursor: pointer;
+
+        &:active {
+            transform: scale(.9);
+        }
     }
 
     .container-game-audio-call__wrapper-words {
         display: flex;
         flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
+        flex-wrap: wrap;
+        justify-content: center;
         align-items: center;
         column-gap: 6rem;
         row-gap: 2rem;
@@ -60,16 +77,17 @@
             height: 3.2rem;
             cursor: pointer;
             transition: .4s;
-           
+
             &:active {
                 transform: scale(.9);
             }
 
         }
-                .wrapper-words__dont-know {
-                        flex-basis: 40%;
-                        background-color:rgba(245, 68, 59, 1);
-                }
+
+        .wrapper-words__dont-know {
+            flex-basis: 40%;
+            background-color: rgba(245, 68, 59, 1);
+        }
 
     }
 }

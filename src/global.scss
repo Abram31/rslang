@@ -2,7 +2,7 @@
 $color: rgba(152, 221, 221, 1);
 
 body {
-  background-color:$color;
+  // background-color:$color;
 }
 
 ul {
@@ -22,12 +22,12 @@ html {
 body {
   max-width: 1440px;
   margin: 0 auto;
-  background-color: $colorBackground;
+  // background-color: $colorBackground;
   font-family: $fontMain;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  // justify-content: space-between;
 }
 
 .wrapper {

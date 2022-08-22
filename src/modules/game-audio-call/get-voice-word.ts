@@ -1,56 +1,60 @@
 import { fetchRequest, IwordsLIst } from '../tutorial/fetch/fetch';
 import { IDomNode } from '../tutorial/function-create-dom-node';
 import { IdataFromServer } from '../tutorial/get words/render-result-find-to-page';
+// eslint-disable-next-line import/no-cycle
+import { addToMarkupWords } from './get-list-words';
 import { buttonCallVoice } from './markup';
+import { addSessionStorage, getSessinoStorage } from './sessionStorage';
 
-class GetVoiceWord {
-  part: string;
+export const shuffle = (array:IdataFromServer[]) => {
+  array.sort(() => Math.random() - 0.5);
+};
 
-  page: string;
+const getWordsFromServer = async () => {
+  const argumentForFetch: IwordsLIst = {
+    page: '2',
+    group: '2',
+  };
+  await fetchRequest.getNewWordsLIst(argumentForFetch).then((data) => {
+    addSessionStorage('game-audio-call', data);
+    addSessionStorage('used-words-in-audio-call', []);
+  });
+};
 
-  wordsNotUsed: IdataFromServer[];
+// eslint-disable-next-line max-len
+export const randomNumberWord = (data: IdataFromServer[]) => Math.floor(Math.random() * data.length);
 
-  listWords: IdataFromServer[];
-
-  constructor(part: string, page: string) {
-    this.part = part;
-    this.page = page;
-    this.wordsNotUsed = [];
-    this.listWords = [];
+const choiсeNextWord = (data: IdataFromServer[]): IdataFromServer => {
+  const savedData = getSessinoStorage('game-audio-call');
+  if (savedData.length === 0) {
+    getWordsFromServer();
   }
+  const randomNumber = randomNumberWord(savedData);
+  const usedIndexWords = getSessinoStorage('used-index-words-in-audio-call');
+  // console.log(usedIndexWords);
+  // console.log(savedData);
 
-  async getWordsFromServer() {
-    const argumentForFetch: IwordsLIst = {
-      page: this.part,
-      group: this.page,
-    };
-    await fetchRequest.getNewWordsLIst(argumentForFetch).then((data) => {
-      this.listWords = data;
-      this.wordsNotUsed = data;
-    });
-  }
-
-  randomNumberWord() {
-    return Math.floor(Math.random() * this.wordsNotUsed.length);
-  }
-
-  choiсeNextWord(data: IdataFromServer[]) {
-    if (this.wordsNotUsed.length === 0) {
-      this.getWordsFromServer();
+  if (usedIndexWords.includes(randomNumber)) {
+    if (usedIndexWords.length >= savedData.length) {
+      addSessionStorage('used-index-words-in-audio-call', []);
     }
-    const randomNumber = this.randomNumberWord();
-    return data[randomNumber];
+    return choiсeNextWord(data);
   }
+  usedIndexWords.push(randomNumber);
+  addSessionStorage('used-index-words-in-audio-call', usedIndexWords);
+  // console.log(randomNumber);
+  console.log(data[randomNumber].word);
+  return savedData[randomNumber];
+};
 
-  async addDataToElement() {
-    await this.getWordsFromServer();
-    const word = this.choiсeNextWord(this.wordsNotUsed);
-    buttonCallVoice.setAttribute('data-voice', word.audio);
-  }
-}
+export const addWordsToPage = async () => {
+  // await getWordsFromServer();
+  const savedData: IdataFromServer[] = await getSessinoStorage('game-audio-call');
+  const word = await choiсeNextWord(savedData);
+  // savedData.filter((item) => item.id !== word.id);
+  buttonCallVoice.setAttribute('data-voice', word.audio);
+  buttonCallVoice.id = word.id;
+  addToMarkupWords();
+};
 
-export const voiceWord = new GetVoiceWord('0', '0');
-
-export const addDataAtributeWithPathVoice = voiceWord.addDataToElement.bind(voiceWord);
-
-addDataAtributeWithPathVoice();
+addWordsToPage();
