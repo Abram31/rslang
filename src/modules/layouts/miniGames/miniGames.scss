@@ -1,0 +1,30 @@
+@import "../../../utils/scss/constants.scss";
+@import "../../../utils/scss/mixin.scss";
+
+.games {
+  background: url('../../../assets/png/games-bg.png') 100% 100% no-repeat;
+}
+
+.games-wrapper {
+  @include flex();
+  flex-direction: column;
+  gap: 3em;
+}
+
+.game {
+  @include flex();
+  gap: 10em;
+  flex-wrap: wrap;
+}
+
+.game__text {
+  max-width: 53em;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.game__description {
+  @include font(2.4rem, 400);
+  color: $colorBlack;
+}

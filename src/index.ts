@@ -1,7 +1,4 @@
 import './global.scss';
+import generateRouter from './modules/routing/routing';
 
-import './modules/tutorial/fetch/fetch';
-// import './modules/get words/get-words';
-import './modules/tutorial/get words/render-result-find-to-page';
-import './modules/tutorial/markup';
-import './modules/tutorial/listeners';
+console.log('Hello');
