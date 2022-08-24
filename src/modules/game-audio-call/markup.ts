@@ -11,10 +11,17 @@ const descriptionContainerAudioCall = {
 };
 const containerAudioCall = createDomNode(descriptionContainerAudioCall);
 
+const descriptionWrapperVoiceLivesLang = {
+  typeElement: 'div',
+  className: 'container-game-audio-call__wrapper-voice-lives-lang',
+  parentElement: containerAudioCall,
+};
+const wrapperVoiceLivesLang = createDomNode(descriptionWrapperVoiceLivesLang);
+
 const descriptionWrapperStepGame = {
   typeElement: 'ul',
   className: 'container-game-audio-call__wrapper-step-game',
-  parentElement: containerAudioCall,
+  parentElement: wrapperVoiceLivesLang,
 };
 export const wrapperStepGame = createDomNode(descriptionWrapperStepGame);
 
@@ -23,15 +30,62 @@ export const descriptionStepGame = {
   className: 'wrapper-step-game__step-game',
   parentElement: wrapperStepGame,
 };
-//  const stepGame = createDomNode(descriptionStepGame);
+
+const descriptionLangs = {
+  typeElement: 'ul',
+  className: 'wrapper-voice-lives-lang__langs',
+  parentElement: wrapperVoiceLivesLang,
+};
+const wrapperLangs = createDomNode(descriptionLangs);
+
+export const descriptionEnglish = {
+  typeElement: 'li',
+  className: 'langs__en',
+  text: 'EN',
+  parentElement: wrapperLangs,
+};
+ const english = createDomNode(descriptionEnglish);
+
+
+export const descriptionSlash = {
+  typeElement: 'li',
+  className: 'langs__slash',
+  text: '/',
+  parentElement: wrapperLangs,
+};
+const slash = createDomNode(descriptionSlash);
+
+
+export const descriptionRus = {
+  typeElement: 'li',
+  className: 'langs__ru',
+  text: 'RU',
+  parentElement: wrapperLangs,
+};
+const russian = createDomNode(descriptionRus);
+
+const descriptionWrapperCallVoice = {
+  typeElement: 'div',
+  className: 'container-game-audio-call__wrapper-call-voice',
+  parentElement: containerAudioCall,
+};
+const wrapperCallVoice = createDomNode(descriptionWrapperCallVoice);
 
 const descriptionButtonCallVoice = {
   typeElement: 'div',
   className: 'container-game-audio-call__button-call-voice',
-  parentElement: containerAudioCall,
+  parentElement: wrapperCallVoice,
 };
 // eslint-disable-next-line import/prefer-default-export
 export const buttonCallVoice = createDomNode(descriptionButtonCallVoice);
+
+const descriptionButtonCallVoiceBack = {
+  typeElement: 'div',
+  className: 'container-game-audio-call__button-call-voice__back',
+  parentElement: wrapperCallVoice,
+};
+// eslint-disable-next-line import/prefer-default-export
+export const buttonCallVoiceBack = createDomNode(descriptionButtonCallVoiceBack);
 
 const descriptionWrapperWords = {
   typeElement: 'ul',
@@ -55,3 +109,5 @@ export const descriptionButtonDontKnow = {
 // createDomNode(descriptionButtonDontKnow);
 
 body.appendChild(fragmentSprint);
+
+

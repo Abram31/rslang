@@ -1,4 +1,5 @@
 import { playSoundsAfterAnswer } from './play-sounds-after-answer';
+import { addSessionStorage } from './sessionStorage';
 
 // eslint-disable-next-line import/prefer-default-export
 export const choiceWord = (event: MouseEvent) => {
@@ -15,6 +16,8 @@ export const choiceWord = (event: MouseEvent) => {
     setTimeout(() => {
       element.style.background = 'none';
     }, 2000);
+    sessionStorage.setItem('correctness of the choice', 'true');
+    addSessionStorage('guessed-words-id', idVoice);
   } else {
     playSoundsAfterAnswer('./sounds-game-audio-call/incorrect-answer-sound-3.mp3');
     dontKnowNextButton.innerText = 'Следующее слово';
@@ -23,5 +26,7 @@ export const choiceWord = (event: MouseEvent) => {
     setTimeout(() => {
       element.style.background = 'none';
     }, 2000);
+    sessionStorage.setItem('correctness of the choice', 'false');
+    // addSessionStorage('unguessed-words-id', String(idVoice));
   }
 };

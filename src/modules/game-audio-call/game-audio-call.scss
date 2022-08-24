@@ -8,50 +8,144 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
     align-items: center;
     list-style: none;
 
-    .container-game-audio-call__wrapper-step-game {
+    .container-game-audio-call__wrapper-voice-lives-lang {
         display: flex;
+        gap: 1.4rem;
         align-items: center;
-        border: none;
+        font-size: 1.7rem;
+        font-weight: 700;
 
-        .wrapper-step-game__step-game {
-            background-image: $backroundHeart;
-            display: block;
-            // mask-image: url(../../assets/svg/game-audio-call/Heart.svg);
-            background-repeat: no-repeat;
+        &::before {
+            content: ' ';
+            background-image: url(../../assets/svg/game-audio-call/voice.svg);
             background-position: center;
-            background-size: contain;
-            width: 2.5rem;
-            height: 2.5rem;
-
-
-        &.active-step {
-            display: block;
-            // mask-image: url(../../assets/svg/game-audio-call/Heart.svg);
             background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            width: 2.5rem;
-            height: 2.5rem;
-            background-image: $backroundFullHeart;
+            background-size: cover;
+            width: 2.8rem;
+            height: 3rem;
+            cursor: pointer;
+        }
+
+        .container-game-audio-call__wrapper-step-game {
+            display: flex;
+            align-items: center;
+            border: none;
+
+            .wrapper-step-game__step-game {
+                background-image: $backroundHeart;
+                display: block;
+                // mask-image: url(../../assets/svg/game-audio-call/Heart.svg);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+                width: 2.5rem;
+                height: 2.5rem;
+
+
+                &.active-step {
+                    display: block;
+                    // mask-image: url(../../assets/svg/game-audio-call/Heart.svg);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: contain;
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    background-image: $backroundFullHeart;
+
+                }
+            }
 
         }
-                }
+
+        .wrapper-voice-lives-lang__langs {
+            display: flex;
+            list-style: none;
+            gap: .3rem;
+
+            .langs__en {}
+
+            .langs__slash {}
+
+            .langs__ru {}
+        }
     }
 
-    .container-game-audio-call__button-call-voice {
-        background: url(../../assets/svg/game-audio-call/voice.svg);
-        display: block;
-        // mask-image: url(../../assets/svg/game-audio-call/Heart.svg);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        width: 7.5rem;
-        height: 7.5rem;
-        transition: .4s;
+    .container-game-audio-call__wrapper-call-voice {
+        position: relative;
+        width: 12rem;
+        height: 9rem;
+        // display: flex;
+        // // mask-image: url(../../assets/svg/game-audio-call/Heart.svg);
+
+        // transition: 1s;
         cursor: pointer;
 
         &:active {
-            transform: scale(.9);
+            // transform: rotateY(180deg)
+        }
+
+        &:hover .container-game-audio-call__button-call-voice {
+            transform: rotateY(180deg)
+        }
+
+        &:hover .container-game-audio-call__button-call-voice__back {
+            transform: rotateY(360deg)
+        }
+
+        // &:hover .back {
+        //     transform: rotateY(360deg)
+        // }
+
+        .container-game-audio-call__button-call-voice,
+        .container-game-audio-call__button-call-voice__back {
+            width: 100%;
+            height: 100%;
+
+            left: 0;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 1s;
+            backface-visibility: hidden;
+            background-color: #fff;
+            background-image: url(../../assets/svg/game-audio-call/voice.svg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            display: flex;
+            // &:active {
+            //     transform: rotateY(180deg)
+            // }
+
+        }
+
+        .container-game-audio-call__button-call-voice__back {
+            background-image: url(https://base-rs-lang-1.herokuapp.com/files/03_1260.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transform: rotateY(180deg);
+            border-radius: 2rem;
+            // width: 12rem;
+            // height: 9rem;
+            // border-radius: 1rem;
+
+            // &:active {
+            //     transform: rotateY(180deg)
+            // }
+
+        }
+
+        .container-game-audio-call__button-call-voice {
+            position: absolute;
+        }
+
+        .back {
+            transform: rotateY(180deg);
         }
     }
 
@@ -73,10 +167,12 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
             justify-content: center;
             border: 1px rgba(245, 68, 59, 1) solid;
             border-radius: 6px;
-            width: 7.8rem;
+            min-width: 7.8rem;
             height: 3.2rem;
             cursor: pointer;
             transition: .4s;
+            word-break: break-all;
+            padding: 0.5rem;
 
             &:active {
                 transform: scale(.9);

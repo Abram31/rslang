@@ -38,7 +38,7 @@ export const addToMarkupWords = () => {
     const descriptionWord = {
       typeElement: 'li',
       className: 'wrapper-words__word',
-      text: item.word,
+      text: item.wordTranslate,
       parentElement: wrapperWords,
     };
     const word = createDomNode(descriptionWord);
@@ -47,4 +47,5 @@ export const addToMarkupWords = () => {
   wrapperWords.append(createDomNode(descriptionButtonDontKnow));
   const pathVoice = buttonCallVoice.getAttribute('data-voice') as string;
   playAudio(pathVoice);
+  
 };

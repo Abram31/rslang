@@ -1,5 +1,7 @@
 import playAudio from '../tutorial/play-words';
+import changeVoiceLinkToImage from './change-voice-link-to-image';
 import { addWordsToPage } from './get-voice-word';
+import { addSessionStorage, deleteSessionStorage } from './sessionStorage';
 import { choiceWord } from './word-choice';
 
 const sectionAudioCall = document.querySelector('.container-game-audio-call') as HTMLElement;
@@ -8,11 +10,20 @@ sectionAudioCall.addEventListener('click', (event) => {
   if (element.classList.contains('container-game-audio-call__button-call-voice')) {
     const pathToVoice = element.getAttribute('data-voice') as string;
     playAudio(pathToVoice);
+    changeVoiceLinkToImage();
+    
   }
   if (element.classList.contains('wrapper-words__word')) {
     choiceWord(event);
   }
   if (element.classList.contains('wrapper-words__dont-know')) {
+    const buttonVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
+    const buttonVoiceId = buttonVoice.id;
+
+    if (sessionStorage.getItem('correctness of the choice') === 'false') {
+      addSessionStorage('unguessed-words-id', buttonVoiceId);
+    }
     addWordsToPage();
+    sessionStorage.setItem('correctness of the choice', 'false');
   }
 });

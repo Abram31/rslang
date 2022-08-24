@@ -1,10 +1,10 @@
-import { fetchRequest, IwordsLIst } from '../tutorial/fetch/fetch';
+import { baseURL, fetchRequest, IwordsLIst } from '../tutorial/fetch/fetch';
 import { IDomNode } from '../tutorial/function-create-dom-node';
 import { IdataFromServer } from '../tutorial/get words/render-result-find-to-page';
 // eslint-disable-next-line import/no-cycle
 import { addToMarkupWords } from './get-list-words';
-import { buttonCallVoice } from './markup';
-import { addSessionStorage, getSessinoStorage } from './sessionStorage';
+import { buttonCallVoice, buttonCallVoiceBack } from './markup';
+import { addSessionStorage, deleteSessionStorage, getSessinoStorage } from './sessionStorage';
 
 export const shuffle = (array:IdataFromServer[]) => {
   array.sort(() => Math.random() - 0.5);
@@ -17,7 +17,6 @@ const getWordsFromServer = async () => {
   };
   await fetchRequest.getNewWordsLIst(argumentForFetch).then((data) => {
     addSessionStorage('game-audio-call', data);
-    addSessionStorage('used-words-in-audio-call', []);
   });
 };
 
@@ -31,30 +30,29 @@ const choiсeNextWord = (data: IdataFromServer[]): IdataFromServer => {
   }
   const randomNumber = randomNumberWord(savedData);
   const usedIndexWords = getSessinoStorage('used-index-words-in-audio-call');
-  // console.log(usedIndexWords);
-  // console.log(savedData);
-
+ 
   if (usedIndexWords.includes(randomNumber)) {
     if (usedIndexWords.length >= savedData.length) {
       addSessionStorage('used-index-words-in-audio-call', []);
+      deleteSessionStorage('unguessed-words-id');
     }
     return choiсeNextWord(data);
   }
   usedIndexWords.push(randomNumber);
   addSessionStorage('used-index-words-in-audio-call', usedIndexWords);
-  // console.log(randomNumber);
-  console.log(data[randomNumber].word);
+
   return savedData[randomNumber];
 };
 
 export const addWordsToPage = async () => {
-  // await getWordsFromServer();
   const savedData: IdataFromServer[] = await getSessinoStorage('game-audio-call');
   const word = await choiсeNextWord(savedData);
-  // savedData.filter((item) => item.id !== word.id);
   buttonCallVoice.setAttribute('data-voice', word.audio);
   buttonCallVoice.id = word.id;
+  const buttonBackImg = document.querySelector('.container-game-audio-call__button-call-voice__back') as HTMLElement;
+  buttonBackImg.style.backgroundImage = `url(${baseURL}${word!.image})`;
   addToMarkupWords();
+
 };
 
 addWordsToPage();

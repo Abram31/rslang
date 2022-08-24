@@ -98,7 +98,6 @@ wrapperTutorial.addEventListener('click', (event) => {
   if (element.classList.contains('container-word__title')
     || element.classList.contains('container-word__text-meaning')
     || element.classList.contains('container-word__text-example')) {
-
     const pathAudio = element.getAttribute('data-path-audio');
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     pathAudio ? playAudio(pathAudio) : '';
