@@ -4,6 +4,7 @@ import { addSessionStorage } from './sessionStorage';
 // eslint-disable-next-line import/prefer-default-export
 export const choiceWord = (event: MouseEvent) => {
   const element = event.target as HTMLDivElement;
+  const wordButtons = document.querySelectorAll('.wrapper-words__word');
   const voiceElement = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
   const dontKnowNextButton = document.querySelector('.wrapper-words__dont-know') as HTMLElement;
   const idVoice = voiceElement.id;
@@ -12,10 +13,8 @@ export const choiceWord = (event: MouseEvent) => {
     playSoundsAfterAnswer('./sounds-game-audio-call/correct-answer-sound-3.mp3');
     dontKnowNextButton.innerText = 'Следующее слово';
     dontKnowNextButton.style.background = 'none';
-    element.style.background = 'green';
-    setTimeout(() => {
-      element.style.background = 'none';
-    }, 2000);
+    element.classList.add('correct-word');
+
     sessionStorage.setItem('correctness of the choice', 'true');
     addSessionStorage('guessed-words-id', idVoice);
   } else {
@@ -23,10 +22,19 @@ export const choiceWord = (event: MouseEvent) => {
     dontKnowNextButton.innerText = 'Следующее слово';
     dontKnowNextButton.style.background = 'none';
     element.style.background = 'red';
-    setTimeout(() => {
-      element.style.background = 'none';
-    }, 2000);
+    wordButtons.forEach((item) => {
+      if (item.id === idVoice) {
+        item.classList.add('correct-word');
+      }
+    });
+
     sessionStorage.setItem('correctness of the choice', 'false');
     // addSessionStorage('unguessed-words-id', String(idVoice));
   }
+
+  wordButtons.forEach((item) => {
+    const elem = item as HTMLLIElement;
+    elem.style.pointerEvents = 'none';
+    elem.style.borderColor = 'whitesmoke';
+  });
 };

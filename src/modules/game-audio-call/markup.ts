@@ -44,7 +44,10 @@ export const descriptionEnglish = {
   text: 'EN',
   parentElement: wrapperLangs,
 };
- const english = createDomNode(descriptionEnglish);
+const english = createDomNode(descriptionEnglish);
+if (localStorage.getItem('language') === 'en' || null) {
+  english.classList.add('active');
+}
 
 
 export const descriptionSlash = {
@@ -55,7 +58,6 @@ export const descriptionSlash = {
 };
 const slash = createDomNode(descriptionSlash);
 
-
 export const descriptionRus = {
   typeElement: 'li',
   className: 'langs__ru',
@@ -63,6 +65,10 @@ export const descriptionRus = {
   parentElement: wrapperLangs,
 };
 const russian = createDomNode(descriptionRus);
+if (localStorage.getItem('language') === 'ru') {
+  russian.classList.add('active');
+}
+
 
 const descriptionWrapperCallVoice = {
   typeElement: 'div',
@@ -76,7 +82,6 @@ const descriptionButtonCallVoice = {
   className: 'container-game-audio-call__button-call-voice',
   parentElement: wrapperCallVoice,
 };
-// eslint-disable-next-line import/prefer-default-export
 export const buttonCallVoice = createDomNode(descriptionButtonCallVoice);
 
 const descriptionButtonCallVoiceBack = {
@@ -84,8 +89,16 @@ const descriptionButtonCallVoiceBack = {
   className: 'container-game-audio-call__button-call-voice__back',
   parentElement: wrapperCallVoice,
 };
-// eslint-disable-next-line import/prefer-default-export
 export const buttonCallVoiceBack = createDomNode(descriptionButtonCallVoiceBack);
+
+const descriptionTextWordInEnglish = {
+  typeElement: 'span',
+  className: 'button-call-voice__back__word-translate',
+  parentElement: buttonCallVoiceBack,
+};
+
+const translateWord = createDomNode(descriptionTextWordInEnglish);
+
 
 const descriptionWrapperWords = {
   typeElement: 'ul',
@@ -109,5 +122,3 @@ export const descriptionButtonDontKnow = {
 // createDomNode(descriptionButtonDontKnow);
 
 body.appendChild(fragmentSprint);
-
-

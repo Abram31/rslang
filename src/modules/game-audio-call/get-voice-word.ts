@@ -12,8 +12,8 @@ export const shuffle = (array:IdataFromServer[]) => {
 
 const getWordsFromServer = async () => {
   const argumentForFetch: IwordsLIst = {
-    page: '2',
-    group: '2',
+    page: '0',
+    group: '0',
   };
   await fetchRequest.getNewWordsLIst(argumentForFetch).then((data) => {
     addSessionStorage('game-audio-call', data);
@@ -25,12 +25,12 @@ export const randomNumberWord = (data: IdataFromServer[]) => Math.floor(Math.ran
 
 const choiсeNextWord = (data: IdataFromServer[]): IdataFromServer => {
   const savedData = getSessinoStorage('game-audio-call');
-  if (savedData.length === 0) {
+  if (savedData && savedData.length === 0) {
     getWordsFromServer();
   }
   const randomNumber = randomNumberWord(savedData);
   const usedIndexWords = getSessinoStorage('used-index-words-in-audio-call');
- 
+
   if (usedIndexWords.includes(randomNumber)) {
     if (usedIndexWords.length >= savedData.length) {
       addSessionStorage('used-index-words-in-audio-call', []);
@@ -49,10 +49,13 @@ export const addWordsToPage = async () => {
   const word = await choiсeNextWord(savedData);
   buttonCallVoice.setAttribute('data-voice', word.audio);
   buttonCallVoice.id = word.id;
+  addToMarkupWords();
   const buttonBackImg = document.querySelector('.container-game-audio-call__button-call-voice__back') as HTMLElement;
   buttonBackImg.style.backgroundImage = `url(${baseURL}${word!.image})`;
-  addToMarkupWords();
-
+  setTimeout(() => {
+    const buttonBackImgText = buttonBackImg.querySelector('.button-call-voice__back__word-translate') as HTMLSpanElement;
+    buttonBackImgText.innerText = word.word;
+  }, 800);
 };
 
 addWordsToPage();

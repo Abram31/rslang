@@ -7,7 +7,7 @@ import { buttonCallVoice, descriptionButtonDontKnow, wrapperWords } from './mark
 import { addSessionStorage, getSessinoStorage, IData } from './sessionStorage';
 import { stepGameIndicator } from './step-game-indicator';
 
-const addWords = (): IdataFromServer[] => {
+export const addWords = (): IdataFromServer[] => {
   const result:IdataFromServer[] | never = [];
   const savedData: IdataFromServer[] = getSessinoStorage('game-audio-call') as IdataFromServer[];
   const voiceElement = (document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement);
@@ -28,17 +28,20 @@ const addWords = (): IdataFromServer[] => {
   return result;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const addToMarkupWords = () => {
   wrapperWords.innerHTML = '';
   stepGameIndicator();
   const data = addWords();
+  let wordLang:string;
+  const language = localStorage.getItem('language');
+
   shuffle(data);
+
   data.forEach((item) => {
     const descriptionWord = {
       typeElement: 'li',
       className: 'wrapper-words__word',
-      text: item.wordTranslate,
+      text: language === 'en' ? item.word : item.wordTranslate,
       parentElement: wrapperWords,
     };
     const word = createDomNode(descriptionWord);
@@ -47,5 +50,4 @@ export const addToMarkupWords = () => {
   wrapperWords.append(createDomNode(descriptionButtonDontKnow));
   const pathVoice = buttonCallVoice.getAttribute('data-voice') as string;
   playAudio(pathVoice);
-  
 };
