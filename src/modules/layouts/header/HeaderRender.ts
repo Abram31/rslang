@@ -1,6 +1,8 @@
 import './header.scss';
 import createDomNode from '../../../utils/createDomNode';
 import AuthModal from '../../authentication/AuthModal';
+import App from '../../../components/app';
+import { getStorage } from '../../../utils/storage';
 
 export default class HeaderRender {
   private header;
@@ -28,6 +30,16 @@ export default class HeaderRender {
   private burger;
 
   protected burgerLine;
+
+  private overlay: HTMLDivElement | undefined;
+
+  private modalWindow: HTMLDivElement | undefined;
+
+  private title: HTMLElement | undefined;
+
+  private btnCancel: HTMLButtonElement | undefined;
+
+  private btnGoOut: HTMLButtonElement | undefined;
 
   constructor() {
     this.header = createDomNode('header', [], document.body);
@@ -59,9 +71,12 @@ export default class HeaderRender {
 
     this.burgerLine = createDomNode('span', ['burger__line'], this.burger);
 
-    if (localStorage.getItem('name') !== null) {
-      this.userName.innerHTML = localStorage.getItem('name') as string;
+    if (getStorage('id') !== null) {
       this.authButton.innerHTML = 'Выйти';
+      new App().getUser()
+        .then((res) => {
+          this.userName.innerHTML = res.name;
+        });
     }
   }
 
@@ -74,9 +89,30 @@ export default class HeaderRender {
     if (this.authButton.innerHTML === 'Вход') {
       new AuthModal('Войти', 'Войдите в свою учетную запись').modalSignInRender();
     } else {
+      this.modalOut();
+    }
+  }
+
+  modalOut() {
+    this.overlay = createDomNode('div', ['overlay'], document.body) as HTMLDivElement;
+    this.modalWindow = createDomNode('div', ['modal-window'], this.overlay) as HTMLDivElement;
+
+    this.title = createDomNode(
+      'h2',
+      ['title'],
+      this.modalWindow,
+      'Вы действительно хотите выйти?',
+    );
+
+    this.btnCancel = createDomNode('button', ['btn', 'btn_red'], this.modalWindow, 'Отмена') as HTMLButtonElement;
+    this.btnCancel.addEventListener('click', () => this.overlay?.remove());
+
+    this.btnGoOut = createDomNode('button', ['btn', 'btn_red'], this.modalWindow, 'Да') as HTMLButtonElement;
+    this.btnGoOut.addEventListener('click', () => {
       localStorage.clear();
       this.userName.innerHTML = '';
       this.authButton.innerHTML = 'Вход';
-    }
+      this.overlay?.remove();
+    });
   }
 }
