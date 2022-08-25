@@ -1,13 +1,5 @@
 $color: rgba(152, 221, 221, 1);
-$colorWhite:white;
 
-body {
-  // background-color:$color;
-}
-
-ul {
-  
-}
 @import './utils/scss/constants.scss';
 @import './utils/scss/mixin.scss';
 @import '../src/modules/layouts/textBookChapter/textBookCharter.scss';
@@ -25,7 +17,7 @@ body {
   max-width: 1920px;
   margin: 0 auto;
   background-color: $colorWhite;
-  font-family: 1rem;
+  font-family: $fontMain;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -43,14 +35,14 @@ body {
   border-radius: 0.6em;
 
   &_red {
-    background-color: red;
+    background-color: $colorRed;
     color: $colorWhite;
   }
 
   &_transparent {
     background-color: transparent;
     color: $colorRed;
-    border: 2px solid red;
+    border: 2px solid $colorRed;
   }
 
   &:hover {

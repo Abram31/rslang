@@ -138,28 +138,7 @@ $border-color-buttons-game: rgba(53, 200, 147, 1);
 
                     align-items: center;
                     gap: 0.5rem;
-                    // align-self: stretch;
-                    // width: 85%;
-                    // padding: 0 0rem 0 3rem;
-
-                    // &::after {
-                    //     position: absolute;
-                    //     left: 0;
-                    //     top: 0;
-                    //     /* bottom: 0; */
-                    //     content: " ";
-                    //     background: url(../../assets/svg/tutorial/sound.svg);
-                    //     background-position: center;
-                    //     background-repeat: no-repeat;
-                    //     background-size: contain;
-                    //     width: 2rem;
-                    //     height: 2rem;
-                    //     cursor: pointer;
-                    // }
-
-                    // &:active {
-                    //     transform: scale(.8);
-                    // }
+                  
                 }
 
                 .container-word__text-meaning-translate {
@@ -175,10 +154,7 @@ $border-color-buttons-game: rgba(53, 200, 147, 1);
 
                 }
 
-                // .container-word__text-example {
-                //     font-size: 1.5rem;
-                // }
-
+         
                 .container-word__text-example-translate {
                     font-size: 1rem;
                 }
