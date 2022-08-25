@@ -50,9 +50,9 @@ export const addWordsToPage = async () => {
   buttonCallVoice.setAttribute('data-voice', word.audio);
   buttonCallVoice.id = word.id;
   addToMarkupWords();
-  const buttonBackImg = document.querySelector('.container-game-audio-call__button-call-voice__back') as HTMLElement;
-  buttonBackImg.style.backgroundImage = `url(${baseURL}${word!.image})`;
   setTimeout(() => {
+    const buttonBackImg = document.querySelector('.container-game-audio-call__button-call-voice__back') as HTMLElement;
+    buttonBackImg.style.backgroundImage = `url(${baseURL}${word!.image})`;
     const buttonBackImgText = buttonBackImg.querySelector('.button-call-voice__back__word-translate') as HTMLSpanElement;
     buttonBackImgText.innerText = word.word;
   }, 800);

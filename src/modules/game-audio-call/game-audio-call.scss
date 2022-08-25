@@ -161,6 +161,7 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
 
 
     .container-game-audio-call__wrapper-words {
+        position: relative;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -169,6 +170,7 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
         column-gap: 6rem;
         row-gap: 2rem;
         border: none;
+        padding: 0 0 5rem 0;
 
         .wrapper-words__word,
         .wrapper-words__dont-know {
@@ -216,7 +218,8 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
         }
 
         .wrapper-words__dont-know {
-            flex-basis: 40%;
+            position: absolute;
+            bottom: 0;
             background-color: rgba(245, 68, 59, 1);
         }
 
