@@ -96,7 +96,9 @@ video {
 }
 
 .volume-icon {
-  background-image: url('../../../assets/svg/video_volume.svg');
+  background-image: url('../../../assets/svg/volume.svg');
+  width: 36px;
+  height: 30px;
 }
 
 .volume {
@@ -105,4 +107,12 @@ video {
 
 .volume {
   width: calc(20% - 40px);
+}
+
+.play-btn-back {
+  background-image: url("../../../assets/svg/video-back.svg");
+}
+
+.play-btn-forward {
+  background-image: url("../../../assets/svg/video-forward.svg");
 }
