@@ -8,6 +8,7 @@ export interface IDomNode {
   color?: string;
   colorText?: string;
   innerHTML?: string;
+  dataAttribute?:string[];
 
   parentElement?: HTMLElement | HTMLInputElement | DocumentFragment;
 }
@@ -22,6 +23,7 @@ export const createDomNode = ({
   colorText,
   innerHTML,
   parentElement,
+  dataAttribute,
 }: IDomNode) => {
   let element;
   if (typeElement === 'input' || typeElement === 'button') {
@@ -49,9 +51,10 @@ export const createDomNode = ({
   }
   if (innerHTML) {
     element.innerHTML = innerHTML;
-
   }
-
+  if (dataAttribute) {
+    element.setAttribute(dataAttribute[0], dataAttribute[1]);
+  }
   if (parentElement) {
     parentElement.appendChild(element);
   }

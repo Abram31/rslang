@@ -15,16 +15,7 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
         font-size: 1.7rem;
         font-weight: 700;
 
-        &::before {
-            content: ' ';
-            background-image: url(../../assets/svg/game-audio-call/voice.svg);
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            width: 2.8rem;
-            height: 3rem;
-            cursor: pointer;
-        }
+    
 
         .container-game-audio-call__wrapper-step-game {
             display: flex;

@@ -34,14 +34,13 @@ export const addToMarkupWords = () => {
   const data = addWords();
   let wordLang:string;
   const language = localStorage.getItem('language');
-
   shuffle(data);
-
-  data.forEach((item) => {
+  data.forEach((item, index) => {
     const descriptionWord = {
       typeElement: 'li',
+      dataAttribute: ['keyboard-key', `${index + 1}`],
       className: 'wrapper-words__word',
-      text: language === 'en' ? item.word : item.wordTranslate,
+      text: `${index + 1} ${language === 'en' ? item.word : item.wordTranslate}`,
       parentElement: wrapperWords,
     };
     const word = createDomNode(descriptionWord);

@@ -3,6 +3,7 @@ import { cardFlipAfterChoice, cardUnflip } from './card-flip-after-choice';
 import changeLanguages from './change-languages';
 import changeVoiceLinkToImage from './change-voice-link-to-image';
 import { addWordsToPage } from './get-voice-word';
+import keyboardControl from './keyboard_control';
 import { addSessionStorage, deleteSessionStorage } from './sessionStorage';
 import { choiceWord } from './word-choice';
 
@@ -34,3 +35,5 @@ sectionAudioCall.addEventListener('click', (event) => {
     changeLanguages(event);
   }
 });
+
+document.addEventListener('keyup', keyboardControl);
