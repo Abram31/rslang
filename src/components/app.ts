@@ -82,7 +82,7 @@ export default class App {
     const token = getStorage('token');
 
     if (token !== null) {
-      if (Date.now() - Number(tokenDateCreation) < TOKEN_ACTION_IN_MILLISECONDS) {
+      if (Date.now() - Number(tokenDateCreation) > TOKEN_ACTION_IN_MILLISECONDS) {
         try {
           await this.refreshToken();
         } catch (e) {
@@ -97,6 +97,7 @@ export default class App {
       ...options,
       headers: {
         Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
     });
@@ -107,6 +108,13 @@ export default class App {
     const id = getStorage('id');
 
     return this.request(`${this.userUrl}/${id}`, {
+      method: 'GET',
+    });
+  }
+
+  async getUsersWords() { // Получить слова пользователя
+    const id = getStorage('id');
+    return this.request(`${this.userUrl}/${id}/words`, {
       method: 'GET',
     });
   }
