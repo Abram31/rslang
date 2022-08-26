@@ -1,9 +1,10 @@
 import { baseURL, fetchRequest, IwordsLIst } from '../tutorial/fetch/fetch';
-import { IDomNode } from '../tutorial/function-create-dom-node';
-import { IdataFromServer } from '../tutorial/get words/render-result-find-to-page';
+import { createDomNode, IDomNode } from '../tutorial/function-create-dom-node';
+import { body, IdataFromServer } from '../tutorial/get words/render-result-find-to-page';
 // eslint-disable-next-line import/no-cycle
 import { addToMarkupWords } from './get-list-words';
 import { buttonCallVoice, buttonCallVoiceBack } from './markup';
+import preload from './preload';
 import { addToPageResults } from './results_game';
 import { addSessionStorage, deleteSessionStorage, getSessinoStorage } from './sessionStorage';
 
@@ -11,12 +12,15 @@ export const shuffle = (array:IdataFromServer[]) => {
   array.sort(() => Math.random() - 0.5);
 };
 
-const getWordsFromServer = async () => {
+export const getWordsFromServer = async () => {
+  const preloader = preload();
+
   const argumentForFetch: IwordsLIst = {
     page: '2',
     group: '0',
   };
   await fetchRequest.getNewWordsLIst(argumentForFetch).then((data) => {
+    preloader.remove();
     addSessionStorage('game-audio-call', data);
   });
   return getSessinoStorage('game-audio-call');

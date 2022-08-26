@@ -1,3 +1,5 @@
+import { getWordsFromServer } from "./get-voice-word";
+
 const keyboardControl = (event: KeyboardEvent) => {
   const sectionAudioCall = document.querySelector('.container-game-audio-call') as HTMLElement;
   const buttonsWithWords = sectionAudioCall.querySelectorAll('.wrapper-words__word') as NodeListOf<HTMLDivElement>;
@@ -26,6 +28,7 @@ const keyboardControl = (event: KeyboardEvent) => {
   }
 
   if (event.code === 'Space') {
+    getWordsFromServer();
     const buttonVoice = sectionAudioCall.querySelector('.container-game-audio-call__button-call-voice') as HTMLDivElement;
     buttonVoice.dispatchEvent(click);
   }
