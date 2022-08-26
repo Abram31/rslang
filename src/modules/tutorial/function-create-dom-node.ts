@@ -38,7 +38,10 @@ export const createDomNode = ({
     element.id = id;
   }
   if (className) {
-    element.classList.add(className);
+    const elem = element as HTMLElement;
+    className.split(' ').forEach((item) => {
+      elem.classList.add(item);
+    });
   }
   if (text) {
     element.innerText = text;

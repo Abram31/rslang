@@ -1,5 +1,6 @@
 $backroundHeart: url(../../assets/svg/game-audio-call/Heart.svg);
 $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
+$backgroundColorResults: rgb(231, 214, 214);
 
 .container-game-audio-call {
     display: flex;
@@ -15,7 +16,7 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
         font-size: 1.7rem;
         font-weight: 700;
 
-    
+
 
         .container-game-audio-call__wrapper-step-game {
             display: flex;
@@ -35,7 +36,6 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
 
                 &.active-step {
                     display: block;
-                    // mask-image: url(../../assets/svg/game-audio-call/Heart.svg);
                     background-repeat: no-repeat;
                     background-position: center;
                     background-size: contain;
@@ -78,11 +78,6 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
         &:active {}
 
 
-
-        // &:hover .back {
-        //     transform: rotateY(360deg)
-        // }
-
         .container-game-audio-call__button-call-voice,
         .container-game-audio-call__button-call-voice__back {
             width: 100%;
@@ -102,9 +97,6 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
             background-size: contain;
             display: flex;
 
-            // &:active {
-            //     transform: rotateY(180deg)
-            // }
             &.front__flip {
                 transform: rotateY(180deg)
             }
@@ -126,19 +118,12 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
             height: 100%;
             transform: rotateY(180deg);
             border-radius: 2rem;
-            // width: 12rem;
-            // height: 9rem;
-            // border-radius: 1rem;
-
-            // &:active {
-            //     transform: rotateY(180deg)
-            // }
 
             .button-call-voice__back__word-translate {
                 background-color: #3a3836bd;
-                    color: whitesmoke;
-                    border-radius: 1rem;
-                    padding: 0.1rem;
+                color: whitesmoke;
+                border-radius: 1rem;
+                padding: 0.1rem;
             }
 
         }
@@ -188,11 +173,9 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            // position: relative;
 
             &::before {
                 content: '';
-                // position: absolute;
                 width: 1rem;
                 height: 1rem;
                 background-color: #44B9B9;
@@ -202,8 +185,6 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
                 background-size: contain;
                 border-radius: 5rem;
                 display: flex;
-                // left: 0;
-                // top:0;
 
             }
         }
@@ -214,5 +195,145 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
             background-color: rgba(245, 68, 59, 1);
         }
 
+    }
+}
+
+
+.container-result {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.3rem;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: rgba(40, 35, 35, 0.225);
+
+    .container-result__title {
+        padding: 1rem;
+        font-size: 3rem;
+        font-weight: 600;
+        border: 1px solid;
+        border-radius: 2rem;
+        background-color: $backgroundColorResults;
+    }
+
+    .container-result__wrapper-list {
+        list-style: none;
+        width: 35rem;
+        max-height: 39rem;
+        display: flex;
+        flex-direction: column;
+        align-content: space-between;
+        align-items: stretch;
+        font-size: 2rem;
+        border: 1px solid;
+        border-radius: 2rem;
+        overflow-x: hidden;
+
+        &::-webkit-scrollbar-track {
+            border-radius: 4px;
+        }
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background: #f0f2f5;
+        }
+
+        &:hover::-webkit-scrollbar-thumb {
+            background: #6a7d9b;
+        }
+
+        .wrapper-list__item {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem 6rem;
+            transition: .4s;
+            cursor: pointer;
+
+            background-color: $backgroundColorResults;
+            text-align-last: justify;
+
+            .word-ru {
+                text-align: right;
+                text-align-last: right;
+                color: rgba(0, 0, 0, 0.5);
+            }
+
+            &:active {
+                transform: scale(.9);
+            }
+        }
+
+        .correct-answer,
+        .uncorrect-answer {
+
+            &::after,
+            &::before {
+                content: " ";
+                background-image: url(../../assets/svg/game-audio-call/results/bird.svg);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+
+                position: absolute;
+                width: 2rem;
+                height: 2rem;
+                right: 2rem;
+
+                transition: 1s;
+
+
+            }
+
+            &::before {
+                content: " ";
+                background-image: url(../../assets/svg/game-audio-call/results/voice.svg);
+                left: 2rem;
+                cursor: pointer;
+            }
+        }
+
+        .uncorrect-answer {
+            &::after {
+                background-image: url(../../assets/svg/game-audio-call/results/cross.svg);
+
+            }
+        }
+
+
+    }
+
+    .container-result__wrapper-buttons {
+        display: flex;
+        gap: 2rem;
+        font-size: 2rem;
+
+        .wrapper-buttons__repeat,
+        .wrapper-buttons__finish {
+            padding: 1rem;
+            border: solid 1px;
+            border-radius: 1rem;
+            background-color: $backgroundColorResults;
+            cursor: pointer;
+            transition: .4s;
+
+            &:active {
+                transform: scale(.9);
+            }
+        }
+
+        .wrapper-buttons__finish {}
     }
 }

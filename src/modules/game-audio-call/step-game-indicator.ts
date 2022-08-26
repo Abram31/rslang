@@ -1,5 +1,6 @@
 import { createDomNode } from '../tutorial/function-create-dom-node';
 import { descriptionStepGame, wrapperStepGame } from './markup';
+import { addToPageResults } from './results_game';
 import { getSessinoStorage } from './sessionStorage';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -9,6 +10,9 @@ export const stepGameIndicator = () => {
   // const lengthStepsСompletedTasks = lengthDataArray - lengthDataAttempts;
   const numberUnguseedWords = getSessinoStorage('unguessed-words-id').length;
 
+  // if (numberUnguseedWords === 5) {
+  //   addToPageResults();
+  // }
   wrapperStepGame.innerHTML = '';
   for (let i = 0; i < 5 - numberUnguseedWords; i += 1) {
     const stepGame = createDomNode(descriptionStepGame);
