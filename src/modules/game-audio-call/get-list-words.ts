@@ -16,7 +16,8 @@ export const addWords = (): IdataFromServer[] => {
   result.push(correctWord!);
   for (let i = 0; i <= 3; i += 1) {
     const numberWord: number = randomNumberWord(savedData);
-    if (savedData && savedData[numberWord].id === idVoice) {
+    if ((savedData && savedData[numberWord].id === idVoice)
+    || result.includes(savedData[numberWord])) {
       i -= 1;
     } else if (getSessinoStorage('list-game-audio')) {
       result.push(savedData[numberWord]);
