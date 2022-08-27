@@ -1,4 +1,5 @@
 import createDomNode from '../../utils/createDomNode';
+import { addWordsToPage } from '../game-audio-call/get-voice-word';
 import AboutTeam from '../layouts/aboutTeam/AboutTeam';
 import FooterRender from '../layouts/footer/FooterRender';
 import HeaderRender from '../layouts/header/HeaderRender';
@@ -11,8 +12,11 @@ import VideoRender from '../layouts/video/VideoRender';
 import { body } from '../tutorial/get words/render-result-find-to-page';
 import { addListenersToChoicePageChapter, addListenersToTextBookChapters, addListenersToTextBookPages } from '../tutorial/listeners';
 import tutorialRender, { changeBackgroundChapters } from '../tutorial/markup';
+import { addToMarkupWords, addWords } from '../game-audio-call/get-list-words';
+import baseMarkupAudioCall from '../game-audio-call/markup';
+import addListeners from '../game-audio-call/listeners';
 
-const generateRouter = () => {
+export const generateRouter = () => {
   const routes: { [key: string]: string | (() => void) } = {};
   const templates: { [key: string]: (() => void) } = {};
 
@@ -90,6 +94,16 @@ const generateRouter = () => {
     new FooterRender();
   });
 
+  template('game-audio-call', () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    baseMarkupAudioCall()
+    addWordsToPage();
+    addListeners()
+    // addWords();
+
+  });
+
   template('game-level', () => {
     document.body.innerHTML = '';
     new HeaderRender();
@@ -119,7 +133,7 @@ const generateRouter = () => {
   route('/games/sprint', 'game');
 
   for (let i = 0; i < 6; i += 1) {
-    route(`/games/audio/${i}`, 'game-level');
+    route(`/games/audio/${i}`, 'game-audio-call');
   }
 
   for (let i = 0; i < 6; i += 1) {
@@ -157,4 +171,5 @@ const generateRouter = () => {
   window.addEventListener('hashchange', router);
 };
 
-export default generateRouter;
+
+

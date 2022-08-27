@@ -1,5 +1,4 @@
 import { createDomNode } from '../tutorial/function-create-dom-node';
-import { descriptionStepGame, wrapperStepGame } from './markup';
 import { addToPageResults } from './results_game';
 import { getSessinoStorage } from './sessionStorage';
 
@@ -13,7 +12,13 @@ export const stepGameIndicator = () => {
   // if (numberUnguseedWords === 5) {
   //   addToPageResults();
   // }
+  const wrapperStepGame = document.querySelector('.container-game-audio-call__wrapper-step-game') as HTMLUListElement;
   wrapperStepGame.innerHTML = '';
+  const descriptionStepGame = {
+    typeElement: 'li',
+    className: 'wrapper-step-game__step-game',
+    parentElement: wrapperStepGame,
+  };
   for (let i = 0; i < 5 - numberUnguseedWords; i += 1) {
     const stepGame = createDomNode(descriptionStepGame);
     stepGame.classList.add('active-step');

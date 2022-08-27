@@ -6,55 +6,61 @@ import changeLanguages from './change-languages';
 import changeVoiceLinkToImage from './change-voice-link-to-image';
 import { addWordsToPage } from './get-voice-word';
 import keyboardControl from './keyboard_control';
+import { playSoundsAfterAnswer } from './play-sounds-after-answer';
 import { addToPageResults } from './results_game';
 import { addSessionStorage, deleteSessionStorage, getSessinoStorage } from './sessionStorage';
 import { choiceWord } from './word-choice';
 
-const sectionAudioCall = document.querySelector('.container-game-audio-call') as HTMLElement;
-body.addEventListener('click', (event) => {
-  const element = event.target as HTMLDivElement;
-  if (element.classList.contains('container-game-audio-call__button-call-voice')) {
-    const pathToVoice = element.getAttribute('data-voice') as string;
-    playAudio(pathToVoice);
-    changeVoiceLinkToImage();
-  }
-  if (element.classList.contains('wrapper-words__word')) {
-    choiceWord(event);
-    cardFlipAfterChoice();
-  }
-  if (element.classList.contains('wrapper-words__dont-know')) {
-    const buttonVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
-    const buttonVoiceId = buttonVoice.id;
-
-    if (sessionStorage.getItem('correctness of the choice') === 'false') {
-      addSessionStorage('unguessed-words-id', buttonVoiceId);
+const addListeners = () => {
+  const sectionAudioCall = document.querySelector('.container-game-audio-call') as HTMLElement;
+  body.addEventListener('click', (event) => {
+    const element = event.target as HTMLDivElement;
+    if (element.classList.contains('container-game-audio-call__button-call-voice')) {
+      const pathToVoice = element.getAttribute('data-voice') as string;
+      playAudio(JSON.stringify([pathToVoice]));
+      changeVoiceLinkToImage();
     }
-    const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
-    if (ungessedWords.length > 4) {
-      addToPageResults();
-      sessionStorage.removeItem('unguessed-words-id');
+    if (element.classList.contains('wrapper-words__word')) {
+      choiceWord(event);
+      cardFlipAfterChoice();
     }
-    addWordsToPage();
-    sessionStorage.setItem('correctness of the choice', 'false');
-    cardUnflip();
-  }
+    if (element.classList.contains('wrapper-words__dont-know')) {
+      const buttonVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
+      const buttonVoiceId = buttonVoice.id;
 
-  if (element.classList.contains('langs__ru') || element.classList.contains('langs__en')) {
-    changeLanguages(event);
-  }
-  if (element.classList.contains('wrapper-buttons__repeat')) {
-    addWordsToPage();
-    const sectionResult = element.closest('section') as HTMLElement;
-    sectionResult.remove();
-    sessionStorage.setItem('correctness of the choice', 'false');
-  }
+      if (sessionStorage.getItem('correctness of the choice') === 'false') {
+        addSessionStorage('unguessed-words-id', buttonVoiceId);
+      }
+      const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
+      if (ungessedWords.length > 4) {
+        addToPageResults();
+        sessionStorage.removeItem('unguessed-words-id');
+      }
+      addWordsToPage();
+      sessionStorage.setItem('correctness of the choice', 'false');
+      cardUnflip();
+    }
 
-  if (element.classList.contains('wrapper-list__item')
-    || element.classList.contains('word-ru')
-    || element.classList.contains('word-en')) {
-    const dataVoice = (element.closest('li') as HTMLLIElement).getAttribute('data-voice') as string;
-    playAudio(dataVoice);
-  }
-});
+    if (element.classList.contains('langs__ru') || element.classList.contains('langs__en')) {
+      changeLanguages(event);
+    }
+    if (element.classList.contains('wrapper-buttons__repeat')) {
+      addWordsToPage();
+      const sectionResult = element.closest('section') as HTMLElement;
+      sectionResult.remove();
+      sessionStorage.setItem('correctness of the choice', 'false');
+    }
 
-document.addEventListener('keyup', keyboardControl);
+    if (element.classList.contains('wrapper-list__item')
+      || element.classList.contains('word-ru')
+      || element.classList.contains('word-en')) {
+      const dataVoice = (element.closest('li') as HTMLLIElement).getAttribute('data-voice') as string;
+      playAudio(JSON.stringify([dataVoice]));
+    }
+  });
+
+  document.addEventListener('keyup', keyboardControl);
+};
+
+
+export default addListeners;

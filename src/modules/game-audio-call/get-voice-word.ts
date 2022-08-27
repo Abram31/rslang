@@ -3,10 +3,10 @@ import { createDomNode, IDomNode } from '../tutorial/function-create-dom-node';
 import { body, IdataFromServer } from '../tutorial/get words/render-result-find-to-page';
 // eslint-disable-next-line import/no-cycle
 import { addToMarkupWords } from './get-list-words';
-import { buttonCallVoice, buttonCallVoiceBack } from './markup';
 import preload from './preload';
 import { addToPageResults } from './results_game';
 import { addSessionStorage, deleteSessionStorage, getSessinoStorage } from './sessionStorage';
+import './game-audio-call.scss'
 
 export const shuffle = (array:IdataFromServer[]) => {
   array.sort(() => Math.random() - 0.5);
@@ -60,6 +60,7 @@ export const addWordsToPage = async () => {
   }
   const word = await choiсeNextWord(savedData);
   if (word) {
+    const buttonCallVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
     buttonCallVoice.setAttribute('data-voice', word.audio);
     buttonCallVoice.id = word.id;
     addToMarkupWords();
@@ -72,4 +73,4 @@ export const addWordsToPage = async () => {
   }
 };
 
-addWordsToPage();
+// addWordsToPage();

@@ -3,7 +3,7 @@ import { IdataFromServer } from '../tutorial/get words/render-result-find-to-pag
 import playAudio from '../tutorial/play-words';
 // eslint-disable-next-line import/no-cycle
 import { randomNumberWord, shuffle } from './get-voice-word';
-import { buttonCallVoice, descriptionButtonDontKnow, wrapperWords } from './markup';
+import { playSoundsAfterAnswer } from './play-sounds-after-answer';
 import { addSessionStorage, getSessinoStorage, IData } from './sessionStorage';
 import { stepGameIndicator } from './step-game-indicator';
 
@@ -30,6 +30,7 @@ export const addWords = (): IdataFromServer[] => {
 };
 
 export const addToMarkupWords = () => {
+  const wrapperWords = document.querySelector('.container-game-audio-call__wrapper-words') as HTMLUListElement;
   wrapperWords.innerHTML = '';
   stepGameIndicator();
   const data = addWords();
@@ -47,7 +48,13 @@ export const addToMarkupWords = () => {
     const word = createDomNode(descriptionWord);
     word.id = item.id;
   });
+  const descriptionButtonDontKnow = {
+    typeElement: 'li',
+    className: 'wrapper-words__dont-know',
+    text: 'Не знаю',
+  };
   wrapperWords.append(createDomNode(descriptionButtonDontKnow));
+  const buttonCallVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
   const pathVoice = buttonCallVoice.getAttribute('data-voice') as string;
-  playAudio(pathVoice);
+  playAudio(JSON.stringify([pathVoice]));
 };
