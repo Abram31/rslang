@@ -15,15 +15,16 @@ class FetchRequest {
     this.wordsUrl = wordsUrl;
   }
 
-  // eslint-disable-next-line consistent-return
   async getNewWordsLIst({ page, group }: IwordsLIst) {
     try {
       const fullUrl = `${this.wordsUrl}?page=${page}&group=${group}`;
       const response = await fetch(fullUrl);
-      return await response.json();
+      const result = await response.json();
+      return result;
     } catch {
       Error('Errore getNewWords');
     }
+    return null;
   }
 }
 

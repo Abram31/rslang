@@ -12,7 +12,15 @@ export const createWordContainer = (word: IdataFromServer) => {
     parentElement: wordFragment,
   };
   const wrapperWord = createDomNode(descriptionWrapperWord);
-  wrapperWord.style.backgroundImage = `url(${baseURL}${word.image})`;
+ 
+
+  const descriptionContainerImg = {
+    typeElement: 'div',
+    className: 'wrapper-word__container-img',
+    parentElement: wrapperWord,
+  };
+  const containerImg = createDomNode(descriptionContainerImg);
+  containerImg.style.backgroundImage = `url(${baseURL}${word.image})`;
 
   const descriptionContainerWord = {
     typeElement: 'div',
@@ -28,7 +36,8 @@ export const createWordContainer = (word: IdataFromServer) => {
     parentElement: containerWord,
   };
   const titleWord = createDomNode(descriptionTitle);
-  titleWord.setAttribute('data-path-audio', word.audio);
+  const listAudioPath = JSON.stringify([[word.audio], [word.audioMeaning], [word.audioExample]]);
+  titleWord.setAttribute('data-path-audio', listAudioPath);
 
   const descriptionTranslateTranscription = {
     typeElement: 'span',
@@ -63,7 +72,6 @@ export const createWordContainer = (word: IdataFromServer) => {
   };
   const textExample = createDomNode(descriptionTextExample);
   textExample.setAttribute('data-path-audio', word.audioExample);
-
 
   const descriptionTextExampleTranslate = {
     typeElement: 'span',

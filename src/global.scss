@@ -1,14 +1,8 @@
-@import './utils/scss/constants.scss';
 $color: rgba(152, 221, 221, 1);
 
-body {
-  // background-color:$color;
-}
-
-ul {
 @import './utils/scss/constants.scss';
 @import './utils/scss/mixin.scss';
-}
+@import '../src/modules/layouts/textBookChapter/textBookCharter.scss';
 * {
   padding: 0;
   margin: 0;
@@ -20,9 +14,8 @@ html {
 }
 
 body {
-  max-width: 1440px;
   margin: 0 auto;
-  // background-color: $colorBackground;
+  background-color: $colorWhite;
   font-family: $fontMain;
   min-height: 100vh;
   display: flex;
@@ -31,13 +24,38 @@ body {
 }
 
 .wrapper {
-  padding: 20px 120px;
+  padding: 50px;
+}
 
-  @media (max-width: 1000px) {
-    padding: 20px;
+.btn {
+  padding: 1em 2em;
+  @include font(2rem, 700);
+  border: none;
+  border-radius: 0.6em;
+
+  &_red {
+    background-color: $colorRed;
+    color: $colorWhite;
   }
+
+  &_transparent {
+    background-color: transparent;
+    color: $colorRed;
+    border: 2px solid $colorRed;
+  }
+
+  &:hover {
+    @include hover();
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    color: $colorBlack;
+  }
+}
+
+.title {
+  @include font(4rem, 600);
 }
 
 .hide {
   display: none;
+
 }

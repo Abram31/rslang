@@ -1,6 +1,6 @@
 import './global.scss';
+import generateRouter from './modules/routing/routing';
 
-import './modules/game-audio-call/get-voice-word';
-import './modules/game-audio-call/markup';
-import './modules/game-audio-call/get-list-words';
-import './modules/game-audio-call/listeners';
+generateRouter();
+
+console.log('Hello');

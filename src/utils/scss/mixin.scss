@@ -13,3 +13,8 @@
   font-size: $size;
   font-weight: $weight;
 }
+
+@mixin hover() {
+  cursor: pointer;
+  transition: 0.3s;
+}

@@ -5,131 +5,168 @@ import { createDomNode } from './function-create-dom-node';
 import playAudio from './play-words';
 import './style.scss';
 
-const tutorilaFragmet = document.createDocumentFragment();
 
-const descriptionContainerTutorial = {
-  typeElement: 'section',
-  className: 'container-tutorial',
-  parentElement: tutorilaFragmet,
+export const changeBackgroundChapters = () => {
+  const chapterInMemory = sessionStorage.getItem('chapter-number');
+  // eslint-disable-next-line default-case
+  switch (chapterInMemory) {
+    case '1':
+      body.style.backgroundColor = 'rgba(239, 251, 251, 0.2)';
+      break;
+    case '2':
+      body.style.backgroundColor = 'rgba(18, 235, 235, 0.2)';
+      break;
+    case '3':
+      body.style.backgroundColor = 'rgba(97, 248, 27, 0.2)';
+      break;
+    case '4':
+      body.style.backgroundColor = 'rgba(246, 249, 103, 0.56)';
+      break;
+    case '5':
+      body.style.backgroundColor = 'rgba(185, 38, 188, 0.2)';
+      break;
+    case '6':
+      body.style.backgroundColor = 'rgba(245, 68, 59, 0.2)';
+      break;
+  }
 };
-export const wrapperTutorial = createDomNode(descriptionContainerTutorial);
 
-const descriptionTitle = {
-  typeElement: 'h4',
-  text: 'Учебник',
-  className: 'container-tutorial__title',
-  parentElement: wrapperTutorial,
-};
-const wrapperTitle = createDomNode(descriptionTitle);
+const tutorialRender = () => {
+  const pageInMemory = sessionStorage.getItem('page-number');
+  const chapterInMemory = sessionStorage.getItem('chapter-number');
 
-const descriptionWrapperSelects = {
-  typeElement: 'div',
-  className: 'container-tutorial__wrapper-selects',
-  parentElement: wrapperTutorial,
-};
-const wrapperSelects = createDomNode(descriptionWrapperSelects);
+  const tutorilaFragmet = document.createDocumentFragment();
 
-const descriptionParts = {
-  typeElement: 'select',
-  id: 'select-parts',
-  className: 'wrapper-selects__select-parts',
-  parentElement: wrapperSelects,
-};
-const selectParts = createDomNode(descriptionParts);
+  const descriptionContainerTutorial = {
+    typeElement: 'section',
+    className: 'container-tutorial',
+    parentElement: tutorilaFragmet,
+  };
+  const wrapperTutorial = createDomNode(descriptionContainerTutorial);
 
-const descriptionPartsDefaultOption = {
-  typeElement: 'option',
-  text: 'Выберите раздел',
-  parentElement: selectParts,
-};
-createDomNode(descriptionPartsDefaultOption);
+  const descriptionTitle = {
+    typeElement: 'h4',
+    text: 'Учебник',
+    className: 'container-tutorial__title',
+    parentElement: wrapperTutorial,
+  };
+  const wrapperTitle = createDomNode(descriptionTitle);
 
-for (let i = 1; i <= 5; i += 1) {
-  const descriptionPartsOption = {
+  const descriptionWrapperSelects = {
+    typeElement: 'div',
+    className: 'container-tutorial__wrapper-selects',
+    parentElement: wrapperTutorial,
+  };
+  const wrapperSelects = createDomNode(descriptionWrapperSelects);
+
+  const descriptionParts = {
+    typeElement: 'select',
+    id: 'select-parts',
+    className: 'wrapper-selects__select-parts',
+    parentElement: wrapperSelects,
+  };
+  const selectParts = createDomNode(descriptionParts);
+
+  const descriptionPartsDefaultOption = {
     typeElement: 'option',
-    text: `Раздел ${i}`,
+    text: 'Выберите раздел',
     parentElement: selectParts,
   };
-  createDomNode(descriptionPartsOption);
-}
+  createDomNode(descriptionPartsDefaultOption);
 
-const descriptionPages = {
-  typeElement: 'select',
-  id: 'select-pages',
-  className: 'wrapper-selects__select-pages',
-  parentElement: wrapperSelects,
-};
-const selectPages = createDomNode(descriptionPages);
+  for (let i = 1; i <= 5; i += 1) {
+    const descriptionPartsOption = {
+      typeElement: 'option',
+      text: `Раздел ${i}`,
+      parentElement: selectParts,
+    };
+    const optionChapter = createDomNode(descriptionPartsOption);
+    if (i === Number(chapterInMemory)) {
+      optionChapter.setAttribute('selected', '');
+    }
+  }
 
-const descriptionPagesDefaultOption = {
-  typeElement: 'option',
-  text: 'Выберите страницу',
-  parentElement: selectPages,
-};
-createDomNode(descriptionPagesDefaultOption);
+  const descriptionPages = {
+    typeElement: 'select',
+    id: 'select-pages',
+    className: 'wrapper-selects__select-pages',
+    parentElement: wrapperSelects,
+  };
+  const selectPages = createDomNode(descriptionPages);
 
-for (let i = 1; i <= 30; i += 1) {
-  const descriptionPartsOption = {
+  const descriptionPagesDefaultOption = {
     typeElement: 'option',
-    text: `Страница ${i}`,
+    text: 'Выберите страницу',
     parentElement: selectPages,
   };
-  createDomNode(descriptionPartsOption);
-}
+  createDomNode(descriptionPagesDefaultOption);
 
-const descriptionContainerWords = {
-  typeElement: 'div',
-  className: 'container-tutorial__container-words',
-  parentElement: wrapperTutorial,
-};
-export const containerWords = createDomNode(descriptionContainerWords);
+  for (let i = 1; i <= 30; i += 1) {
+    const descriptionPartsOption = {
+      typeElement: 'option',
+      text: `Страница ${i}`,
+      parentElement: selectPages,
+    };
+    const optionPage = createDomNode(descriptionPartsOption) as HTMLOptionElement;
+    if (i === Number(pageInMemory)) {
+      optionPage.setAttribute('selected', '');
+    }
+  }
 
-fetchRequest.getNewWordsLIst({ page: '0', group: '0' })
-  .then((data) => {
-    containerWords.innerHTML = '';
-    for (let i = 0; i <= 2; i += 1) {
-      const fragmentWord = createWordContainer(data[i]);
-      containerWords.appendChild(fragmentWord);
+  const descriptionContainerWords = {
+    typeElement: 'div',
+    className: 'container-tutorial__container-words',
+    parentElement: wrapperTutorial,
+  };
+  const containerWords = createDomNode(descriptionContainerWords);
+
+  wrapperTutorial.addEventListener('click', (event) => {
+    const element = event.target as HTMLHRElement;
+    if (element.classList.contains('container-word__title')) {
+      const pathAudio = element.getAttribute('data-path-audio');
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      pathAudio ? playAudio(pathAudio) : '';
     }
   });
 
-wrapperTutorial.addEventListener('click', (event) => {
-  const element = event.target as HTMLHRElement;
-  if (element.classList.contains('container-word__title')
-    || element.classList.contains('container-word__text-meaning')
-    || element.classList.contains('container-word__text-example')) {
-    const pathAudio = element.getAttribute('data-path-audio');
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    pathAudio ? playAudio(pathAudio) : '';
-  }
-});
+  const descriptionContainerButtons = {
+    typeElement: 'div',
+    className: 'container-tutorial__container-buttons',
+    parentElement: wrapperTutorial,
+  };
+  const containerButtons = createDomNode(descriptionContainerButtons);
 
-const descriptionContainerButtons = {
-  typeElement: 'div',
-  className: 'container-tutorial__container-buttons',
-  parentElement: wrapperTutorial,
+  const descriptionHome = {
+    typeElement: 'div',
+    className: 'container-buttons__home',
+    parentElement: containerButtons,
+  };
+  const buttonHome = createDomNode(descriptionHome);
+
+  const descriptionSoundGame = {
+    typeElement: 'div',
+    className: 'container-buttons__game-audio-call',
+    parentElement: containerButtons,
+  };
+  const buttonSoundGame = createDomNode(descriptionSoundGame);
+
+  const descriptionSprintGame = {
+    typeElement: 'div',
+    className: 'container-buttons__game-sprint',
+    parentElement: containerButtons,
+  };
+  const buttonSprintGame = createDomNode(descriptionSprintGame);
+
+  fetchRequest.getNewWordsLIst({ page: String(Number(pageInMemory) - 1),
+    group: String(Number(chapterInMemory) - 1) })
+    .then((data) => {
+      for (let i = 0; i < data.length; i += 1) {
+        const fragmentWord = createWordContainer(data[i]);
+        containerWords.appendChild(fragmentWord);
+      }
+    });
+  body.appendChild(tutorilaFragmet);
+  changeBackgroundChapters();
 };
-const containerButtons = createDomNode(descriptionContainerButtons);
 
-const descriptionHome = {
-  typeElement: 'div',
-  className: 'container-buttons__home',
-  parentElement: containerButtons,
-};
-const buttonHome = createDomNode(descriptionHome);
-
-const descriptionSoundGame = {
-  typeElement: 'div',
-  className: 'container-buttons__game-audio-call',
-  parentElement: containerButtons,
-};
-const buttonSoundGame = createDomNode(descriptionSoundGame);
-
-const descriptionSprintGame = {
-  typeElement: 'div',
-  className: 'container-buttons__game-sprint',
-  parentElement: containerButtons,
-};
-const buttonSprintGame = createDomNode(descriptionSprintGame);
-
-// body.appendChild(tutorilaFragmet);
+export default tutorialRender;

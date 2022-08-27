@@ -1,0 +1,63 @@
+@import '../../../utils/scss/constants.scss';
+@import '../../../utils/scss/mixin.scss';
+
+.footer {
+  background: url('../../../assets/png/footer.png') 100% 100% no-repeat;
+  background-size: cover;
+  min-height: 18.1em;
+  @include flex($align: flex-end);
+}
+
+.footer-wrapper {
+  width: 100%;
+  @include flex($justify: space-between);
+  padding: 2em 5em;
+
+  @media (max-width: 925px) {
+    flex-wrap: wrap;
+    @include flex();
+    gap: 2em;
+  }
+}
+
+.rs-container {
+  @include flex();
+  gap: 2.5em;
+}
+
+.year {
+  @include font(2.4rem, 400);
+}
+
+.rs-icon {
+  background: url('../../../assets/svg/rss.svg') 100% 100% no-repeat;
+  height: 66px;
+  width: 159px;
+
+  &:hover {
+    @include hover();
+    filter: $colorImageHover;
+  }
+}
+
+.github-wrapper {
+  @include flex();
+  flex-wrap: wrap;
+  gap: 2.5em;
+}
+
+.github__link {
+  @include flex();
+  gap: 1em;
+  text-decoration: none;
+
+  &:hover {
+    @include hover();
+    filter: $colorImageHover;
+  }
+}
+
+.github__name {
+  @include font(2.4rem, 400);
+  color: $colorBlack;
+}

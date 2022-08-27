@@ -10,3 +10,16 @@ export interface CreateNewUser extends SignInUser {
 export interface Attributes {
   [key: string ]: string;
 }
+
+export interface ParamsToken {
+  method: string,
+  credentials: 'omit',
+  headers: Headers,
+  body?: string,
+}
+
+interface Headers {
+  Authorization: string,
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
+}
