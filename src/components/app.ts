@@ -111,11 +111,4 @@ export default class App {
       method: 'GET',
     });
   }
-
-  async getUsersWords() { // Получить слова пользователя
-    const id = getStorage('id');
-    return this.request(`${this.userUrl}/${id}/words`, {
-      method: 'GET',
-    });
-  }
 }

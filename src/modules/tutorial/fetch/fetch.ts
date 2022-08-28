@@ -5,7 +5,7 @@ export interface IwordsLIst {
 
 export const baseURL = 'https://base-rs-lang-1.herokuapp.com/';
 
-class FetchRequest {
+export class FetchRequest {
   private wordsUrl;
 
   constructor(

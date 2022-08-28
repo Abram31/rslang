@@ -5,7 +5,6 @@ import { createDomNode } from './function-create-dom-node';
 import playAudio from './play-words';
 import './style.scss';
 
-
 export const changeBackgroundChapters = () => {
   const chapterInMemory = sessionStorage.getItem('chapter-number');
   // eslint-disable-next-line default-case
