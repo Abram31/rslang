@@ -5,6 +5,7 @@ import HeaderRender from '../layouts/header/HeaderRender';
 import LevelGame from '../layouts/levelGame/LevelGame';
 import MainPageRender from '../layouts/mainPage/MainPageRender';
 import MiniGamesListRender from '../layouts/miniGames/MiniGamesListRender';
+import StatisticsPageRender from '../layouts/statisticsPage/statisticsPage';
 import TextBookChapter from '../layouts/textBookChapter/TextBookChapter';
 import TextBookPage from '../layouts/textBookPage/textBookPage';
 import VideoRender from '../layouts/video/VideoRender';
@@ -52,7 +53,7 @@ const generateRouter = () => {
   template('stats', () => {
     document.body.innerHTML = '';
     new HeaderRender();
-    createDomNode('h1', ['title'], document.body, 'В разработке');
+    new StatisticsPageRender().statisc('Изученные слова за день: ');
     new FooterRender();
   });
 
