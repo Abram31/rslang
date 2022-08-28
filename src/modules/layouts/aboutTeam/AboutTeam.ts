@@ -32,9 +32,9 @@ export default class AboutTeam {
 
     this.teamItems = createDomNode('div', ['team__items'], this.teamWrapper);
 
-    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Veronika', 'ФИО', 'Чем занимался?', 'https://github.com/Veronika2811', 'https://www.linkedin.com/in/veranika-smiayun-9a2297235/', '#');
-    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Artem', 'ФИО', 'Чем занимался?', 'https://github.com/abram31', '#', '#');
-    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Pasha', 'ФИО', 'Чем занимался?', 'https://github.com/paulonio', '#', '#');
+    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Veronika', 'ФИО', 'Чем занимался?', 'https://github.com/Veronika2811', 'https://www.linkedin.com/in/veranika-smiayun-9a2297235/');
+    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Artem', 'ФИО', 'Чем занимался?', 'https://github.com/abram31', '#');
+    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Pasha', 'ФИО', 'Чем занимался?', 'https://github.com/paulonio', '#');
   }
 
   createItemTeam(
@@ -44,7 +44,6 @@ export default class AboutTeam {
     didDo: string,
     linkGithub: string,
     linkLinkedin: string,
-    linkTelegram: string,
   ) {
     this.teamItem = createDomNode('div', ['team-item'], this.teamItems) as HTMLDivElement;
     this.photo = createDomNode('img', ['photo'], this.teamItem, '', [{ src: `${photo}` }, { alt: `${photoAlt}` }]) as HTMLImageElement;
@@ -58,6 +57,5 @@ export default class AboutTeam {
     this.socialLinks = createDomNode('div', ['social-links'], this.teamItemWrapper) as HTMLDivElement;
     this.linkIcon = createDomNode('a', ['icon-link', 'in-link'], this.socialLinks, '', [{ href: `${linkGithub}` }]) as HTMLAnchorElement;
     this.linkIcon = createDomNode('a', ['icon-link', 'github-link-team'], this.socialLinks, '', [{ href: `${linkLinkedin}` }]) as HTMLAnchorElement;
-    this.linkIcon = createDomNode('a', ['icon-link', 'telegram-link'], this.socialLinks, '', [{ href: `${linkTelegram}` }]) as HTMLAnchorElement;
   }
 }
