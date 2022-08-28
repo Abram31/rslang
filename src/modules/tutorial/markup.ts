@@ -74,7 +74,7 @@ const tutorialRender = () => {
   };
   createDomNode(descriptionPartsDefaultOption);
 
-  for (let i = 1; i <= 5; i += 1) {
+  for (let i = 1; i <= 7; i += 1) {
     const descriptionPartsOption = {
       typeElement: 'option',
       text: `Раздел ${i}`,

@@ -2,6 +2,9 @@ import { fetchRequest } from './fetch/fetch';
 import { IdataFromServer, showWords } from './get words/render-result-find-to-page';
 import { createWordContainer } from './create-word-container';
 import { changeBackgroundChapters } from './markup';
+import App from '../../components/app';
+import getDifficultWords from './difficult_words/get_difficult_studied_words';
+import addDifficultWordsToPage from './difficult_words/add_difficult_words_to_page';
 
 export const addListenersToChoicePageChapter = () => {
   const valuePage = (document.getElementById('select-pages') as HTMLSelectElement);
@@ -47,6 +50,8 @@ export const addListenersToChoicePageChapter = () => {
 export const addListenersToTextBookPages = () => {
   const pageWithChapters = document.querySelector('.textbook__left-side') as HTMLElement;
   pageWithChapters.addEventListener('click', (event) => {
+    addDifficultWordsToPage() ///////////убрать
+
     const element = event.target as HTMLElement;
     if (element.classList.contains('chapter')) {
       const chapterNumber = (element.firstChild as HTMLElement).innerText.split(' ').slice(-1)[0];
@@ -62,3 +67,19 @@ export const addListenersToTextBookChapters = () => {
     sessionStorage.setItem('page-number', chapterNumber!);
   });
 };
+
+// const addListenersToDifficultLearnedButtons = () => {
+//   const wrapperWord = document.querySelector('.container-tutorial__wrapper-word') as HTMLDivElement;
+//     wrapperWord.addEventListener('click', (e: Event) => {
+//       const target = e.target as HTMLElement;
+//       if (target.classList.contains('hard')) {
+//         new App().postUserWords(word, 'hard');
+//         wrapperWord.style.boxShadow = 'red';
+//       }
+//       if (target.classList.contains('easy')) {
+//         new App().postUserWords(word, 'easy');
+//         wrapperWord.style.boxShadow = 'green';
+//       }
+//     });
+
+// }

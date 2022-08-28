@@ -1,6 +1,7 @@
 import { CreateNewUser, SignInUser } from '../interface/interface';
 // eslint-disable-next-line import/no-cycle
 import AuthModal from '../modules/authentication/AuthModal';
+import { IdataFromServer } from '../modules/tutorial/get words/render-result-find-to-page';
 import { TOKEN_ACTION_IN_MILLISECONDS } from '../utils/constants';
 import { getStorage, setStorage } from '../utils/storage';
 
@@ -116,6 +117,26 @@ export default class App {
     const id = getStorage('id');
     return this.request(`${this.userUrl}/${id}/words`, {
       method: 'GET',
+    });
+  }
+  async getUserOneWord(idWord: string) { // Получить одно слово  ----- АРТЕМ
+    const id = getStorage('id');
+    return this.request(`${this.baseUrl}/words/${idWord}`, {
+      method: 'GET',
+    });
+  }
+
+
+  async postUserWords(word: IdataFromServer, diff?: string) { // Запись слов пользователя
+    const id = getStorage('id');
+
+    const aboutWord = {
+      difficulty: !diff ? 'easy' : `${diff}`,
+    };
+
+    return this.request(`${this.userUrl}/${id}/words/${word.id}`, {
+      method: 'POST',
+      body: JSON.stringify(aboutWord),
     });
   }
 }

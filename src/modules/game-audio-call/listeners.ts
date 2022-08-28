@@ -50,6 +50,10 @@ const addListeners = () => {
       sectionResult.remove();
       sessionStorage.setItem('correctness of the choice', 'false');
     }
+    if (element.classList.contains('wrapper-buttons__finish')) {
+        window.location.hash = '/games/audio'
+    }
+
 
     if (element.classList.contains('wrapper-list__item')
       || element.classList.contains('word-ru')
@@ -57,6 +61,8 @@ const addListeners = () => {
       const dataVoice = (element.closest('li') as HTMLLIElement).getAttribute('data-voice') as string;
       playAudio(JSON.stringify([dataVoice]));
     }
+
+
   });
 
   document.addEventListener('keyup', keyboardControl);

@@ -2,6 +2,9 @@
 import { baseURL } from './fetch/fetch';
 import { IdataFromServer } from './get words/render-result-find-to-page';
 import { createDomNode } from './function-create-dom-node';
+import App from '../../components/app';
+import hightlitingDifficultWords from './difficult_words/hightliting_difficult_words';
+import checkDifficultWordBeforeLoading from './difficult_words/check_difficult_word_before_loading';
 
 export const createWordContainer = (word: IdataFromServer) => {
   const wordFragment = document.createDocumentFragment();
@@ -11,8 +14,19 @@ export const createWordContainer = (word: IdataFromServer) => {
     className: 'container-tutorial__wrapper-word',
     parentElement: wordFragment,
   };
-  const wrapperWord = createDomNode(descriptionWrapperWord);
- 
+  const wrapperWord:HTMLElement = createDomNode(descriptionWrapperWord);
+  wrapperWord.addEventListener('click', (e: Event) => {
+    const target = e.target as HTMLElement;
+    if (target.classList.contains('hard')) {
+      new App().postUserWords(word, 'hard');
+      hightlitingDifficultWords(target, 'hard')
+    }
+    if (target.classList.contains('studied')) {
+      new App().postUserWords(word, 'studied');
+      hightlitingDifficultWords(target, 'studied')
+
+    }
+  });
 
   const descriptionContainerImg = {
     typeElement: 'div',
@@ -80,6 +94,47 @@ export const createWordContainer = (word: IdataFromServer) => {
     parentElement: containerWord,
   };
   const textExampleTranslate = createDomNode(descriptionTextExampleTranslate);
+
+// new buttons
+
+  const containerBtnsWord = {
+    typeElement: 'div',
+    className: 'btns-word',
+    parentElement: containerWord,
+  };
+
+  const containerBtns = createDomNode(containerBtnsWord);
+
+  const btns = {
+    typeElement: 'div',
+    // text: word.word,
+    className: 'container-btns',
+    parentElement: containerBtns,
+  };
+
+  const btns1 = createDomNode(btns);
+
+  const btnCompoundWord = {
+    typeElement: 'img',
+    className: 'compound-word hard',
+    parentElement: btns1,
+  };
+
+  const compoundWord = createDomNode(btnCompoundWord) as HTMLImageElement;
+  compoundWord.src = '../../assets/svg/icons/star.svg';
+  compoundWord.alt = 'Star';
+
+  const btnLearnedWord = {
+    typeElement: 'img',
+    className: 'compound-word studied',
+    parentElement: btns1,
+  };
+
+  const learnedWord = createDomNode(btnLearnedWord) as HTMLImageElement;
+  learnedWord.src = '../../assets/svg/icons/info-bird.svg';
+  learnedWord.alt = 'Learned';
+
+checkDifficultWordBeforeLoading(wrapperWord, word.id)
 
   return wordFragment;
 };

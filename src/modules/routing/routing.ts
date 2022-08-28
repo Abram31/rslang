@@ -15,6 +15,7 @@ import tutorialRender, { changeBackgroundChapters } from '../tutorial/markup';
 import { addToMarkupWords, addWords } from '../game-audio-call/get-list-words';
 import baseMarkupAudioCall from '../game-audio-call/markup';
 import addListeners from '../game-audio-call/listeners';
+import addDifficultWordsToPage from '../tutorial/difficult_words/add_difficult_words_to_page';
 
 export const generateRouter = () => {
   const routes: { [key: string]: string | (() => void) } = {};
@@ -117,6 +118,14 @@ export const generateRouter = () => {
     addListenersToChoicePageChapter();
     new FooterRender();
   });
+  template('page-difficult-words', () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    addDifficultWordsToPage();
+    // tutorialRender();
+    // addListenersToChoicePageChapter();
+    new FooterRender();
+  });
 
   route('/', 'home');
   route('/book', 'book');
@@ -125,8 +134,13 @@ export const generateRouter = () => {
   route('/about', 'about');
   route('/video', 'video');
 
-  for (let i = 0; i < 7; i += 1) {
-    route(`/book/section-${i}`, 'selection-page');
+  for (let i = 0; i <= 7; i += 1) {
+    if (i < 7) {
+      route(`/book/section-${i}`, 'selection-page');
+    } else {
+      route(`/book/section-${i}`, 'page-difficult-words');
+
+    }
   }
 
   route('/games/audio', 'game');
