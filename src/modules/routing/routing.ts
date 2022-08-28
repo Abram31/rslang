@@ -9,6 +9,9 @@ import StatisticsPageRender from '../layouts/statisticsPage/statisticsPage';
 import TextBookChapter from '../layouts/textBookChapter/TextBookChapter';
 import TextBookPage from '../layouts/textBookPage/textBookPage';
 import VideoRender from '../layouts/video/VideoRender';
+import { body } from '../tutorial/get words/render-result-find-to-page';
+import { addListenersToChoicePageChapter, addListenersToTextBookChapters, addListenersToTextBookPages } from '../tutorial/listeners';
+import tutorialRender, { changeBackgroundChapters } from '../tutorial/markup';
 
 const generateRouter = () => {
   const routes: { [key: string]: string | (() => void) } = {};
@@ -41,6 +44,7 @@ const generateRouter = () => {
     new HeaderRender();
     new TextBookChapter();
     new FooterRender();
+    addListenersToTextBookPages();
   });
 
   template('games', () => {
@@ -76,6 +80,8 @@ const generateRouter = () => {
     new HeaderRender();
     new TextBookPage();
     new FooterRender();
+    addListenersToTextBookChapters();
+    changeBackgroundChapters();
   });
 
   template('game', () => {
@@ -94,7 +100,8 @@ const generateRouter = () => {
   template('page-book', () => {
     document.body.innerHTML = '';
     new HeaderRender();
-    createDomNode('h1', ['title'], document.body, 'В разработке');
+    tutorialRender();
+    addListenersToChoicePageChapter();
     new FooterRender();
   });
 
@@ -141,6 +148,9 @@ const generateRouter = () => {
 
     if (typeof route === 'function') {
       route();
+    }
+    if (!window.location.hash.split('-').includes('#/book/section')) {
+      body.style.backgroundColor = 'white';
     }
   };
 
