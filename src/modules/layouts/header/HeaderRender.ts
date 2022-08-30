@@ -4,7 +4,7 @@ import AuthModal from '../../authentication/AuthModal';
 import App from '../../../components/app';
 import { getStorage } from '../../../utils/storage';
 import NavigationSvg from '../../../interface/enumNavigationSvg';
-import AuthorizationStateWindow from '../authorizationStateWindow /authorizationStateWindow';
+import AuthorizationStateWindow from '../authorizationStateWindow/authorizationStateWindow';
 import helpLoadNavigation from '../../../utils/helpLoadNavigation';
 
 export default class HeaderRender {

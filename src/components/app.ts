@@ -1,5 +1,5 @@
 import { CreateNewUser, SignInUser } from '../interface/interface';
-import AuthorizationStateWindow from '../modules/layouts/authorizationStateWindow /authorizationStateWindow';
+import AuthorizationStateWindow from '../modules/layouts/authorizationStateWindow/authorizationStateWindow';
 import { TOKEN_ACTION_IN_MILLISECONDS } from '../utils/constants';
 import { getStorage, setStorage } from '../utils/storage';
 

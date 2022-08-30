@@ -3,7 +3,7 @@ import App from '../../components/app';
 import createDomNode from '../../utils/createDomNode';
 import { VALIDATION_EMAIL } from '../../utils/constants';
 import { setStorage } from '../../utils/storage';
-import AuthorizationStateWindow from '../layouts/authorizationStateWindow /authorizationStateWindow';
+import AuthorizationStateWindow from '../layouts/authorizationStateWindow/authorizationStateWindow';
 
 export default class AuthModal {
   private overlay;
