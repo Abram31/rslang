@@ -29,8 +29,8 @@ export default class TextBookChapter {
 
   private textBookAuth;
 
-  constructor() {
-    this.textBook = createDomNode('main', ['textbook'], document.body);
+  constructor(container: HTMLElement) {
+    this.textBook = createDomNode('main', ['textbook'], container);
     this.textBookWrapper = createDomNode('div', ['wrapper', 'textbook-wrapper'], this.textBook);
 
     this.title = createDomNode('h1', ['title'], this.textBookWrapper, 'Выберите раздел учебника');
@@ -44,7 +44,7 @@ export default class TextBookChapter {
       this.createSection(String(i));
     }
 
-    if ((document.body.querySelector('.user-name') as HTMLElement).innerHTML) {
+    if (localStorage.getItem('id') !== null) {
       this.createSection('7', true);
     }
 
@@ -74,7 +74,7 @@ export default class TextBookChapter {
     this.chapter = createDomNode('a', ['chapter', `chapter-${item}`], this.sectionList, '', [{ href: `#/book/section-${item}` }]) as HTMLAnchorElement;
 
     if (diffucult) {
-      this.iconStar = createDomNode('img', ['icon-star'], this.chapter, '', [{ src: '../../../assets/svg/star-transp.svg' }]) as HTMLImageElement;
+      this.iconStar = createDomNode('img', ['icon-star'], this.chapter, '', [{ src: '../../../assets/svg/icons/star-transp.svg' }]) as HTMLImageElement;
       this.chapterText = createDomNode('span', ['chapter-text'], this.chapter, 'Сложные слова') as HTMLParagraphElement;
     } else {
       this.chapterText = createDomNode('span', ['chapter-text'], this.chapter, `Раздел ${item}`) as HTMLParagraphElement;

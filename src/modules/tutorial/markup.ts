@@ -1,10 +1,9 @@
 import { fetchRequest } from './fetch/fetch';
-import { body, IdataFromServer } from './get words/render-result-find-to-page';
+import { body } from './get words/render-result-find-to-page';
 import { createWordContainer } from './create-word-container';
 import { createDomNode } from './function-create-dom-node';
 import playAudio from './play-words';
 import './style.scss';
-
 
 export const changeBackgroundChapters = () => {
   const chapterInMemory = sessionStorage.getItem('chapter-number');
@@ -37,6 +36,8 @@ const tutorialRender = () => {
 
   const tutorilaFragmet = document.createDocumentFragment();
 
+  const wrap = document.getElementById('root') as HTMLElement;
+
   const descriptionContainerTutorial = {
     typeElement: 'section',
     className: 'container-tutorial',
@@ -65,7 +66,7 @@ const tutorialRender = () => {
     className: 'wrapper-selects__select-parts',
     parentElement: wrapperSelects,
   };
-  const selectParts = createDomNode(descriptionParts);
+  const selectParts = createDomNode(descriptionParts) as HTMLSelectElement;
 
   const descriptionPartsDefaultOption = {
     typeElement: 'option',
@@ -92,7 +93,7 @@ const tutorialRender = () => {
     className: 'wrapper-selects__select-pages',
     parentElement: wrapperSelects,
   };
-  const selectPages = createDomNode(descriptionPages);
+  const selectPages = createDomNode(descriptionPages) as HTMLSelectElement;
 
   const descriptionPagesDefaultOption = {
     typeElement: 'option',
@@ -136,36 +137,33 @@ const tutorialRender = () => {
   };
   const containerButtons = createDomNode(descriptionContainerButtons);
 
-  const descriptionHome = {
-    typeElement: 'div',
-    className: 'container-buttons__home',
-    parentElement: containerButtons,
-  };
-  const buttonHome = createDomNode(descriptionHome);
-
   const descriptionSoundGame = {
-    typeElement: 'div',
+    typeElement: 'a',
     className: 'container-buttons__game-audio-call',
     parentElement: containerButtons,
   };
   const buttonSoundGame = createDomNode(descriptionSoundGame);
+  buttonSoundGame.setAttribute('href', '#/book/audio');
 
   const descriptionSprintGame = {
-    typeElement: 'div',
+    typeElement: 'a',
     className: 'container-buttons__game-sprint',
     parentElement: containerButtons,
   };
   const buttonSprintGame = createDomNode(descriptionSprintGame);
+  buttonSprintGame.setAttribute('href', '#/book/sprint');
 
-  fetchRequest.getNewWordsLIst({ page: String(Number(pageInMemory) - 1),
-    group: String(Number(chapterInMemory) - 1) })
+  fetchRequest.getNewWordsLIst({
+    page: String(Number(pageInMemory) - 1),
+    group: String(Number(chapterInMemory) - 1),
+  })
     .then((data) => {
       for (let i = 0; i < data.length; i += 1) {
         const fragmentWord = createWordContainer(data[i]);
         containerWords.appendChild(fragmentWord);
       }
     });
-  body.appendChild(tutorilaFragmet);
+  wrap.appendChild(tutorilaFragmet);
   changeBackgroundChapters();
 };
 

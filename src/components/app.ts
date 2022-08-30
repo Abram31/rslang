@@ -1,6 +1,5 @@
 import { CreateNewUser, SignInUser } from '../interface/interface';
-// eslint-disable-next-line import/no-cycle
-import AuthModal from '../modules/authentication/AuthModal';
+import AuthorizationStateWindow from '../modules/layouts/authorizationStateWindow/authorizationStateWindow';
 import { TOKEN_ACTION_IN_MILLISECONDS } from '../utils/constants';
 import { getStorage, setStorage } from '../utils/storage';
 
@@ -86,11 +85,11 @@ export default class App {
         try {
           await this.refreshToken();
         } catch (e) {
-          new AuthModal('Войти', 'Войдите в свою учетную запись').modalSignInRender();
+          new AuthorizationStateWindow('Время сессии истекло, вам необходимо авторизоваться');
         }
       }
     } else {
-      new AuthModal('Войти', 'Войдите в свою учетную запись').modalSignInRender();
+      new AuthorizationStateWindow('Время сессии истекло, вам необходимо авторизоваться');
     }
 
     const requestPromise = await fetch(endpoint, {
