@@ -21,9 +21,13 @@ export const getWordsFromServer = async (
 
 ) => {
   const preloader = preload();
-  debugger
-  const numberGroup = String(Number(sessionStorage.getItem('chapter-number')) - 1) || String(Number(window.location.hash.slice(-1)) - 1);
-  const randomNumberPage = String(Math.floor(Math.random() * 30));
+  debugger;
+  let numberGroup = String(Number(window.location.hash.slice(-1)) - 1);
+  let randomNumberPage = String(Math.floor(Math.random() * 30));
+  if (chapter && page) {
+    numberGroup = chapter;
+    randomNumberPage = page;
+  }
   const argumentForFetch: IwordsLIst = {
     page: page ? String(Number(page) - 1) : false || randomNumberPage,
     group: chapter ? String(Number(chapter) - 1) : false || numberGroup,
@@ -36,13 +40,11 @@ export const getWordsFromServer = async (
         sessionStorage.setItem('game-audio-call', JSON.stringify(difData));
 
         preloader.remove();
-        // return getSessinoStorage('game-audio-call');
       });
   } else {
     await fetchRequest.getNewWordsLIst(argumentForFetch).then((data) => {
       preloader.remove();
       sessionStorage.setItem('game-audio-call', JSON.stringify(data));
-      // return getSessinoStorage('game-audio-call');
     });
   }
 };
@@ -51,8 +53,7 @@ export const randomNumberWord = (data: IdataFromServer[]) => Math.floor(Math.ran
 
 const choiсeNextWord = async (data: IdataFromServer[], difficult?: boolean): Promise<IdataFromServer | false> => {
   let savedData = getSessinoStorage('game-audio-call');
-  if (!savedData || savedData.length === 0) {
-    // debugger
+  if (savedData && savedData.length === 0) {
     await getWordsFromServer();
   }
   savedData = getSessinoStorage('game-audio-call');
