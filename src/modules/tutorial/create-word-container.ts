@@ -19,12 +19,11 @@ export const createWordContainer = (word: IdataFromServer) => {
     const target = e.target as HTMLElement;
     if (target.classList.contains('hard')) {
       new App().postUserWords(word, 'hard');
-      hightlitingDifficultWords(target, 'hard')
+      hightlitingDifficultWords(target, 'hard');
     }
     if (target.classList.contains('studied')) {
       new App().postUserWords(word, 'studied');
-      hightlitingDifficultWords(target, 'studied')
-
+      hightlitingDifficultWords(target, 'studied');
     }
   });
 
@@ -95,7 +94,7 @@ export const createWordContainer = (word: IdataFromServer) => {
   };
   const textExampleTranslate = createDomNode(descriptionTextExampleTranslate);
 
-// new buttons
+  // new buttons
 
   const containerBtnsWord = {
     typeElement: 'div',
@@ -112,29 +111,31 @@ export const createWordContainer = (word: IdataFromServer) => {
     parentElement: containerBtns,
   };
 
-  const btns1 = createDomNode(btns);
+  if (localStorage.getItem('id')) {
+    const btns1 = createDomNode(btns);
 
-  const btnCompoundWord = {
-    typeElement: 'img',
-    className: 'compound-word hard',
-    parentElement: btns1,
-  };
+    const btnCompoundWord = {
+      typeElement: 'img',
+      className: 'compound-word hard',
+      parentElement: btns1,
+    };
 
-  const compoundWord = createDomNode(btnCompoundWord) as HTMLImageElement;
-  compoundWord.src = '../../assets/svg/icons/star.svg';
-  compoundWord.alt = 'Star';
+    const compoundWord = createDomNode(btnCompoundWord) as HTMLImageElement;
+    compoundWord.src = '../../assets/svg/icons/star-transp.svg';
+    compoundWord.alt = 'Star';
 
-  const btnLearnedWord = {
-    typeElement: 'img',
-    className: 'compound-word studied',
-    parentElement: btns1,
-  };
+    const btnLearnedWord = {
+      typeElement: 'img',
+      className: 'compound-word studied',
+      parentElement: btns1,
+    };
 
-  const learnedWord = createDomNode(btnLearnedWord) as HTMLImageElement;
-  learnedWord.src = '../../assets/svg/icons/info-bird.svg';
-  learnedWord.alt = 'Learned';
+    const learnedWord = createDomNode(btnLearnedWord) as HTMLImageElement;
+    learnedWord.src = '../../assets/svg/icons/info-bird.svg';
+    learnedWord.alt = 'Learned';
+  }
 
-checkDifficultWordBeforeLoading(wrapperWord, word.id)
+  checkDifficultWordBeforeLoading(wrapperWord, word.id);
 
   return wordFragment;
 };

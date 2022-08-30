@@ -118,6 +118,7 @@ const baseMarkupAudioCall = () => {
     text: 'Не знаю',
   };
   // createDomNode(descriptionButtonDontKnow);
+  body.style.backgroundImage = 'url(../../assets/jpg/game-audio-call/background.jpg)';
 
   body.appendChild(fragmentSprint);
 };

@@ -91,7 +91,7 @@ export default class App {
         }
       }
     } else {
-      new AuthModal('Войти', 'Войдите в свою учетную запись').modalSignInRender();
+      // new AuthModal('Войти', 'Войдите в свою учетную запись').modalSignInRender();    убрал ее потому что выскакивала везде если не зарегистрирован
     }
 
     const requestPromise = await fetch(endpoint, {
@@ -119,6 +119,7 @@ export default class App {
       method: 'GET',
     });
   }
+
   async getUserOneWord(idWord: string) { // Получить одно слово  ----- АРТЕМ
     const id = getStorage('id');
     return this.request(`${this.baseUrl}/words/${idWord}`, {
@@ -126,17 +127,24 @@ export default class App {
     });
   }
 
-
   async postUserWords(word: IdataFromServer, diff?: string) { // Запись слов пользователя
     const id = getStorage('id');
 
     const aboutWord = {
       difficulty: !diff ? 'easy' : `${diff}`,
     };
-
-    return this.request(`${this.userUrl}/${id}/words/${word.id}`, {
-      method: 'POST',
-      body: JSON.stringify(aboutWord),
-    });
+    try {
+      const resp = await this.request(`${this.userUrl}/${id}/words/${word.id}`, {
+        method: 'POST',
+        body: JSON.stringify(aboutWord),
+      });
+      return resp;
+    } catch (err) {
+      const resp = await this.request(`${this.userUrl}/${id}/words/${word.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(aboutWord),
+      });
+      return resp;
+    }
   }
 }

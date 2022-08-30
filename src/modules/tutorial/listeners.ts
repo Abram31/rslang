@@ -50,8 +50,6 @@ export const addListenersToChoicePageChapter = () => {
 export const addListenersToTextBookPages = () => {
   const pageWithChapters = document.querySelector('.textbook__left-side') as HTMLElement;
   pageWithChapters.addEventListener('click', (event) => {
-    addDifficultWordsToPage() ///////////убрать
-
     const element = event.target as HTMLElement;
     if (element.classList.contains('chapter')) {
       const chapterNumber = (element.firstChild as HTMLElement).innerText.split(' ').slice(-1)[0];
@@ -59,6 +57,7 @@ export const addListenersToTextBookPages = () => {
     }
   });
 };
+
 export const addListenersToTextBookChapters = () => {
   const pageWithPages = document.querySelector('.select-page') as HTMLElement;
   pageWithPages.addEventListener('change', (event) => {
@@ -66,20 +65,6 @@ export const addListenersToTextBookChapters = () => {
     const chapterNumber = element.value;
     sessionStorage.setItem('page-number', chapterNumber!);
   });
+  // clearSessionStorage();
 };
 
-// const addListenersToDifficultLearnedButtons = () => {
-//   const wrapperWord = document.querySelector('.container-tutorial__wrapper-word') as HTMLDivElement;
-//     wrapperWord.addEventListener('click', (e: Event) => {
-//       const target = e.target as HTMLElement;
-//       if (target.classList.contains('hard')) {
-//         new App().postUserWords(word, 'hard');
-//         wrapperWord.style.boxShadow = 'red';
-//       }
-//       if (target.classList.contains('easy')) {
-//         new App().postUserWords(word, 'easy');
-//         wrapperWord.style.boxShadow = 'green';
-//       }
-//     });
-
-// }

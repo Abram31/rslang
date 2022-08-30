@@ -96,13 +96,6 @@ export const addToPageResults = () => {
   const fragment = createListUsedWords();
   body.append(fragment);
   const results = document.querySelector('.container-result') as HTMLElement;
-  // const closeResults = () => {
-  //   results.remove();
-  //   results.removeEventListener('click', closeResults);
-  // };
-
-  // results.addEventListener('click', closeResults);
-  /// ///////////////                                                data send to server
 
   ['used-index-words-in-audio-call', 'list-game-audio', 'guessed-words-id'].forEach((item) => {
     sessionStorage.removeItem(item);

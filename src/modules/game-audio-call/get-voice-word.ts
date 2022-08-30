@@ -6,33 +6,56 @@ import { addToMarkupWords } from './get-list-words';
 import preload from './preload';
 import { addToPageResults } from './results_game';
 import { addSessionStorage, deleteSessionStorage, getSessinoStorage } from './sessionStorage';
-import './game-audio-call.scss'
+import './game-audio-call.scss';
+import getDifficultStudiedWords from '../tutorial/difficult_words/get_difficult_studied_words';
+import App from '../../components/app';
 
-export const shuffle = (array:IdataFromServer[]) => {
+export const shuffle = (array: IdataFromServer[]) => {
   array.sort(() => Math.random() - 0.5);
 };
 
-export const getWordsFromServer = async () => {
-  const preloader = preload();
+export const getWordsFromServer = async (
+  difficult?: boolean,
+  chapter?: string,
+  page?: string,
 
+) => {
+  const preloader = preload();
+  debugger
+  const numberGroup = String(Number(sessionStorage.getItem('chapter-number')) - 1) || String(Number(window.location.hash.slice(-1)) - 1);
+  const randomNumberPage = String(Math.floor(Math.random() * 30));
   const argumentForFetch: IwordsLIst = {
-    page: '2',
-    group: '0',
+    page: page ? String(Number(page) - 1) : false || randomNumberPage,
+    group: chapter ? String(Number(chapter) - 1) : false || numberGroup,
   };
-  await fetchRequest.getNewWordsLIst(argumentForFetch).then((data) => {
-    preloader.remove();
-    addSessionStorage('game-audio-call', data);
-  });
-  return getSessinoStorage('game-audio-call');
+  if (difficult) {
+    const data = await getDifficultStudiedWords();
+    await Promise.all(data.map(async ({ wordId }) => new App().getUserOneWord(wordId)))
+      .then((difData) => {
+        console.log(difData);
+        sessionStorage.setItem('game-audio-call', JSON.stringify(difData));
+
+        preloader.remove();
+        // return getSessinoStorage('game-audio-call');
+      });
+  } else {
+    await fetchRequest.getNewWordsLIst(argumentForFetch).then((data) => {
+      preloader.remove();
+      sessionStorage.setItem('game-audio-call', JSON.stringify(data));
+      // return getSessinoStorage('game-audio-call');
+    });
+  }
 };
 // eslint-disable-next-line max-len
 export const randomNumberWord = (data: IdataFromServer[]) => Math.floor(Math.random() * data.length);
 
-const choiсeNextWord = async (data: IdataFromServer[]): Promise<IdataFromServer | false> => {
-  const savedData = getSessinoStorage('game-audio-call');
-  if (savedData && savedData.length === 0) {
+const choiсeNextWord = async (data: IdataFromServer[], difficult?: boolean): Promise<IdataFromServer | false> => {
+  let savedData = getSessinoStorage('game-audio-call');
+  if (!savedData || savedData.length === 0) {
+    // debugger
     await getWordsFromServer();
   }
+  savedData = getSessinoStorage('game-audio-call');
   const randomNumber = randomNumberWord(savedData);
   const usedIndexWords = getSessinoStorage('used-index-words-in-audio-call');
 
@@ -51,26 +74,33 @@ const choiсeNextWord = async (data: IdataFromServer[]): Promise<IdataFromServer
   return savedData[randomNumber];
 };
 
-export const addWordsToPage = async () => {
+export const addWordsToPage = async (difficult?: boolean, chapter?: string, page?: string) => {
   let savedData: IdataFromServer[];
-  if (getSessinoStorage('game-audio-call').length !== 0) {
+  let word: boolean | IdataFromServer;
+  if (!getSessinoStorage('game-audio-call') || getSessinoStorage('game-audio-call').length !== 0) { //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!// // надо что то сделать чтоб после запуска игры не отправлялись повторные запросы на слова????
     savedData = getSessinoStorage('game-audio-call');
+    word = await choiсeNextWord(savedData);
+  } else if (chapter && page) {
+    await getWordsFromServer(difficult, chapter, page);
+    savedData = getSessinoStorage('game-audio-call');
+    word = await choiсeNextWord(savedData);
   } else {
-    savedData = await getWordsFromServer();
+    await getWordsFromServer(difficult);
+    savedData = getSessinoStorage('game-audio-call');
+    word = await choiсeNextWord(savedData, true);
   }
-  const word = await choiсeNextWord(savedData);
   if (word) {
     const buttonCallVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
     buttonCallVoice.setAttribute('data-voice', word.audio);
     buttonCallVoice.id = word.id;
     addToMarkupWords();
     setTimeout(() => {
-      const buttonBackImg = document.querySelector('.container-game-audio-call__button-call-voice__back') as HTMLElement;
-      buttonBackImg.style.backgroundImage = `url(${baseURL}${word!.image})`;
-      const buttonBackImgText = buttonBackImg.querySelector('.button-call-voice__back__word-translate') as HTMLSpanElement;
-      buttonBackImgText.innerText = word.word;
+      if (typeof word !== 'boolean') {
+        const buttonBackImg = document.querySelector('.container-game-audio-call__button-call-voice__back') as HTMLElement;
+        buttonBackImg.style.backgroundImage = `url(${baseURL}${word.image})`;
+        const buttonBackImgText = buttonBackImg.querySelector('.button-call-voice__back__word-translate') as HTMLSpanElement;
+        buttonBackImgText.innerText = word.word;
+      }
     }, 800);
   }
 };
-
-// addWordsToPage();

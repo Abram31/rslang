@@ -4,6 +4,30 @@ $background-word-container: white;
 $border-color-buttons-game: rgba(53, 200, 147, 1);
 @import '../../../utils/scss/mixin.scss';
 @import '../../../utils/scss/constants.scss';
+
+body {
+    gap: 2.5rem;
+
+    .wrapper-difficult-words__title {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        align-items: center;
+        font-size: 3rem;
+
+        &::after {
+            content: ' ';
+            background-image: url(../../../assets/svg/icons/star-transp.svg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            width: 3rem;
+            height: 3rem;
+        }
+
+    }
+}
+
 .wrapper-difficult-words {
     display: flex;
     flex-wrap: wrap;
@@ -160,4 +184,45 @@ $border-color-buttons-game: rgba(53, 200, 147, 1);
 
         }
     }
+}
+
+.container-tutorial__container-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+
+
+    .container-buttons__home,
+    .container-buttons__game-audio-call,
+    .container-buttons__game-sprint {
+        background-color: rgba(255, 255, 255, 0.6);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border: 1px solid $border-color-buttons-game;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        width: 4rem;
+        height: 4rem;
+        cursor: pointer;
+        transition: .4s;
+
+        &:active {
+            transform: scale(.8);
+        }
+    }
+
+    .container-buttons__home {
+        background-image: url(../../../assets/svg/tutorial/home.svg);
+    }
+
+    .container-buttons__game-audio-call {
+        background-image: url(../../../assets/svg/tutorial/sound_button.svg);
+    }
+
+    .container-buttons__game-sprint {
+        background-image: url(../../../assets/svg/tutorial/rocket.svg);
+    }
+
+
 }

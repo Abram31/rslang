@@ -43,7 +43,7 @@ export default class TextBookChapter {
     for (let i = 1; i <= 7; i += 1) {
       if (i <= 6) {
         this.createSection(String(i));
-      } else {
+      } else if (localStorage.getItem('id')) {
         this.createSection(String(i), true);
       }
     }

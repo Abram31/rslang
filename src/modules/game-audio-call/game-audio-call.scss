@@ -3,12 +3,20 @@ $backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
 $backgroundColorResults: rgb(231, 214, 214);
 @import '../../utils/scss/constants.scss';
 
+body {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: local;
+}
+
 .container-game-audio-call {
     display: flex;
     flex-direction: column;
     gap: 3rem;
     align-items: center;
     list-style: none;
+    color: #ffff;
 
     .container-game-audio-call__wrapper-voice-lives-lang {
         display: flex;
@@ -91,7 +99,6 @@ $backgroundColorResults: rgb(231, 214, 214);
             align-items: center;
             transition: 1s;
             backface-visibility: hidden;
-            background-color: #fff;
             background-image: url(../../assets/svg/game-audio-call/voice.svg);
             background-repeat: no-repeat;
             background-position: center;
