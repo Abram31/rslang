@@ -31,6 +31,7 @@ const clickAudioGame = (event:MouseEvent) => {
     }
     const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
     if (ungessedWords.length > 4) {
+      cardUnflip();
       addToPageResults();
       sessionStorage.removeItem('unguessed-words-id');
     } else {

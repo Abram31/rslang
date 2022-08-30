@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { createDomNode } from '../tutorial/function-create-dom-node';
 import { body, IdataFromServer } from '../tutorial/get words/render-result-find-to-page';
 import { getSessinoStorage } from './sessionStorage';
@@ -54,9 +55,9 @@ export const createListUsedWords = () => {
   const unguessedWordsId: string[] = getSessinoStorage('unguessed-words-id');
 
   const listWordsWithTranslate = usedWordsId.map((id) => {
-    const word = dataAllWords.find((item) => item.id === id);
+    const word = dataAllWords.find((item) => item.id === id || item._id === id );
     if (word) {
-      return [word.word, word.wordTranslate, word.id, word.audio];
+      return [word.word, word.wordTranslate, word.id || word._id, word.audio];
     }
     return [];
   });

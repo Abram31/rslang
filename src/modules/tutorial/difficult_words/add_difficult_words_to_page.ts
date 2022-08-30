@@ -1,7 +1,7 @@
 import App from '../../../components/app';
 import { createDomNode } from '../function-create-dom-node';
 import { createWordContainer } from '../create-word-container';
-import { body } from '../get words/render-result-find-to-page';
+import { body, IdataFromServer } from '../get words/render-result-find-to-page';
 import getDifficultStudiedWords, { IdataAboutWordDificulty } from './get_difficult_studied_words';
 import './difficult_words.scss';
 import preload from '../../game-audio-call/preload';
@@ -11,7 +11,7 @@ const addDifficultWordsToPage = async () => {
   const prel = preload();
   body.append(prel);
   await getDifficultStudiedWords();
-  const difficultWords:IdataAboutWordDificulty[] = JSON.parse(sessionStorage.getItem('difficult-words')!);
+  const difficultWords:IdataFromServer[] = JSON.parse(sessionStorage.getItem('difficult-words')!);
 
   const descriptionTitle = {
     typeElement: 'h5',
@@ -27,8 +27,8 @@ const addDifficultWordsToPage = async () => {
     parentElement: body,
   };
   const wrapperWord = createDomNode(descriptionWrapperWords);
-  difficultWords.forEach(async (item, index) => {
-    const word = await new App().getUserOneWord(item.wordId);
+  difficultWords.forEach(async (word, index) => {
+  //   const word = await new App().getUserOneWord(item.wordId);
     wrapperWord.append(createWordContainer(word));
 
     if (difficultWords.length - 1 === index) {

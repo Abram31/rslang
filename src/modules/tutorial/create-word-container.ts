@@ -134,8 +134,9 @@ export const createWordContainer = (word: IdataFromServer) => {
     learnedWord.src = '../../assets/svg/icons/info-bird.svg';
     learnedWord.alt = 'Learned';
   }
-
-  checkDifficultWordBeforeLoading(wrapperWord, word.id);
+  if (window.location.hash !== '#/book/section-7') {
+    checkDifficultWordBeforeLoading(wrapperWord, word.id);
+  }
 
   return wordFragment;
 };

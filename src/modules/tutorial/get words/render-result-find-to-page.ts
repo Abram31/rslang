@@ -4,7 +4,7 @@ export const div = document.createElement('div') as HTMLElement;
 body.append(div);
 
 export interface IdataFromServer {
-
+  _id:string,
   id: string,
   group: number,
   page: number,
@@ -18,7 +18,10 @@ export interface IdataFromServer {
   transcription: string,
   wordTranslate: string,
   textMeaningTranslate: string,
-  textExampleTranslate: string
+  textExampleTranslate: string,
+  userWord: {
+    difficulty: string,
+  }
 
 }
 

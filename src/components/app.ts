@@ -121,8 +121,14 @@ export default class App {
   }
 
   async getUserOneWord(idWord: string) { // Получить одно слово  ----- АРТЕМ
-    const id = getStorage('id');
     return this.request(`${this.baseUrl}/words/${idWord}`, {
+      method: 'GET',
+    });
+  }
+
+  async getUserAggregateWords(filter: string) {  //------------------------example ?filter={"userWord.difficulty":"hard"}
+    const id = getStorage('id');
+    return this.request(`${this.userUrl}/${id}/aggregatedWords${filter}`, {
       method: 'GET',
     });
   }

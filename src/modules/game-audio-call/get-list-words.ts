@@ -12,7 +12,7 @@ export const addWords = (): IdataFromServer[] => {
   const savedData: IdataFromServer[] = getSessinoStorage('game-audio-call') as IdataFromServer[];
   const voiceElement = (document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement);
   const idVoice = voiceElement.id;
-  const correctWord = savedData.find((word) => word.id === idVoice);
+  const correctWord = savedData.find((word) => word.id === idVoice || word._id === idVoice);
   result.push(correctWord!);
   for (let i = 0; i <= 3; i += 1) {
     const numberWord: number = randomNumberWord(savedData);
@@ -46,7 +46,7 @@ export const addToMarkupWords = () => {
       parentElement: wrapperWords,
     };
     const word = createDomNode(descriptionWord);
-    word.id = item.id;
+    word.id = item.id || item._id ;
   });
   const descriptionButtonDontKnow = {
     typeElement: 'li',
