@@ -18,8 +18,8 @@ export default class MiniGamesListRender {
 
   private btn;
 
-  constructor() {
-    this.games = createDomNode('main', ['games'], document.body);
+  constructor(container: HTMLElement) {
+    this.games = createDomNode('main', ['games'], container);
     this.gamesWrapper = createDomNode('div', ['wrapper', 'games-wrapper'], this.games);
 
     this.title = createDomNode('h1', ['title'], this.gamesWrapper, 'Мини-игры');

@@ -32,8 +32,8 @@ export default class StatisticsPageRender {
 
   private percentSign: HTMLElement | undefined;
 
-  constructor() {
-    this.statisctics = createDomNode('main', ['statisctics'], document.body);
+  constructor(container: HTMLElement) {
+    this.statisctics = createDomNode('main', ['statisctics'], container);
     this.statiscticsWrapper = createDomNode('div', ['wrapper', 'statisctics-wrapper'], this.statisctics);
 
     this.title = createDomNode('h1', ['title'], this.statiscticsWrapper, 'Статистика');

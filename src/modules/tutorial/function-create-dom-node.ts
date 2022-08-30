@@ -8,7 +8,6 @@ export interface IDomNode {
   color?: string;
   colorText?: string;
   innerHTML?: string;
-
   parentElement?: HTMLElement | HTMLInputElement | DocumentFragment;
 }
 
@@ -49,7 +48,6 @@ export const createDomNode = ({
   }
   if (innerHTML) {
     element.innerHTML = innerHTML;
-
   }
 
   if (parentElement) {

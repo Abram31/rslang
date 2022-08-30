@@ -1,9 +1,9 @@
 import './authModal.scss';
-// eslint-disable-next-line import/no-cycle
 import App from '../../components/app';
 import createDomNode from '../../utils/createDomNode';
 import { VALIDATION_EMAIL } from '../../utils/constants';
 import { setStorage } from '../../utils/storage';
+import AuthorizationStateWindow from '../layouts/authorizationStateWindow /authorizationStateWindow';
 
 export default class AuthModal {
   private overlay;
@@ -145,7 +145,7 @@ export default class AuthModal {
       await this.app.createUser({ name: nameUser, email: emailUser, password: passwordUser })
         .then(() => {
           this.overlay?.remove();
-          this.successfulRegistrationRender();
+          new AuthorizationStateWindow('Поздравляем с успешной регистрацией, теперь вы можете войти в свой аккаунт');
         })
         .catch(() => {
           this.errorMessage.innerHTML = 'Пользователь с такими данными уже зарегистрирован!';
@@ -153,31 +153,5 @@ export default class AuthModal {
     } else {
       this.errorMessage.innerHTML = 'Введите корректные данные';
     }
-  }
-
-  successfulRegistrationRender() {
-    this.overlay = createDomNode('div', ['overlay'], document.body);
-    this.modalWindow = createDomNode('div', ['modal-window'], this.overlay);
-
-    this.title = createDomNode(
-      'h2',
-      ['title'],
-      this.modalWindow,
-      'Поздравляем с успешной регистрацией, теперь вы можете войти в свой аккаунт',
-    );
-
-    this.actionBtn = createDomNode('button', ['btn-auth'], this.modalWindow, 'Войти');
-    this.actionBtn.addEventListener('click', () => {
-      this.overlay?.remove();
-      new AuthModal('Войти', 'Войдите в свою учетную запись').modalSignInRender();
-    });
-
-    this.cancelBtn = createDomNode(
-      'button',
-      ['btn-auth'],
-      this.modalWindow,
-      'Отмена',
-    );
-    this.cancelBtn.addEventListener('click', () => this.overlay?.remove());
   }
 }

@@ -12,7 +12,6 @@ export const createWordContainer = (word: IdataFromServer) => {
     parentElement: wordFragment,
   };
   const wrapperWord = createDomNode(descriptionWrapperWord);
- 
 
   const descriptionContainerImg = {
     typeElement: 'div',

@@ -14,8 +14,8 @@ export default class TextBookPage {
 
   private imageFriend;
 
-  constructor() {
-    this.pageTextbook = createDomNode('main', ['page-textbook'], document.body);
+  constructor(container: HTMLElement) {
+    this.pageTextbook = createDomNode('main', ['page-textbook'], container);
 
     this.textBookWrapper = createDomNode('div', ['wrapper', 'page-textbook-wrapper'], this.pageTextbook);
     this.title = createDomNode('h1', ['title'], this.textBookWrapper, 'Выберите страницу');

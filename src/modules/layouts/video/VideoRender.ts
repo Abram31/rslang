@@ -10,8 +10,8 @@ export default class VideoRender {
 
   private videoContent;
 
-  constructor() {
-    this.aboutApp = createDomNode('main', ['about-app', 'video'], document.body);
+  constructor(container: HTMLElement) {
+    this.aboutApp = createDomNode('main', ['about-app', 'video'], container);
     this.aboutAppWrapper = createDomNode('div', ['wrapper', 'about-app-wrapper'], this.aboutApp);
 
     this.title = createDomNode('h1', ['title'], this.aboutAppWrapper, 'О приложении');
