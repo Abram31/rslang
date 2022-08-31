@@ -1,20 +1,15 @@
 type WordDescription = {
-  id: string;
-  correctAnswers: number;
-  lastUsedWord?: string;
-};
-type TfindWordInData = {
-  index?: number,
-  oldDataWord?: WordDescription[],
-  oldrDataUser: IdataStatistics,
+  [key: string]: {
+    correctAnswers: number,
+    lastUsedWord: string,
+  };
 };
 
 interface IdataStatistics {
   learnedWords: number,
   optional: {
-    words: [WordDescription]
+    words: WordDescription
   }
-
 }
 
 class Statistics {
@@ -24,86 +19,72 @@ class Statistics {
     this.dataStatistics = dataStatistics;
   }
 
-  findWordInData(idWord:string): TfindWordInData {
-    const data = this.dataStatistics;
-
-    let oldUserData: Array<WordDescription>;
-    let oldWordData: Array<WordDescription>;
-    if (data) {
-      let indexWord: number;
-      oldUserData = data.optional.words;
-      if (oldUserData) {
-        oldWordData = oldUserData.filter((word, index) => {
-          if (word.id === idWord) {
-            indexWord = index;
-            return true;
-          }
-        });
-        if (oldWordData.length === 0) {
-          return {
-            oldrDataUser: data,
-          };
-        }
-        return {
-          index: indexWord!,
-          oldDataWord: oldWordData,
-          oldrDataUser: data,
-        };
-      }
-    }
-    const newData: IdataStatistics = {
-      learnedWords: 0,
-      optional: {
-        words: [{
-          id: idWord,
-          correctAnswers: 0,
-          lastUsedWord: new Date().toLocaleDateString('en-US'),
-        },
-        ],
-      },
-    };
-    debugger;
-    sessionStorage.setItem('statistics', JSON.stringify(newData));
-    return {
-      index: 0,
-      oldDataWord: [{ id: '', correctAnswers: 0 }],
-      oldrDataUser: newData,
-    };
-  }
-
   wordCorrectAnswer(idWord: string) {
-    const { index, oldDataWord, oldrDataUser } = this.findWordInData(idWord);
-    if (typeof index === 'number' && oldrDataUser) {
-      if (oldrDataUser.optional.words[index].correctAnswers < 3) {
-        oldrDataUser.optional.words[index].correctAnswers += 1;
+    const data: IdataStatistics = this.dataStatistics;
+    if (data) {
+      if (Object.keys(data.optional.words).includes(idWord)) {
+        if (data.optional.words[idWord].correctAnswers < 3) {
+          data.optional.words[idWord].correctAnswers += 1;
+          if (data.optional.words[idWord].correctAnswers === 3) {
+            data.learnedWords += 1;
+          }
+        }
+      } else {
+        const newDataWord = {
+          correctAnswers: 1,
+          lastUsedWord: new Date().toLocaleDateString('en-US'),
+        };
+        data.optional.words[idWord] = newDataWord;
       }
+      sessionStorage.setItem('statistics', JSON.stringify(data));
     } else {
-      const newWord = {
-        id: idWord,
-        correctAnswers: 1,
-        lastUsedWord: new Date().toLocaleDateString('en-US'),
+      const newData:IdataStatistics = {
+        learnedWords: 1,
+        optional: {
+          words: {
+            [`${idWord}`]: {
+              correctAnswers: 1,
+              lastUsedWord: new Date().toLocaleDateString('en-US'),
+            },
+          },
+        },
       };
-      oldrDataUser.optional.words.push(newWord);
+      sessionStorage.setItem('statistics', JSON.stringify(newData));
     }
-    sessionStorage.setItem('statistics', JSON.stringify(oldrDataUser));
   }
 
   wordUncorrectAnswer(idWord: string) {
-    const { index, oldDataWord, oldrDataUser } = this.findWordInData(idWord);
-    if (typeof index === 'number' && oldrDataUser) {
-      if (oldrDataUser.optional.words[index].correctAnswers > 0) {
-        oldrDataUser.optional.words[index].correctAnswers -= 1;
+    const data: IdataStatistics = this.dataStatistics;
+    if (data) {
+      if (Object.keys(data.optional.words).includes(idWord)) {
+        if (data.optional.words[idWord].correctAnswers > 0) {
+          data.optional.words[idWord].correctAnswers -= 1;
+          if (data.optional.words[idWord].correctAnswers === 2) {
+            data.learnedWords -= 1;
+          }
+        }
+      } else {
+        const newDataWord = {
+          correctAnswers: 0,
+          lastUsedWord: new Date().toLocaleDateString('en-US'),
+        };
+        data.optional.words[idWord] = newDataWord;
       }
+      sessionStorage.setItem('statistics', JSON.stringify(data));
     } else {
-      const newWord = {
-        id: idWord,
-        correctAnswers: 0,
-        lastUsedWord: new Date().toLocaleDateString('en-US'),
+      const newData: IdataStatistics = {
+        learnedWords: 0,
+        optional: {
+          words: {
+            [`${idWord}`]: {
+              correctAnswers: 0,
+              lastUsedWord: new Date().toLocaleDateString('en-US'),
+            },
+          },
+        },
       };
-      oldrDataUser.optional.words.push(newWord);
+      sessionStorage.setItem('statistics', JSON.stringify(newData));
     }
-
-    sessionStorage.setItem('statistics', JSON.stringify(oldrDataUser));
   }
 }
 

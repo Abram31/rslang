@@ -1,6 +1,7 @@
 import { CreateNewUser, SignInUser } from '../interface/interface';
 // eslint-disable-next-line import/no-cycle
 import AuthModal from '../modules/authentication/AuthModal';
+import AuthorizationStateWindow from '../modules/layouts/authorizationStateWindow/authorizationStateWindow';
 import { IdataFromServer } from '../modules/tutorial/get words/render-result-find-to-page';
 import { TOKEN_ACTION_IN_MILLISECONDS } from '../utils/constants';
 import { getStorage, setStorage } from '../utils/storage';
@@ -169,14 +170,14 @@ export default class App {
   async setStatistics() {
     const id = getStorage('id');
     const token = getStorage('token');
-    const statistics = getStorage('statistics')
+    const statistics = sessionStorage.getItem('statistics')
     return this.request(`${this.userUrl}/${id}/statistics`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
       },
-      body: statistics,
+      body: statistics!,
     });
   }
 }

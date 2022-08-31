@@ -1,3 +1,4 @@
+// import Statistics from '../statistics/statistics';
 import Statistics from '../statistics/statistics';
 import { baseURL } from '../tutorial/fetch/fetch';
 import { body } from '../tutorial/get words/render-result-find-to-page';
@@ -30,9 +31,9 @@ const clickAudioGame = (event:MouseEvent) => {
     // new Statistics().wordUncorrectAnswer(buttonVoiceId);
     if (sessionStorage.getItem('correctness of the choice') === 'false') {
       addSessionStorage('unguessed-words-id', buttonVoiceId);
-      new Statistics().wordUncorrectAnswer(buttonVoiceId);
+      // new Statistics().wordUncorrectAnswer(buttonVoiceId);
     } else {
-      new Statistics().wordCorrectAnswer(buttonVoiceId);
+      // new Statistics().wordCorrectAnswer(buttonVoiceId);
     }
     const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
     if (ungessedWords.length > 4) {
@@ -85,6 +86,7 @@ const addListeners = () => {
 
     console.log('hash');
   });
+
 };
 
 export default addListeners;

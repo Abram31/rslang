@@ -6,8 +6,9 @@ import App from '../../components/app';
 import getDifficultWords from './difficult_words/get_difficult_studied_words';
 import addDifficultWordsToPage from './difficult_words/add_difficult_words_to_page';
 import Statistics from '../statistics/statistics';
+// import Statistics from '../statistics/statistics';
 
-export const addListenersToChoicePageChapter = async() => {
+export const addListenersToChoicePageChapter = async () => {
   const valuePage = (document.getElementById('select-pages') as HTMLSelectElement);
   const valuePart = (document.getElementById('select-parts') as HTMLSelectElement);
 
@@ -53,11 +54,22 @@ export const addListenersToChoicePageChapter = async() => {
   // sessionStorage.getItem('statistics')
 
   // new Statistics().wordCorrectAnswer('55555555555555555555')
-  new App().setStatistics().then((e)=>{
+  // new App().setStatistics().then((e)=>{
+  //   console.log(e);
+
+  // })
+  // console.log('gfdlgkjdkjgkldjglkdf');
+
+  new Statistics().wordUncorrectAnswer('1111111111111111111111121');
+  new Statistics().wordCorrectAnswer('111111112222222222222222222222222222222222222222121');
+  new Statistics().wordUncorrectAnswer('11111111111111111111111111111');
+
+  try {
+    const resp = await new App().setStatistics();
+    console.log(resp);
+  } catch (e) {
     console.log(e);
-    
-  })
-  console.log('gfdlgkjdkjgkldjglkdf');
+  }
 };
 
 export const addListenersToTextBookPages = () => {
@@ -80,4 +92,3 @@ export const addListenersToTextBookChapters = () => {
   });
   // clearSessionStorage();
 };
-

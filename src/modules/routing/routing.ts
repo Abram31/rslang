@@ -14,6 +14,8 @@ import tutorialRender, { changeBackgroundChapters } from '../tutorial/markup';
 import baseMarkupAudioCall from '../game-audio-call/markup';
 import addListeners from '../game-audio-call/listeners';
 import addDifficultWordsToPage from '../tutorial/difficult_words/add_difficult_words_to_page';
+import HeaderRender from '../layouts/header/HeaderRender';
+import FooterRender from '../layouts/footer/FooterRender';
 
 const generateRouter = () => {
   document.querySelector('div')?.remove();
@@ -79,7 +81,7 @@ const generateRouter = () => {
   template('game', () => {
     document.body.innerHTML = '';
     new HeaderRender();
-    new LevelGame();
+    new LevelGame(wrapper);
     new FooterRender();
   });
 
@@ -188,3 +190,5 @@ const generateRouter = () => {
   window.addEventListener('load', router);
   window.addEventListener('hashchange', router);
 };
+
+export default generateRouter;
