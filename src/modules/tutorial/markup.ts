@@ -1,5 +1,5 @@
 import { fetchRequest } from './fetch/fetch';
-import { body, IdataFromServer } from './get words/render-result-find-to-page';
+import { body } from './get words/render-result-find-to-page';
 import { createWordContainer } from './create-word-container';
 import { createDomNode } from './function-create-dom-node';
 import playAudio from './play-words';
@@ -78,6 +78,8 @@ const tutorialRender = () => {
 
   const tutorilaFragmet = document.createDocumentFragment();
 
+  const wrap = document.getElementById('root') as HTMLElement;
+
   const descriptionContainerTutorial = {
     typeElement: 'section',
     className: 'container-tutorial',
@@ -106,7 +108,7 @@ const tutorialRender = () => {
     className: 'wrapper-selects__select-parts',
     parentElement: wrapperSelects,
   };
-  const selectParts = createDomNode(descriptionParts);
+  const selectParts = createDomNode(descriptionParts) as HTMLSelectElement;
 
   const descriptionPartsDefaultOption = {
     typeElement: 'option',
@@ -136,7 +138,7 @@ const tutorialRender = () => {
     className: 'wrapper-selects__select-pages',
     parentElement: wrapperSelects,
   };
-  const selectPages = createDomNode(descriptionPages);
+  const selectPages = createDomNode(descriptionPages) as HTMLSelectElement;
 
   const descriptionPagesDefaultOption = {
     typeElement: 'option',
@@ -185,7 +187,7 @@ const tutorialRender = () => {
         containerWords.appendChild(fragmentWord);
       }
     });
-  body.appendChild(tutorilaFragmet);
+  wrap.appendChild(tutorilaFragmet);
   changeBackgroundChapters();
 };
 

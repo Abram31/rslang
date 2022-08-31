@@ -1,5 +1,5 @@
-@import '../../../utils/scss/constants.scss';
-@import '../../../utils/scss/mixin.scss';
+@import "../../../utils/scss/constants.scss";
+@import "../../../utils/scss/mixin.scss";
 
 .footer {
   background: url('../../../assets/png/footer.png') 100% 100% no-repeat;
@@ -30,7 +30,7 @@
 }
 
 .rs-icon {
-  background: url('../../../assets/svg/rss.svg') 100% 100% no-repeat;
+  background: url("../../../assets/svg/rss.svg") 100% 100% no-repeat;
   height: 66px;
   width: 159px;
 

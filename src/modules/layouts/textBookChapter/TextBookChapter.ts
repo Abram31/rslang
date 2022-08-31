@@ -29,8 +29,8 @@ export default class TextBookChapter {
 
   private textBookAuth;
 
-  constructor() {
-    this.textBook = createDomNode('main', ['textbook'], document.body);
+  constructor(container: HTMLElement) {
+    this.textBook = createDomNode('main', ['textbook'], container);
     this.textBookWrapper = createDomNode('div', ['wrapper', 'textbook-wrapper'], this.textBook);
 
     this.title = createDomNode('h1', ['title'], this.textBookWrapper, 'Выберите раздел учебника');
@@ -48,7 +48,7 @@ export default class TextBookChapter {
       }
     }
 
-    if ((document.body.querySelector('.user-name') as HTMLElement).innerHTML) {
+    if (localStorage.getItem('id') !== null) {
       this.createSection('7', true);
     }
 

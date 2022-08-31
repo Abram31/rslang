@@ -1,11 +1,10 @@
 import createDomNode from '../../utils/createDomNode';
 import { addWordsToPage } from '../game-audio-call/get-voice-word';
 import AboutTeam from '../layouts/aboutTeam/AboutTeam';
-import FooterRender from '../layouts/footer/FooterRender';
-import HeaderRender from '../layouts/header/HeaderRender';
 import LevelGame from '../layouts/levelGame/LevelGame';
 import MainPageRender from '../layouts/mainPage/MainPageRender';
 import MiniGamesListRender from '../layouts/miniGames/MiniGamesListRender';
+import StatisticsPageRender from '../layouts/statisticsPage/statisticsPage';
 import TextBookChapter from '../layouts/textBookChapter/TextBookChapter';
 import TextBookPage from '../layouts/textBookPage/textBookPage';
 import VideoRender from '../layouts/video/VideoRender';
@@ -16,8 +15,11 @@ import baseMarkupAudioCall from '../game-audio-call/markup';
 import addListeners from '../game-audio-call/listeners';
 import addDifficultWordsToPage from '../tutorial/difficult_words/add_difficult_words_to_page';
 
-// eslint-disable-next-line import/prefer-default-export
-export const generateRouter = () => {
+const generateRouter = () => {
+  document.querySelector('div')?.remove();
+
+  const wrapper = document.getElementById('root') as HTMLElement;
+
   const routes: { [key: string]: string | (() => void) } = {};
   const templates: { [key: string]: (() => void) } = {};
 
@@ -37,53 +39,39 @@ export const generateRouter = () => {
   };
 
   template('home', () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
-    new MainPageRender();
-    new FooterRender();
+    wrapper.innerHTML = '';
+    new MainPageRender(wrapper);
   });
 
   template('book', () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
-    new TextBookChapter();
-    new FooterRender();
+    wrapper.innerHTML = '';
+    new TextBookChapter(wrapper);
     addListenersToTextBookPages();
   });
 
   template('games', () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
-    new MiniGamesListRender();
-    new FooterRender();
+    wrapper.innerHTML = '';
+    new MiniGamesListRender(wrapper);
   });
 
   template('stats', () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
-    createDomNode('h1', ['title'], document.body, 'В разработке');
-    new FooterRender();
+    wrapper.innerHTML = '';
+    new StatisticsPageRender(wrapper).statisc('Изученные слова за день: ');
   });
 
   template('video', () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
-    new VideoRender();
-    new FooterRender();
+    wrapper.innerHTML = '';
+    new VideoRender(wrapper);
   });
 
   template('about', () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
-    new AboutTeam();
-    new FooterRender();
+    wrapper.innerHTML = '';
+    new AboutTeam(wrapper);
   });
 
   template('selection-page', () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
-    new TextBookPage();
-    new FooterRender();
+    wrapper.innerHTML = '';
+    new TextBookPage(wrapper);
     addListenersToTextBookChapters();
     changeBackgroundChapters();
   });
@@ -118,14 +106,12 @@ export const generateRouter = () => {
   });
 
   template('game-level', () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
-    createDomNode('h1', ['title'], document.body, 'В разработке');
+    wrapper.innerHTML = '';
+    createDomNode('h1', ['title'], wrapper, 'В разработке');
   });
 
   template('page-book', () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
+    wrapper.innerHTML = '';
     tutorialRender();
     addListenersToChoicePageChapter();
     new FooterRender();
@@ -174,6 +160,9 @@ export const generateRouter = () => {
       route(`/book/section-${i}/${j}`, 'page-book');
     }
   }
+
+  route('/book/sprint', 'game-level');
+  route('/book/audio', 'game-level');
 
   const resolveRoute = (routeStr: string) => {
     try {

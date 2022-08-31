@@ -25,8 +25,8 @@ export default class LevelGame {
 
   private chapterText: HTMLParagraphElement | undefined;
 
-  constructor() {
-    this.textBook = createDomNode('main', ['textbook'], document.body);
+  constructor(container: HTMLElement) {
+    this.textBook = createDomNode('main', ['textbook'], container);
     this.textBookWrapper = createDomNode('div', ['wrapper', 'textbook-wrapper'], this.textBook);
 
     this.title = createDomNode('h1', ['title'], this.textBookWrapper, 'Выберите уровень сложности мини-игры');

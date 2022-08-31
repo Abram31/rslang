@@ -1,5 +1,5 @@
 import { fetchRequest } from './fetch/fetch';
-import { IdataFromServer, showWords } from './get words/render-result-find-to-page';
+import { IdataFromServer } from './get words/render-result-find-to-page';
 import { createWordContainer } from './create-word-container';
 import { changeBackgroundChapters } from './markup';
 import App from '../../components/app';

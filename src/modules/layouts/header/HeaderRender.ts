@@ -3,6 +3,9 @@ import createDomNode from '../../../utils/createDomNode';
 import AuthModal from '../../authentication/AuthModal';
 import App from '../../../components/app';
 import { getStorage } from '../../../utils/storage';
+import NavigationSvg from '../../../interface/enumNavigationSvg';
+import AuthorizationStateWindow from '../authorizationStateWindow/authorizationStateWindow';
+import helpLoadNavigation from '../../../utils/helpLoadNavigation';
 
 export default class HeaderRender {
   private header;
@@ -13,15 +16,7 @@ export default class HeaderRender {
 
   private rightSide;
 
-  protected logo;
-
   private navigation;
-
-  private navigationList;
-
-  private navigationLi;
-
-  protected navigationItem;
 
   private userName;
 
@@ -30,6 +25,8 @@ export default class HeaderRender {
   private burger;
 
   protected burgerLine;
+
+  private menuIcon;
 
   private overlay: HTMLDivElement | undefined;
 
@@ -41,6 +38,32 @@ export default class HeaderRender {
 
   private btnGoOut: HTMLButtonElement | undefined;
 
+  private actionBtn: HTMLButtonElement | undefined;
+
+  private cancelBtn: HTMLButtonElement | undefined;
+
+  private root;
+
+  private navigationItemMain;
+
+  private navigationItemBook;
+
+  private navigationItemGame;
+
+  private navigationItemStats;
+
+  private navigationItemAbout;
+
+  private menuTextMain;
+
+  private menuTextBook;
+
+  private menuTextGame;
+
+  private menuTextStats;
+
+  private menuTextAbout;
+
   constructor() {
     this.header = createDomNode('header', [], document.body);
     this.headerWrapper = createDomNode('div', ['header-wrapper'], this.header);
@@ -48,18 +71,37 @@ export default class HeaderRender {
     this.leftSide = createDomNode('div', ['header__left-side'], this.headerWrapper);
     this.rightSide = createDomNode('div', ['header__right-side'], this.headerWrapper);
 
-    this.logo = createDomNode('a', ['logo'], this.leftSide, '', [{ href: '#/' }]);
-
     this.navigation = createDomNode('nav', ['navigation'], this.leftSide);
-    this.navigationList = createDomNode('ul', ['navigation__list'], this.navigation);
-    this.navigationLi = createDomNode('li', [], this.navigationList);
-    this.navigationItem = createDomNode('a', ['navigation__item'], this.navigationLi, 'Учебник', [{ href: '#/book' }]);
-    this.navigationLi = createDomNode('li', [], this.navigationList);
-    this.navigationItem = createDomNode('a', ['navigation__item'], this.navigationLi, 'Мини-игры', [{ href: '#/games' }]);
-    this.navigationLi = createDomNode('li', [], this.navigationList);
-    this.navigationItem = createDomNode('a', ['navigation__item'], this.navigationLi, 'Статистика', [{ href: '#/stats' }]);
-    this.navigationLi = createDomNode('li', [], this.navigationList);
-    this.navigationItem = createDomNode('a', ['navigation__item'], this.navigationLi, 'О команде', [{ href: '#/about' }]);
+
+    this.navigationItemMain = createDomNode('a', ['navigation__item', 'active'], this.navigation, '', [{ href: '#/' }]);
+    this.menuIcon = createDomNode('div', ['menu__icon', 'menu__logo'], this.navigationItemMain);
+    this.menuIcon.innerHTML = NavigationSvg.logo;
+    this.menuTextMain = createDomNode('strong', ['menu__text', 'active'], this.navigationItemMain, 'Домой');
+    this.navigationItemMain.addEventListener('click', () => this.navigationItemsActive(this.navigationItemMain, this.menuTextMain));
+
+    this.navigationItemBook = createDomNode('a', ['navigation__item'], this.navigation, '', [{ href: '#/book' }]);
+    this.menuIcon = createDomNode('div', ['menu__icon', 'menu__logo'], this.navigationItemBook);
+    this.menuIcon.innerHTML = NavigationSvg.book;
+    this.menuTextBook = createDomNode('strong', ['menu__text'], this.navigationItemBook, 'Учебник');
+    this.navigationItemBook.addEventListener('click', () => this.navigationItemsActive(this.navigationItemBook, this.menuTextBook));
+
+    this.navigationItemGame = createDomNode('a', ['navigation__item'], this.navigation, '', [{ href: '#/games' }]);
+    this.menuIcon = createDomNode('div', ['menu__icon', 'menu__logo'], this.navigationItemGame);
+    this.menuIcon.innerHTML = NavigationSvg.puzzle;
+    this.menuTextGame = createDomNode('strong', ['menu__text'], this.navigationItemGame, 'Игры');
+    this.navigationItemGame.addEventListener('click', () => this.navigationItemsActive(this.navigationItemGame, this.menuTextGame));
+
+    this.navigationItemStats = createDomNode('a', ['navigation__item'], this.navigation, '', [{ href: '#/stats' }]);
+    this.menuIcon = createDomNode('div', ['menu__icon', 'menu__logo'], this.navigationItemStats);
+    this.menuIcon.innerHTML = NavigationSvg.statisc;
+    this.menuTextStats = createDomNode('strong', ['menu__text'], this.navigationItemStats, 'Статистика');
+    this.navigationItemStats.addEventListener('click', () => this.navigationItemsActive(this.navigationItemStats, this.menuTextStats));
+
+    this.navigationItemAbout = createDomNode('a', ['navigation__item'], this.navigation, '', [{ href: '#/about' }]);
+    this.menuIcon = createDomNode('div', ['menu__icon'], this.navigationItemAbout);
+    this.menuIcon.innerHTML = NavigationSvg.team;
+    this.menuTextAbout = createDomNode('strong', ['menu__text'], this.navigationItemAbout, 'Команда');
+    this.navigationItemAbout.addEventListener('click', () => this.navigationItemsActive(this.navigationItemAbout, this.menuTextAbout));
 
     this.userName = createDomNode('p', ['user-name'], this.rightSide);
 
@@ -72,12 +114,18 @@ export default class HeaderRender {
     this.burgerLine = createDomNode('span', ['burger__line'], this.burger);
 
     if (getStorage('id') !== null) {
-      this.authButton.innerHTML = 'Выйти';
       new App().getUser()
         .then((res) => {
           this.userName.innerHTML = res.name;
+          this.authButton.innerHTML = 'Выйти';
+        })
+        .catch(() => {
+          new AuthorizationStateWindow('Время сессии истекло, вам необходимо авторизоваться');
         });
     }
+
+    this.loadNavigation();
+    this.root = createDomNode('div', [], document.body, '', [{ id: 'root' }]);
   }
 
   toggleMenu() {
@@ -113,6 +161,51 @@ export default class HeaderRender {
       this.userName.innerHTML = '';
       this.authButton.innerHTML = 'Вход';
       this.overlay?.remove();
+    });
+  }
+
+  navigationItemsActive(elem: HTMLElement, text: HTMLElement) {
+    [this.navigationItemMain, this.navigationItemBook, this.navigationItemGame,
+      this.navigationItemStats, this.navigationItemAbout].forEach((el) => {
+      el.classList.remove('active');
+    });
+
+    [this.menuTextMain, this.menuTextBook, this.menuTextGame,
+      this.menuTextStats, this.menuTextAbout].forEach((el) => {
+      el.classList.remove('active');
+    });
+
+    elem.classList.add('active');
+    text.classList.add('active');
+  }
+
+  loadNavigation() {
+    [this.navigationItemMain, this.navigationItemBook, this.navigationItemGame,
+      this.navigationItemStats, this.navigationItemAbout].forEach((el) => {
+      el.classList.remove('active');
+
+      helpLoadNavigation(el, /book/);
+      helpLoadNavigation(el, /games/);
+      helpLoadNavigation(el, /stats/);
+      helpLoadNavigation(el, /about/);
+
+      if (!window.location.href.match(/about/) && !el.getAttribute('href')?.match(/about/)) {
+        if (!window.location.href.match(/stats/) && !el.getAttribute('href')?.match(/stats/)) {
+          if (!window.location.href.match(/games/) && !el.getAttribute('href')?.match(/games/)) {
+            if (!window.location.href.match(/book/) && !el.getAttribute('href')?.match(/book/)) {
+              el.classList.add('active');
+            }
+          }
+        }
+      }
+    });
+
+    [this.menuTextMain, this.menuTextBook, this.menuTextGame,
+      this.menuTextStats, this.menuTextAbout].forEach((el) => {
+      el.classList.remove('active');
+      if (el.parentElement?.classList.contains('active')) {
+        el.classList.add('active');
+      }
     });
   }
 }

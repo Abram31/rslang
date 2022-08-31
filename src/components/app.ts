@@ -87,11 +87,11 @@ export default class App {
         try {
           await this.refreshToken();
         } catch (e) {
-          new AuthModal('Войти', 'Войдите в свою учетную запись').modalSignInRender();
+          new AuthorizationStateWindow('Время сессии истекло, вам необходимо авторизоваться');
         }
       }
     } else {
-      // new AuthModal('Войти', 'Войдите в свою учетную запись').modalSignInRender();    убрал ее потому что выскакивала везде если не зарегистрирован
+      new AuthorizationStateWindow('Время сессии истекло, вам необходимо авторизоваться');
     }
 
     const requestPromise = await fetch(endpoint, {

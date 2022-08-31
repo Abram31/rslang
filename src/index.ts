@@ -1,11 +1,11 @@
 import App from './components/app';
 import './global.scss';
-import { generateRouter } from './modules/routing/routing';
+import FooterRender from './modules/layouts/footer/FooterRender';
+import HeaderRender from './modules/layouts/header/HeaderRender';
+import generateRouter from './modules/routing/routing';
+
+new HeaderRender();
 
 generateRouter();
 
-console.log('Hello');
-
-new App().getUsersWords().then((data) => {
-  console.log(data);
-});
+new FooterRender();

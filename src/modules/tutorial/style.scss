@@ -2,68 +2,64 @@ $border-radius-container: 20px;
 $border-radius-input: 10px;
 $background-word-container: white;
 $border-color-buttons-game: rgba(53, 200, 147, 1);
-@import '../../utils/scss/mixin.scss';
-@import '../../utils/scss/constants.scss';
+@import "../../utils/scss/mixin.scss";
+@import "../../utils/scss/constants.scss";
 
 .container-tutorial {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+
+  h4 {
+    @include font(4rem, 600);
+    text-align: center;
+    // margin: 0;
+  }
+
+  .container-tutorial__wrapper-selects {
     display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4rem;
 
-    h4 {
-        @include font(2.4rem, 400);
-        text-align: center;
-        margin: 0;
+    .wrapper-selects__select-pages,
+    .wrapper-selects__select-parts {
+      border: 1px solid $colorRed;
+      width: 20em;
+      border-radius: 1.5em;
+      padding: 1em;
+      @include font(2rem, 700);
     }
+  }
 
+  .container-tutorial__container-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    justify-content: space-around;
+    margin: 0 5rem;
 
-    .container-tutorial__wrapper-selects {
-        display: flex;
-        justify-content: center;
-        gap: 4rem;
+    .container-tutorial__wrapper-word {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32rem;
+      height: 35rem;
+      border-radius: $border-radius-container;
+      overflow: hidden;
 
-        .wrapper-selects__select-pages,
-        .wrapper-selects__select-parts {
-            font-size: 1rem;
-            font-weight: bold;
-            width: 18rem;
-            height: 2.35rem;
-            border-radius: $border-radius-input;
-            border: 2px rgba(245, 68, 59, 1) solid;
-        }
+      box-shadow: 1rem 1rem 0.4rem #373c3bbd;
 
-    }
+      flex-direction: column;
+      justify-content: space-between;
 
-    .container-tutorial__container-words {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 4rem;
-        justify-content: space-around;
-        margin: 0 5rem;
-
-
-        .container-tutorial__wrapper-word {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32rem;
-            height: 35rem;
-            border-radius: $border-radius-container;
-            overflow: hidden;
-
-
-            box-shadow: 1rem 1rem 0.4rem #373c3bbd;
-
-            flex-direction: column;
-            justify-content: space-between;
-
-            .wrapper-word__container-img {
-                flex: 1;
-                width: 100%;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-            }
+      .wrapper-word__container-img {
+        flex: 1;
+        width: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
 
             .wrapper-word__container-word {
                 position: relative;
@@ -192,44 +188,37 @@ $border-color-buttons-game: rgba(53, 200, 147, 1);
         }
     }
 
-    .container-tutorial__container-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
+  .container-tutorial__container-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
 
+    .container-buttons__home,
+    .container-buttons__game-audio-call,
+    .container-buttons__game-sprint {
+      background-color: rgba(255, 255, 255, 0.6);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      border: 1px solid $border-color-buttons-game;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      width: 10rem;
+      height: 10rem;
+      cursor: pointer;
+      transition: 0.4s;
 
-        .container-buttons__home,
-        .container-buttons__game-audio-call,
-        .container-buttons__game-sprint {
-            background-color: rgba(255, 255, 255, 0.6);
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            border: 1px solid $border-color-buttons-game;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-            border-radius: 10px;
-            width: 4rem;
-            height: 4rem;
-            cursor: pointer;
-            transition: .4s;
-
-            &:active {
-                transform: scale(.8);
-            }
-        }
-
-        .container-buttons__home {
-            background-image: url(../../assets/svg/tutorial/home.svg);
-        }
-
-        .container-buttons__game-audio-call {
-            background-image: url(../../assets/svg/tutorial/sound_button.svg);
-        }
-
-        .container-buttons__game-sprint {
-            background-image: url(../../assets/svg/tutorial/rocket.svg);
-        }
-
-
+      &:active {
+        transform: scale(0.8);
+      }
     }
+
+    .container-buttons__game-audio-call {
+      background-image: url(../../assets/svg/tutorial/sound_button.svg);
+    }
+
+    .container-buttons__game-sprint {
+      background-image: url(../../assets/svg/tutorial/rocket.svg);
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { fetchRequest, getWords } from '../fetch/fetch';
+import { fetchRequest } from '../fetch/fetch';
 import { showWords } from './render-result-find-to-page';
 
 const button = document.querySelector('button') as HTMLButtonElement;
