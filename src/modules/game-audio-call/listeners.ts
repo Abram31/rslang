@@ -1,3 +1,4 @@
+import Statistics from '../statistics/statistics';
 import { baseURL } from '../tutorial/fetch/fetch';
 import { body } from '../tutorial/get words/render-result-find-to-page';
 import playAudio from '../tutorial/play-words';
@@ -23,11 +24,15 @@ const clickAudioGame = (event:MouseEvent) => {
     cardFlipAfterChoice();
   }
   if (element.classList.contains('wrapper-words__dont-know')) {
+
     const buttonVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
     const buttonVoiceId = buttonVoice.id;
-
+    // new Statistics().wordUncorrectAnswer(buttonVoiceId);
     if (sessionStorage.getItem('correctness of the choice') === 'false') {
       addSessionStorage('unguessed-words-id', buttonVoiceId);
+      new Statistics().wordUncorrectAnswer(buttonVoiceId);
+    } else {
+      new Statistics().wordCorrectAnswer(buttonVoiceId);
     }
     const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
     if (ungessedWords.length > 4) {

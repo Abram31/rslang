@@ -126,7 +126,7 @@ export default class App {
     });
   }
 
-  async getUserAggregateWords(filter: string) {  //------------------------example ?filter={"userWord.difficulty":"hard"}
+  async getUserAggregateWords(filter: string) { // ------------------------example ?filter={"userWord.difficulty":"hard"}
     const id = getStorage('id');
     return this.request(`${this.userUrl}/${id}/aggregatedWords${filter}`, {
       method: 'GET',
@@ -152,5 +152,31 @@ export default class App {
       });
       return resp;
     }
+  }
+
+  async getStatistics() { 
+    const id = getStorage('id');
+    const token = getStorage('token');
+    return this.request(`${this.userUrl}/${id}/statistics`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+    });
+  }
+
+  async setStatistics() {
+    const id = getStorage('id');
+    const token = getStorage('token');
+    const statistics = getStorage('statistics')
+    return this.request(`${this.userUrl}/${id}/statistics`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      body: statistics,
+    });
   }
 }
