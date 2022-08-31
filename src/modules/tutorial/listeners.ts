@@ -2,8 +2,12 @@ import { fetchRequest } from './fetch/fetch';
 import { IdataFromServer } from './get words/render-result-find-to-page';
 import { createWordContainer } from './create-word-container';
 import { changeBackgroundChapters } from './markup';
+import App from '../../components/app';
+import getDifficultWords from './difficult_words/get_difficult_studied_words';
+import addDifficultWordsToPage from './difficult_words/add_difficult_words_to_page';
+import Statistics from '../statistics/statistics';
 
-export const addListenersToChoicePageChapter = () => {
+export const addListenersToChoicePageChapter = async() => {
   const valuePage = (document.getElementById('select-pages') as HTMLSelectElement);
   const valuePart = (document.getElementById('select-parts') as HTMLSelectElement);
 
@@ -42,6 +46,18 @@ export const addListenersToChoicePageChapter = () => {
       changeBackgroundChapters();
     }
   });
+
+  // const statistics = await new App().getStatistics();                 /////////////////////УДАЛИТЬ!!!!!!!!!!!!!!!!!!!
+  // console.log(statistics);
+  // sessionStorage.setItem('statistics', JSON.stringify(statistics))
+  // sessionStorage.getItem('statistics')
+
+  // new Statistics().wordCorrectAnswer('55555555555555555555')
+  new App().setStatistics().then((e)=>{
+    console.log(e);
+    
+  })
+  console.log('gfdlgkjdkjgkldjglkdf');
 };
 
 export const addListenersToTextBookPages = () => {
@@ -54,6 +70,7 @@ export const addListenersToTextBookPages = () => {
     }
   });
 };
+
 export const addListenersToTextBookChapters = () => {
   const pageWithPages = document.querySelector('.select-page') as HTMLElement;
   pageWithPages.addEventListener('change', (event) => {
@@ -61,4 +78,6 @@ export const addListenersToTextBookChapters = () => {
     const chapterNumber = element.value;
     sessionStorage.setItem('page-number', chapterNumber!);
   });
+  // clearSessionStorage();
 };
+

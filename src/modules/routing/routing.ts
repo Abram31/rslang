@@ -1,4 +1,5 @@
 import createDomNode from '../../utils/createDomNode';
+import { addWordsToPage } from '../game-audio-call/get-voice-word';
 import AboutTeam from '../layouts/aboutTeam/AboutTeam';
 import LevelGame from '../layouts/levelGame/LevelGame';
 import MainPageRender from '../layouts/mainPage/MainPageRender';
@@ -10,6 +11,9 @@ import VideoRender from '../layouts/video/VideoRender';
 import { body } from '../tutorial/get words/render-result-find-to-page';
 import { addListenersToChoicePageChapter, addListenersToTextBookChapters, addListenersToTextBookPages } from '../tutorial/listeners';
 import tutorialRender, { changeBackgroundChapters } from '../tutorial/markup';
+import baseMarkupAudioCall from '../game-audio-call/markup';
+import addListeners from '../game-audio-call/listeners';
+import addDifficultWordsToPage from '../tutorial/difficult_words/add_difficult_words_to_page';
 
 const generateRouter = () => {
   document.querySelector('div')?.remove();
@@ -73,8 +77,32 @@ const generateRouter = () => {
   });
 
   template('game', () => {
-    wrapper.innerHTML = '';
-    new LevelGame(wrapper);
+    document.body.innerHTML = '';
+    new HeaderRender();
+    new LevelGame();
+    new FooterRender();
+  });
+
+  template('game-audio-call', async () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    baseMarkupAudioCall();
+    await addWordsToPage();
+    addListeners();
+  });
+  template('game-audio-call-difficult', async () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    baseMarkupAudioCall();
+    await addWordsToPage(true);
+    addListeners();
+  });
+  template('game-audio-call-random-page', async () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    baseMarkupAudioCall();
+    await addWordsToPage(false, sessionStorage.getItem('chapter-number')!, sessionStorage.getItem('page-number')!);
+    addListeners();
   });
 
   template('game-level', () => {
@@ -86,6 +114,13 @@ const generateRouter = () => {
     wrapper.innerHTML = '';
     tutorialRender();
     addListenersToChoicePageChapter();
+    new FooterRender();
+  });
+  template('page-difficult-words', async () => {
+    document.body.innerHTML = '';
+    new HeaderRender();
+    await addDifficultWordsToPage();
+    new FooterRender();
   });
 
   route('/', 'home');
@@ -95,15 +130,25 @@ const generateRouter = () => {
   route('/about', 'about');
   route('/video', 'video');
 
-  for (let i = 0; i < 7; i += 1) {
-    route(`/book/section-${i}`, 'selection-page');
+  for (let i = 0; i <= 7; i += 1) {
+    if (i < 7) {
+      route(`/book/section-${i}`, 'selection-page');
+    } else {
+      route(`/book/section-${i}`, 'page-difficult-words');
+    }
   }
 
   route('/games/audio', 'game');
   route('/games/sprint', 'game');
 
-  for (let i = 0; i < 6; i += 1) {
-    route(`/games/audio/${i}`, 'game-level');
+  for (let i = 0; i <= 8; i += 1) {
+    if (i === 7) {
+      route(`/games/audio/${i}`, 'game-audio-call-difficult');
+    } else if (i === 8) {
+      route(`/games/audio/${i}`, 'game-audio-call-random-page');
+    } else {
+      route(`/games/audio/${i}`, 'game-audio-call');
+    }
   }
 
   for (let i = 0; i < 6; i += 1) {
@@ -143,5 +188,3 @@ const generateRouter = () => {
   window.addEventListener('load', router);
   window.addEventListener('hashchange', router);
 };
-
-export default generateRouter;

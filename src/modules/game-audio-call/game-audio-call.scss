@@ -1,0 +1,419 @@
+$backroundHeart: url(../../assets/svg/game-audio-call/Heart.svg);
+$backroundFullHeart: url(../../assets/svg/game-audio-call/Heart-full.svg);
+$backgroundColorResults: rgb(231, 214, 214);
+@import '../../utils/scss/constants.scss';
+
+body {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: local;
+}
+
+.container-game-audio-call {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+    list-style: none;
+    color: #ffff;
+
+    .container-game-audio-call__wrapper-voice-lives-lang {
+        display: flex;
+        gap: 1.4rem;
+        align-items: center;
+        font-size: 1.7rem;
+        font-weight: 700;
+
+
+
+        .container-game-audio-call__wrapper-step-game {
+            display: flex;
+            align-items: center;
+            border: none;
+
+            .wrapper-step-game__step-game {
+                background-image: $backroundHeart;
+                display: block;
+                // mask-image: url(../../assets/svg/game-audio-call/Heart.svg);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+                width: 2.5rem;
+                height: 2.5rem;
+
+
+                &.active-step {
+                    display: block;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: contain;
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    background-image: $backroundFullHeart;
+
+                }
+            }
+
+        }
+
+        .wrapper-voice-lives-lang__langs {
+            display: flex;
+            list-style: none;
+            gap: .3rem;
+
+            .langs__en,
+            .langs__ru {
+                cursor: pointer;
+
+                &.active {
+                    color: red;
+                }
+            }
+
+            .langs__slash {}
+
+            .langs__ru {}
+        }
+    }
+
+    .container-game-audio-call__wrapper-call-voice {
+        position: relative;
+        width: 12rem;
+        height: 9rem;
+
+        cursor: pointer;
+
+        &:active {}
+
+
+        .container-game-audio-call__button-call-voice,
+        .container-game-audio-call__button-call-voice__back {
+            width: 100%;
+            height: 100%;
+
+            left: 0;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 1s;
+            backface-visibility: hidden;
+            background-image: url(../../assets/svg/game-audio-call/voice.svg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            display: flex;
+
+            &.front__flip {
+                transform: rotateY(180deg)
+            }
+
+            &.back__flip {
+                transform: rotateY(360deg)
+            }
+
+        }
+
+        .container-game-audio-call__button-call-voice__back {
+            background-image: url(https://base-rs-lang-1.herokuapp.com/files/03_1260.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            align-items: flex-end;
+            width: 100%;
+            height: 100%;
+            transform: rotateY(180deg);
+            border-radius: 2rem;
+
+            .button-call-voice__back__word-translate {
+                background-color: #3a3836bd;
+                color: whitesmoke;
+                border-radius: 1rem;
+                padding: 0.1rem;
+            }
+
+        }
+
+        .container-game-audio-call__button-call-voice {
+            position: absolute;
+        }
+
+
+    }
+
+
+    .container-game-audio-call__wrapper-words {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        column-gap: 6rem;
+        row-gap: 2rem;
+        border: none;
+        padding: 0 0 5rem 0;
+
+        .wrapper-words__word,
+        .wrapper-words__dont-know {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px rgba(245, 68, 59, 1) solid;
+            border-radius: 6px;
+            min-width: 7.8rem;
+            height: 3.2rem;
+            cursor: pointer;
+            transition: .4s;
+            word-break: break-all;
+            padding: 0.5rem;
+
+            &:active {
+                transform: scale(.9);
+            }
+
+        }
+
+        .correct-word {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            &::before {
+                content: '';
+                width: 1rem;
+                height: 1rem;
+                background-color: #44B9B9;
+                background-image: url(../../assets/svg/game-audio-call/birds.svg);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                border-radius: 5rem;
+                display: flex;
+
+            }
+        }
+
+        .wrapper-words__dont-know {
+            position: absolute;
+            bottom: 0;
+            background-color: rgba(245, 68, 59, 1);
+        }
+
+    }
+}
+
+
+.container-result {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.3rem;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: rgba(40, 35, 35, 0.225);
+
+    .container-result__title {
+        padding: 1rem;
+        font-size: 3rem;
+        font-weight: 600;
+        border: 1px solid;
+        border-radius: 2rem;
+        background-color: $backgroundColorResults;
+    }
+
+    .container-result__wrapper-list {
+        list-style: none;
+        width: 35rem;
+        max-height: 39rem;
+        display: flex;
+        flex-direction: column;
+        align-content: space-between;
+        align-items: stretch;
+        font-size: 2rem;
+        border: 1px solid;
+        border-radius: 2rem;
+        overflow-x: hidden;
+
+        &::-webkit-scrollbar-track {
+            border-radius: 4px;
+        }
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background: #f0f2f5;
+        }
+
+        &:hover::-webkit-scrollbar-thumb {
+            background: #6a7d9b;
+        }
+
+        .wrapper-list__item {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem 6rem;
+            transition: .4s;
+            cursor: pointer;
+
+            background-color: $backgroundColorResults;
+            text-align-last: justify;
+
+            .word-ru {
+                text-align: right;
+                text-align-last: right;
+                color: rgba(0, 0, 0, 0.5);
+            }
+
+            &:active {
+                transform: scale(.9);
+            }
+        }
+
+        .correct-answer,
+        .uncorrect-answer {
+
+            &::after,
+            &::before {
+                content: " ";
+                background-image: url(../../assets/svg/game-audio-call/results/bird.svg);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+
+                position: absolute;
+                width: 2rem;
+                height: 2rem;
+                right: 2rem;
+
+                transition: 1s;
+
+
+            }
+
+            &::before {
+                content: " ";
+                background-image: url(../../assets/svg/game-audio-call/results/voice.svg);
+                left: 2rem;
+                cursor: pointer;
+            }
+        }
+
+        .uncorrect-answer {
+            &::after {
+                background-image: url(../../assets/svg/game-audio-call/results/cross.svg);
+
+            }
+        }
+
+
+    }
+
+    .container-result__wrapper-buttons {
+        display: flex;
+        gap: 2rem;
+        font-size: 2rem;
+
+        .wrapper-buttons__repeat,
+        .wrapper-buttons__finish {
+            padding: 1rem;
+            border: solid 1px;
+            border-radius: 1rem;
+            background-color: $backgroundColorResults;
+            cursor: pointer;
+            transition: .4s;
+
+            &:active {
+                transform: scale(.9);
+            }
+        }
+
+        .wrapper-buttons__finish {}
+    }
+}
+
+
+
+.preloader {
+    /*фиксированное позиционирование*/
+    position: fixed;
+    /* координаты положения */
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    /* фоновый цвет элемента */
+    background: #e0e0e052;
+    /* размещаем блок над всеми элементами на странице (это значение должно быть больше, чем у любого другого позиционированного элемента на странице) */
+    z-index: 1001;
+}
+
+.preloader__row {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    margin-top: -35px;
+    margin-left: -35px;
+    text-align: center;
+    animation: preloader-rotate 2s infinite linear;
+}
+
+.preloader__item {
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    background-color: $colorRed;
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    animation: preloader-bounce 2s infinite ease-in-out;
+}
+
+.preloader__item:last-child {
+    top: auto;
+    bottom: 0;
+    animation-delay: -1s;
+}
+
+@keyframes preloader-rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes preloader-bounce {
+
+    0%,
+    100% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+}
+
+.loaded_hiding .preloader {
+    transition: 0.3s opacity;
+    opacity: 0;
+}
+
+.loaded .preloader {
+    display: none;
+}

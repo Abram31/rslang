@@ -1,5 +1,7 @@
 import { CreateNewUser, SignInUser } from '../interface/interface';
-import AuthorizationStateWindow from '../modules/layouts/authorizationStateWindow/authorizationStateWindow';
+// eslint-disable-next-line import/no-cycle
+import AuthModal from '../modules/authentication/AuthModal';
+import { IdataFromServer } from '../modules/tutorial/get words/render-result-find-to-page';
 import { TOKEN_ACTION_IN_MILLISECONDS } from '../utils/constants';
 import { getStorage, setStorage } from '../utils/storage';
 
@@ -115,6 +117,66 @@ export default class App {
     const id = getStorage('id');
     return this.request(`${this.userUrl}/${id}/words`, {
       method: 'GET',
+    });
+  }
+
+  async getUserOneWord(idWord: string) { // Получить одно слово  ----- АРТЕМ
+    return this.request(`${this.baseUrl}/words/${idWord}`, {
+      method: 'GET',
+    });
+  }
+
+  async getUserAggregateWords(filter: string) { // ------------------------example ?filter={"userWord.difficulty":"hard"}
+    const id = getStorage('id');
+    return this.request(`${this.userUrl}/${id}/aggregatedWords${filter}`, {
+      method: 'GET',
+    });
+  }
+
+  async postUserWords(word: IdataFromServer, diff?: string) { // Запись слов пользователя
+    const id = getStorage('id');
+
+    const aboutWord = {
+      difficulty: !diff ? 'easy' : `${diff}`,
+    };
+    try {
+      const resp = await this.request(`${this.userUrl}/${id}/words/${word.id}`, {
+        method: 'POST',
+        body: JSON.stringify(aboutWord),
+      });
+      return resp;
+    } catch (err) {
+      const resp = await this.request(`${this.userUrl}/${id}/words/${word.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(aboutWord),
+      });
+      return resp;
+    }
+  }
+
+  async getStatistics() { 
+    const id = getStorage('id');
+    const token = getStorage('token');
+    return this.request(`${this.userUrl}/${id}/statistics`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+    });
+  }
+
+  async setStatistics() {
+    const id = getStorage('id');
+    const token = getStorage('token');
+    const statistics = getStorage('statistics')
+    return this.request(`${this.userUrl}/${id}/statistics`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      body: statistics,
     });
   }
 }

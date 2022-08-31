@@ -4,6 +4,7 @@ import { createWordContainer } from './create-word-container';
 import { createDomNode } from './function-create-dom-node';
 import playAudio from './play-words';
 import './style.scss';
+import getDifficultStudiedWords from './difficult_words/get_difficult_studied_words';
 
 export const changeBackgroundChapters = () => {
   const chapterInMemory = sessionStorage.getItem('chapter-number');
@@ -28,6 +29,47 @@ export const changeBackgroundChapters = () => {
       body.style.backgroundColor = 'rgba(245, 68, 59, 0.2)';
       break;
   }
+};
+
+export const miniButtonGames = (wrapper: HTMLElement) => {
+  const descriptionContainerButtons = {
+    typeElement: 'div',
+    className: 'container-tutorial__container-buttons',
+    parentElement: wrapper,
+  };
+  const containerButtons = createDomNode(descriptionContainerButtons);
+
+  const descriptionHome = {
+    typeElement: 'div',
+    className: 'container-buttons__home',
+    parentElement: containerButtons,
+  };
+  const buttonHome = createDomNode(descriptionHome);
+
+  const descriptionSoundGame = {
+    typeElement: 'div',
+    className: 'container-buttons__game-audio-call',
+    parentElement: containerButtons,
+  };
+  const buttonSoundGame = createDomNode(descriptionSoundGame);
+
+  const descriptionSprintGame = {
+    typeElement: 'div',
+    className: 'container-buttons__game-sprint',
+    parentElement: containerButtons,
+  };
+  const buttonSprintGame = createDomNode(descriptionSprintGame);
+
+  containerButtons.addEventListener('click', (event) => {
+    const element = event.target as HTMLDivElement;
+    if (element.classList.contains('container-buttons__game-audio-call')) {
+      if (window.location.hash === '#/book/section-7') {
+        window.location.hash = '/games/audio/7';
+      } else {
+        window.location.hash = '/games/audio/8';
+      }
+    }
+  });
 };
 
 const tutorialRender = () => {
@@ -75,7 +117,10 @@ const tutorialRender = () => {
   };
   createDomNode(descriptionPartsDefaultOption);
 
-  for (let i = 1; i <= 5; i += 1) {
+  for (let i = 1; i <= 7; i += 1) {
+    if (!localStorage.getItem('id') && i === 7) {
+      break;
+    }
     const descriptionPartsOption = {
       typeElement: 'option',
       text: `Раздел ${i}`,
@@ -130,28 +175,7 @@ const tutorialRender = () => {
     }
   });
 
-  const descriptionContainerButtons = {
-    typeElement: 'div',
-    className: 'container-tutorial__container-buttons',
-    parentElement: wrapperTutorial,
-  };
-  const containerButtons = createDomNode(descriptionContainerButtons);
-
-  const descriptionSoundGame = {
-    typeElement: 'a',
-    className: 'container-buttons__game-audio-call',
-    parentElement: containerButtons,
-  };
-  const buttonSoundGame = createDomNode(descriptionSoundGame);
-  buttonSoundGame.setAttribute('href', '#/book/audio');
-
-  const descriptionSprintGame = {
-    typeElement: 'a',
-    className: 'container-buttons__game-sprint',
-    parentElement: containerButtons,
-  };
-  const buttonSprintGame = createDomNode(descriptionSprintGame);
-  buttonSprintGame.setAttribute('href', '#/book/sprint');
+  miniButtonGames(wrapperTutorial);
 
   fetchRequest.getNewWordsLIst({
     page: String(Number(pageInMemory) - 1),

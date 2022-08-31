@@ -40,8 +40,12 @@ export default class TextBookChapter {
     this.sectionList = createDomNode('div', ['textbook__left-side'], this.containerTextBook);
     this.sectionText = createDomNode('div', ['textbook__right-side'], this.containerTextBook);
 
-    for (let i = 1; i <= 6; i += 1) {
-      this.createSection(String(i));
+    for (let i = 1; i <= 7; i += 1) {
+      if (i <= 6) {
+        this.createSection(String(i));
+      } else if (localStorage.getItem('id')) {
+        this.createSection(String(i), true);
+      }
     }
 
     if (localStorage.getItem('id') !== null) {
