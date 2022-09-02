@@ -31,6 +31,7 @@ class Statistics {
           };
         }
         return {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           index: indexWord!,
           oldDataWord: oldWordData,
           oldrDataUser: data,
@@ -58,7 +59,7 @@ class Statistics {
   }
 
   wordCorrectAnswer(idWord: string) {
-    const { index, oldDataWord, oldrDataUser } = this.findWordInData(idWord);
+    const { index, oldrDataUser } = this.findWordInData(idWord);
     if (typeof index === 'number' && oldrDataUser) {
       if (oldrDataUser.optional.words[index].correctAnswers < 3) {
         oldrDataUser.optional.words[index].correctAnswers += 1;
@@ -75,7 +76,7 @@ class Statistics {
   }
 
   wordUncorrectAnswer(idWord: string) {
-    const { index, oldDataWord, oldrDataUser } = this.findWordInData(idWord);
+    const { index, oldrDataUser } = this.findWordInData(idWord);
     if (typeof index === 'number' && oldrDataUser) {
       if (oldrDataUser.optional.words[index].correctAnswers > 0) {
         oldrDataUser.optional.words[index].correctAnswers -= 1;

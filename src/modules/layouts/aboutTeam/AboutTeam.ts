@@ -36,9 +36,9 @@ export default class AboutTeam {
 
     this.teamItems = createDomNode('div', ['team__items'], this.teamWrapper);
 
-    this.createItemTeam('../../../assets/teamPhoto/bg1.jpg', 'Фон', 'img1', '../../../assets/teamPhoto/veronika.png', 'Veronika', 'Вероника', 'Авторизация, дизайн приложения', 'https://github.com/Veronika2811', 'https://www.linkedin.com/in/veranika-smiayun-9a2297235/');
-    this.createItemTeam('../../../assets/teamPhoto/bg2.jpg', 'Фон', 'img2', '../../../assets/teamPhoto/artem.png', 'Artem', 'Артем', 'Учебник, игра "Аудиовызов"', 'https://github.com/abram31', 'https://www.linkedin.com/in/artem-abramovich-45a06a230/');
-    this.createItemTeam('../../../assets/teamPhoto/bg3.jpg', 'Фон', 'img1', '../../../assets/teamPhoto/veronika.png', 'Pavel', 'Павел', 'Роутинг, игра "Спринт"', 'https://github.com/paulonio', '#');
+    this.createItemTeam('./assets/teamPhoto/bg1.jpg', 'Фон', 'img1', './assets/teamPhoto/veronika.png', 'Veronika', 'Вероника', 'Авторизация, дизайн приложения', 'https://github.com/Veronika2811', 'https://www.linkedin.com/in/veranika-smiayun-9a2297235/');
+    this.createItemTeam('./assets/teamPhoto/bg2.jpg', 'Фон', 'img2', './assets/teamPhoto/artem.png', 'Artem', 'Артем', 'Учебник, игра "Аудиовызов"', 'https://github.com/abram31', 'https://www.linkedin.com/in/artem-abramovich-45a06a230/');
+    this.createItemTeam('./assets/teamPhoto/bg3.jpg', 'Фон', 'img1', './assets/teamPhoto/veronika.png', 'Pavel', 'Павел', 'Роутинг, игра "Спринт"', 'https://github.com/paulonio', '#');
   }
 
   createItemTeam(

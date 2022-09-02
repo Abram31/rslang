@@ -127,6 +127,7 @@ export default class AuthModal {
           (document.querySelector('.user-name') as HTMLElement).innerHTML = res.name;
           (document.querySelector('.btn') as HTMLElement).innerHTML = 'Выйти';
           this.overlay?.remove();
+          window.location.reload();
         })
         .catch(() => {
           this.errorMessage.innerHTML = 'Введите корректные данные';

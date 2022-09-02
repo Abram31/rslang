@@ -75,7 +75,7 @@ export default class HeaderRender {
     this.leftSide = createDomNode('div', ['header__left-side'], this.headerWrapper);
     this.rightSide = createDomNode('div', ['header__right-side'], this.headerWrapper);
 
-    this.logo = createDomNode('img', ['logo'], this.leftSide, '', [{ src: '../../../assets/svg/logo.svg' }]);
+    this.logo = createDomNode('img', ['logo'], this.leftSide, '', [{ src: './assets/svg/logo.svg' }]);
 
     this.navigation = createDomNode('nav', ['navigation'], this.leftSide);
 
@@ -177,6 +177,7 @@ export default class HeaderRender {
     this.btnGoOut = createDomNode('button', ['btn', 'btn_red'], this.modalWindow, 'Да') as HTMLButtonElement;
     this.btnGoOut.addEventListener('click', () => {
       localStorage.clear();
+      window.location.reload();
       this.userName.innerHTML = '';
       this.authButton.innerHTML = 'Вход';
       this.overlay?.remove();

@@ -123,7 +123,7 @@ const createWordContainer = (word: IdataFromServer) => {
     };
 
     const compoundWord = createDomNode(btnCompoundWord) as HTMLImageElement;
-    compoundWord.src = '../../assets/svg/icons/star-word.svg';
+    compoundWord.src = './assets/svg/icons/star-word.svg';
     compoundWord.alt = 'Star';
 
     const btnLearnedWord = {
@@ -133,7 +133,7 @@ const createWordContainer = (word: IdataFromServer) => {
     };
 
     const learnedWord = createDomNode(btnLearnedWord) as HTMLImageElement;
-    learnedWord.src = '../../assets/svg/icons/info-bird.svg';
+    learnedWord.src = './assets/svg/icons/info-bird.svg';
     learnedWord.alt = 'Learned';
   }
   if (window.location.hash !== '#/book/section-7') {

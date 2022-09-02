@@ -44,7 +44,7 @@ export const randomNumberWord = (
   data: IdataFromServer[],
 ) => Math.floor(Math.random() * data.length);
 
-const choiсeNextWord = async (data: IdataFromServer[], difficult?: boolean)
+const choiсeNextWord = async (data: IdataFromServer[])
 : Promise<IdataFromServer | false> => {
   let savedData = getSessinoStorage('game-audio-call');
   if (!savedData || savedData.length === 0) {
@@ -74,7 +74,7 @@ export const addWordsToPage = async (difficult?: boolean, chapter?: string, page
   debugger;
   let savedData: IdataFromServer[];
   let word: boolean | IdataFromServer;
-  if (!getSessinoStorage('game-audio-call') || getSessinoStorage('game-audio-call').length !== 0) { //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!// // надо что то сделать чтоб после запуска игры не отправлялись повторные запросы на слова????
+  if (!getSessinoStorage('game-audio-call') || getSessinoStorage('game-audio-call').length !== 0) {
     savedData = getSessinoStorage('game-audio-call');
     word = await choiсeNextWord(savedData);
   } else if (chapter && page) {
@@ -84,7 +84,7 @@ export const addWordsToPage = async (difficult?: boolean, chapter?: string, page
   } else {
     await getWordsFromServer(difficult);
     savedData = getSessinoStorage('game-audio-call'); // ///////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!
-    word = await choiсeNextWord(savedData, true);
+    word = await choiсeNextWord(savedData);
   }
   if (word) {
     const buttonCallVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;

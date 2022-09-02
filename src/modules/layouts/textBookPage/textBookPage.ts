@@ -29,7 +29,7 @@ export default class TextBookPage {
     this.option = createDomNode('option', [], this.selectPage, 'Выберите страницу', [{ hidden: '' }, { value: '' }]);
     this.createSelectPage();
 
-    this.imageFriend = createDomNode('img', ['image-friend'], this.textBookWrapper, '', [{ src: '../../../assets/friends.jpg' }, { alt: 'friend' }]);
+    this.imageFriend = createDomNode('img', ['image-friend'], this.textBookWrapper, '', [{ src: './assets/friends.jpg' }, { alt: 'friend' }]);
   }
 
   createSelectPage() {
