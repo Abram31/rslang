@@ -117,7 +117,6 @@ class Statistics {
     / (unguessedWords.length + guessedWords.length) * 100) || 0;
 
     const data = this.dataStatistics;
-    debugger;
     data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
       percentCorrectAnswers: statisticPercetCorrectAnswers,
       longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
@@ -125,13 +124,8 @@ class Statistics {
 
     console.log(unguessedWords.length);
     console.log(guessedWords.length);
-    // console.log(statisticAboutGame);
     sessionStorage.setItem('statistics', JSON.stringify(data));
   }
-
-  // longestSeriesCorrectAnswers () {
-
-  // }
 }
 
 export default Statistics;

@@ -1,4 +1,5 @@
 // import Statistics from '../statistics/statistics';
+import App from '../../components/app';
 import Statistics from '../statistics/statistics';
 import { baseURL } from '../tutorial/fetch/fetch';
 import { body } from '../tutorial/get words/render-result-find-to-page';
@@ -38,6 +39,7 @@ const clickAudioGame = (event:MouseEvent) => {
     const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
     if (ungessedWords.length > 4) {
       new Statistics().setStatiscticAboutGame();
+      new App().setStatistics();
       cardUnflip();
       addToPageResults();
       sessionStorage.removeItem('unguessed-words-id');
