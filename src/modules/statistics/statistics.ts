@@ -1,5 +1,25 @@
-import { IdataStatistics } from '../../interface/interface';
-import { TfindWordInData, WordDescription } from '../../interface/type';
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable no-mixed-operators */
+type WordDescription = {
+  [key: string]: {
+    correctAnswers: number,
+    lastUsedWord: string,
+  };
+};
+// eslint-disable-next-line @typescript-eslint/naming-convention
+type percentagesDescription = {
+  [key: string]: {
+    percentCorrectAnswers: number,
+    longestSeriesOfCorrectAnswers: number,
+  };
+};
+interface IdataStatistics {
+  learnedWords: number,
+  optional: {
+    words: WordDescription
+    correctAnswersInGames: percentagesDescription,
+  },
+}
 
 class Statistics {
   dataStatistics: IdataStatistics;
@@ -8,89 +28,103 @@ class Statistics {
     this.dataStatistics = dataStatistics;
   }
 
-  findWordInData(idWord:string): TfindWordInData {
-    const data = this.dataStatistics;
-
-    let oldUserData: Array<WordDescription>;
-    let oldWordData: Array<WordDescription>;
-    if (data) {
-      let indexWord: number;
-
-      oldUserData = data.optional.words;
-      if (oldUserData) {
-        // eslint-disable-next-line array-callback-return
-        oldWordData = oldUserData.filter((word, index) => {
-          if (word.id === idWord) {
-            indexWord = index;
-            return true;
-          }
-        });
-        if (oldWordData.length === 0) {
-          return {
-            oldrDataUser: data,
-          };
-        }
-        return {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          index: indexWord!,
-          oldDataWord: oldWordData,
-          oldrDataUser: data,
-        };
-      }
-    }
-    const newData: IdataStatistics = {
-      learnedWords: 0,
-      optional: {
-        words: [{
-          id: idWord,
-          correctAnswers: 0,
-          lastUsedWord: new Date().toLocaleDateString('en-US'),
-        },
-        ],
-      },
-    };
-    debugger;
-    sessionStorage.setItem('statistics', JSON.stringify(newData));
-    return {
-      index: 0,
-      oldDataWord: [{ id: '', correctAnswers: 0 }],
-      oldrDataUser: newData,
-    };
-  }
-
   wordCorrectAnswer(idWord: string) {
-    const { index, oldrDataUser } = this.findWordInData(idWord);
-    if (typeof index === 'number' && oldrDataUser) {
-      if (oldrDataUser.optional.words[index].correctAnswers < 3) {
-        oldrDataUser.optional.words[index].correctAnswers += 1;
+    if (sessionStorage.getItem('series-of-correct-answers') && sessionStorage.getItem('longest-series-of-correct-answers')) {
+      const seriesAnswers = Number(JSON.parse(sessionStorage.getItem('series-of-correct-answers')!)) + 1;
+      const longestSeries = Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!));
+      if (seriesAnswers > longestSeries) {
+        sessionStorage.setItem('longest-series-of-correct-answers', JSON.stringify(seriesAnswers));
       }
+      sessionStorage.setItem('series-of-correct-answers', JSON.stringify(seriesAnswers));
     } else {
-      const newWord = {
-        id: idWord,
-        correctAnswers: 1,
-        lastUsedWord: new Date().toLocaleDateString('en-US'),
-      };
-      oldrDataUser.optional.words.push(newWord);
+      sessionStorage.setItem('series-of-correct-answers', JSON.stringify(1));
+      sessionStorage.setItem('longest-series-of-correct-answers', JSON.stringify(1));
     }
-    sessionStorage.setItem('statistics', JSON.stringify(oldrDataUser));
+    const data: IdataStatistics = this.dataStatistics;
+    if (data) {
+      if (Object.keys(data.optional.words).includes(idWord)) {
+        if (data.optional.words[idWord].correctAnswers < 3) {
+          data.optional.words[idWord].correctAnswers += 1;
+          if (data.optional.words[idWord].correctAnswers === 3) {
+            data.learnedWords += 1;
+          }
+        }
+      } else {
+        const newDataWord = {
+          correctAnswers: 1,
+          lastUsedWord: new Date().toLocaleDateString('en-US'),
+        };
+        data.optional.words[idWord] = newDataWord;
+      }
+      sessionStorage.setItem('statistics', JSON.stringify(data));
+    } else {
+      const newData:IdataStatistics = {
+        learnedWords: 0,
+        optional: {
+          words: {
+            [`${idWord}`]: {
+              correctAnswers: 1,
+              lastUsedWord: new Date().toLocaleDateString('en-US'),
+            },
+          },
+          correctAnswersInGames: {},
+        },
+      };
+      sessionStorage.setItem('statistics', JSON.stringify(newData));
+    }
   }
 
   wordUncorrectAnswer(idWord: string) {
-    const { index, oldrDataUser } = this.findWordInData(idWord);
-    if (typeof index === 'number' && oldrDataUser) {
-      if (oldrDataUser.optional.words[index].correctAnswers > 0) {
-        oldrDataUser.optional.words[index].correctAnswers -= 1;
+    sessionStorage.setItem('series-of-correct-answers', JSON.stringify(0));
+    const data: IdataStatistics = this.dataStatistics;
+    if (data) {
+      if (Object.keys(data.optional.words).includes(idWord)) {
+        if (data.optional.words[idWord].correctAnswers > 0) {
+          data.optional.words[idWord].correctAnswers -= 1;
+          if (data.optional.words[idWord].correctAnswers === 2) {
+            data.learnedWords -= 1;
+          }
+        }
+      } else {
+        const newDataWord = {
+          correctAnswers: 0,
+          lastUsedWord: new Date().toLocaleDateString('en-US'),
+        };
+        data.optional.words[idWord] = newDataWord;
       }
+      sessionStorage.setItem('statistics', JSON.stringify(data));
     } else {
-      const newWord = {
-        id: idWord,
-        correctAnswers: 0,
-        lastUsedWord: new Date().toLocaleDateString('en-US'),
+      const newData: IdataStatistics = {
+        learnedWords: 0,
+        optional: {
+          words: {
+            [`${idWord}`]: {
+              correctAnswers: 0,
+              lastUsedWord: new Date().toLocaleDateString('en-US'),
+            },
+          },
+          correctAnswersInGames: {},
+        },
       };
-      oldrDataUser.optional.words.push(newWord);
+      sessionStorage.setItem('statistics', JSON.stringify(newData));
+    }
+  }
+
+  setStatiscticAboutGame() {
+    const guessedWords = JSON.parse(sessionStorage.getItem('guessed-words-id')!) || 0;
+    const unguessedWords = JSON.parse(sessionStorage.getItem('unguessed-words-id')!) || 0;
+    const statisticPercetCorrectAnswers = Math.round(guessedWords.length
+    / (unguessedWords.length + guessedWords.length) * 100) || 0;
+
+    const data = this.dataStatistics;
+    data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
+      percentCorrectAnswers: statisticPercetCorrectAnswers,
+      longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
     }
 
-    sessionStorage.setItem('statistics', JSON.stringify(oldrDataUser));
+    console.log(unguessedWords.length);
+    console.log(guessedWords.length);
+    sessionStorage.setItem('statistics', JSON.stringify(data));
   }
 }
 

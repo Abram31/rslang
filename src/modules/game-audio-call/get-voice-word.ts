@@ -5,6 +5,8 @@ import { addToPageResults } from './results_game';
 import { addSessionStorage, getSessinoStorage } from './sessionStorage';
 import './game-audio-call.scss';
 import getDifficultStudiedWords from '../tutorial/difficult_words/get_difficult_studied_words';
+import App from '../../components/app';
+import Statistics from '../statistics/statistics';
 import { IdataFromServer } from '../../interface/interface';
 
 export const shuffle = (array: IdataFromServer[]) => {
@@ -18,7 +20,6 @@ export const getWordsFromServer = async (
 
 ) => {
   const preloader = preload();
-  debugger;
   let numberGroup = String(Number(window.location.hash.slice(-1)) - 1);
   let randomNumberPage = String(Math.floor(Math.random() * 30));
   if (chapter && page) {
@@ -57,6 +58,7 @@ const choiсeNextWord = async (data: IdataFromServer[])
   if (usedIndexWords.includes(savedData[randomNumber].id)
   || usedIndexWords.includes(savedData[randomNumber]._id)) {
     if (usedIndexWords.length >= savedData.length) {
+      new Statistics().setStatiscticAboutGame()
       addToPageResults();
       sessionStorage.setItem('used-index-words-in-audio-call', '[]');
       sessionStorage.setItem('unguessed-words-id', '[]'); /// /TODO данные на сервер
@@ -71,7 +73,6 @@ const choiсeNextWord = async (data: IdataFromServer[])
 };
 
 export const addWordsToPage = async (difficult?: boolean, chapter?: string, page?: string) => {
-  debugger;
   let savedData: IdataFromServer[];
   let word: boolean | IdataFromServer;
   if (!getSessinoStorage('game-audio-call') || getSessinoStorage('game-audio-call').length !== 0) {

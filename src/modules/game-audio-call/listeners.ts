@@ -1,3 +1,5 @@
+// import Statistics from '../statistics/statistics';
+import App from '../../components/app';
 import Statistics from '../statistics/statistics';
 import { body } from '../tutorial/get words/render-result-find-to-page';
 import playAudio from '../tutorial/play-words';
@@ -32,6 +34,8 @@ const clickAudioGame = (event:MouseEvent) => {
     }
     const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
     if (ungessedWords.length > 4) {
+      new Statistics().setStatiscticAboutGame();
+      new App().setStatistics();
       cardUnflip();
       addToPageResults();
       sessionStorage.removeItem('unguessed-words-id');
@@ -75,8 +79,11 @@ const addListeners = () => {
     sessionStorage.removeItem('studied-words');
     sessionStorage.removeItem('used-index-words-in-audio-call');
     sessionStorage.removeItem('unguessed-words-id');
+    sessionStorage.removeItem('series-of-correct-answers');
+    sessionStorage.removeItem('longest-series-of-correct-answers');
     body.removeEventListener('click', clickAudioGame);
   });
+
 };
 
 export default addListeners;

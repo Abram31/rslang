@@ -113,8 +113,8 @@ export const addToPageResults = () => {
   const fragment = createListUsedWords();
 
   (document.getElementById('root') as HTMLDivElement).append(fragment);
-
-  ['used-index-words-in-audio-call', 'list-game-audio', 'guessed-words-id'].forEach((item) => {
+  ['used-index-words-in-audio-call', 'list-game-audio',
+  'guessed-words-id', 'series-of-correct-answers', 'longest-series-of-correct-answers'].forEach((item) => {
     sessionStorage.removeItem(item);
   });
 };
