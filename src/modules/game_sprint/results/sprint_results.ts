@@ -5,9 +5,6 @@ import FooterRender from '../../layouts/footer/FooterRender';
 import { renderSprintGame, getWords } from '../game_sprint';
 import { englishWords, russianWords, result, audioPaths, play } from '../game_sprint';
 
-
-
-
 const renderSprintResults = () => {
   let body = document.querySelector('body') as HTMLElement;
 	body.innerHTML = '';
@@ -33,7 +30,6 @@ const renderSprintResults = () => {
 			}]);
 	}
 	
-
 	new FooterRender();
 
 	let soundIcon = document.querySelectorAll('.results-sound-icon') as NodeListOf<HTMLElement>;

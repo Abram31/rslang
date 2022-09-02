@@ -5,14 +5,9 @@ const timer = () => {
 	let time: number = Number(timerDiv.innerText);
 	const changeTime = setInterval(() => {
 		if (time <= 0) {
-			// console.log('End');
-			timerDiv.innerText = 'End';
 			renderSprintResults();
-			// let result = userResponse();
-			// console.log(result);
 			clearInterval(changeTime);
 		} else {
-			// console.log(`Running ${time}`);
 			timerDiv.innerHTML = time.toString();
 		}
 		time--;
