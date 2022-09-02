@@ -30,6 +30,6 @@ export default class MainPageRender {
       window.location.href = '#/video';
     });
 
-    this.mainPageImage = createDomNode('img', ['main-page-image'], this.mainWrapper, '', [{ src: '../../../assets/girl-main.jpg' }, { alt: 'Girl' }]);
+    this.mainPageImage = createDomNode('img', ['main-page-image'], this.mainWrapper, '', [{ src: './assets/girl-main.jpg' }, { alt: 'Girl' }]);
   }
 }

@@ -1,4 +1,4 @@
-import { createDomNode } from '../tutorial/function-create-dom-node';
+import createDomNode from '../tutorial/function-create-dom-node';
 import { body } from '../tutorial/get words/render-result-find-to-page';
 
 const preload = () => {

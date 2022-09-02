@@ -1,26 +1,10 @@
-type WordDescription = {
-  id: string;
-  correctAnswers: number;
-  lastUsedWord?: string;
-};
-type TfindWordInData = {
-  index?: number,
-  oldDataWord?: WordDescription[],
-  oldrDataUser: IdataStatistics,
-};
-
-interface IdataStatistics {
-  learnedWords: number,
-  optional: {
-    words: [WordDescription]
-  }
-
-}
+import { IdataStatistics } from '../../interface/interface';
+import { TfindWordInData, WordDescription } from '../../interface/type';
 
 class Statistics {
   dataStatistics: IdataStatistics;
 
-  constructor(dataStatistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics')!)) {
+  constructor(dataStatistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string)) {
     this.dataStatistics = dataStatistics;
   }
 
@@ -31,8 +15,10 @@ class Statistics {
     let oldWordData: Array<WordDescription>;
     if (data) {
       let indexWord: number;
+
       oldUserData = data.optional.words;
       if (oldUserData) {
+        // eslint-disable-next-line array-callback-return
         oldWordData = oldUserData.filter((word, index) => {
           if (word.id === idWord) {
             indexWord = index;
@@ -45,6 +31,7 @@ class Statistics {
           };
         }
         return {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           index: indexWord!,
           oldDataWord: oldWordData,
           oldrDataUser: data,
@@ -72,7 +59,7 @@ class Statistics {
   }
 
   wordCorrectAnswer(idWord: string) {
-    const { index, oldDataWord, oldrDataUser } = this.findWordInData(idWord);
+    const { index, oldrDataUser } = this.findWordInData(idWord);
     if (typeof index === 'number' && oldrDataUser) {
       if (oldrDataUser.optional.words[index].correctAnswers < 3) {
         oldrDataUser.optional.words[index].correctAnswers += 1;
@@ -89,7 +76,7 @@ class Statistics {
   }
 
   wordUncorrectAnswer(idWord: string) {
-    const { index, oldDataWord, oldrDataUser } = this.findWordInData(idWord);
+    const { index, oldrDataUser } = this.findWordInData(idWord);
     if (typeof index === 'number' && oldrDataUser) {
       if (oldrDataUser.optional.words[index].correctAnswers > 0) {
         oldrDataUser.optional.words[index].correctAnswers -= 1;

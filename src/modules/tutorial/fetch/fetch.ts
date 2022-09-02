@@ -1,6 +1,6 @@
 export interface IwordsLIst {
   page: string,
-  group:string
+  group: string
 }
 
 export const baseURL = 'https://base-rs-lang-1.herokuapp.com/';

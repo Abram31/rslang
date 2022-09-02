@@ -1,4 +1,4 @@
-import { getWordsFromServer } from "./get-voice-word";
+import { getWordsFromServer } from './get-voice-word';
 
 const keyboardControl = (event: KeyboardEvent) => {
   const sectionAudioCall = document.querySelector('.container-game-audio-call') as HTMLElement;
@@ -7,7 +7,7 @@ const keyboardControl = (event: KeyboardEvent) => {
   const click = new Event('click', { bubbles: true });
   buttonsWithWords.forEach((item) => {
     const attributeKey = item.getAttribute('keyboard-key');
-    listElements.push(attributeKey!);
+    listElements.push(attributeKey as string);
   });
   if (listElements.includes(event.key)) {
     const wrapperButtons = sectionAudioCall.querySelector('.container-game-audio-call__wrapper-words') as HTMLUListElement;

@@ -14,6 +14,4 @@ export const cardUnflip = () => {
   frontCard.classList.remove('front__flip');
   const backCard = element.querySelector('.container-game-audio-call__button-call-voice__back') as HTMLDivElement;
   backCard.classList.remove('back__flip');
-
-  
 };
