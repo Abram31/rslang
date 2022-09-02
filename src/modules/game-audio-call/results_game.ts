@@ -97,8 +97,8 @@ export const addToPageResults = () => {
   const fragment = createListUsedWords();
   body.append(fragment);
   const results = document.querySelector('.container-result') as HTMLElement;
-
-  ['used-index-words-in-audio-call', 'list-game-audio', 'guessed-words-id'].forEach((item) => {
+  ['used-index-words-in-audio-call', 'list-game-audio',
+  'guessed-words-id', 'series-of-correct-answers', 'longest-series-of-correct-answers'].forEach((item) => {
     sessionStorage.removeItem(item);
   });
 };

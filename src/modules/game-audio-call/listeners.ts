@@ -31,12 +31,13 @@ const clickAudioGame = (event:MouseEvent) => {
     // new Statistics().wordUncorrectAnswer(buttonVoiceId);
     if (sessionStorage.getItem('correctness of the choice') === 'false') {
       addSessionStorage('unguessed-words-id', buttonVoiceId);
-      // new Statistics().wordUncorrectAnswer(buttonVoiceId);
+      new Statistics().wordUncorrectAnswer(buttonVoiceId);
     } else {
-      // new Statistics().wordCorrectAnswer(buttonVoiceId);
+      new Statistics().wordCorrectAnswer(buttonVoiceId);
     }
     const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
     if (ungessedWords.length > 4) {
+      new Statistics().setStatiscticAboutGame();
       cardUnflip();
       addToPageResults();
       sessionStorage.removeItem('unguessed-words-id');
@@ -81,6 +82,8 @@ const addListeners = () => {
     sessionStorage.removeItem('studied-words');
     sessionStorage.removeItem('used-index-words-in-audio-call');
     sessionStorage.removeItem('unguessed-words-id');
+    sessionStorage.removeItem('series-of-correct-answers');
+    sessionStorage.removeItem('longest-series-of-correct-answers');
     body.removeEventListener('click', clickAudioGame);
 
 
