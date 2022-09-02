@@ -20,6 +20,10 @@
   @include flex();
   gap: 10em;
   flex-wrap: wrap;
+
+  @media (max-width: 1311px) {
+    gap: 5em;
+  }
 }
 
 .game__text {
@@ -32,4 +36,16 @@
 .game__description {
   @include font(2.4rem, 400);
   color: $colorBlack;
+}
+
+.game-sprint {
+  @media (max-width: 1261px) {
+    flex-direction: column-reverse;
+  }
+}
+
+.game-audio {
+  @media (max-width: 1261px) {
+    flex-direction: column;
+  }
 }

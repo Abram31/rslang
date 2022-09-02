@@ -1,15 +1,21 @@
-/* eslint-disable no-underscore-dangle */
-import { createDomNode } from '../tutorial/function-create-dom-node';
-import { body, IdataFromServer } from '../tutorial/get words/render-result-find-to-page';
+import { IdataFromServer } from '../../interface/interface';
+import createDomNode from '../tutorial/function-create-dom-node';
 import { getSessinoStorage } from './sessionStorage';
 
 export const createListUsedWords = () => {
   const resultFragment = document.createDocumentFragment();
 
-  const descriptionContainerResult = {
+  const overlay = {
     typeElement: 'section',
-    className: 'container-result',
+    className: 'overlay',
     parentElement: resultFragment,
+  };
+  const overlayWindow = createDomNode(overlay);
+
+  const descriptionContainerResult = {
+    typeElement: 'div',
+    className: 'container-result',
+    parentElement: overlayWindow,
   };
   const containerResult = createDomNode(descriptionContainerResult);
 
@@ -55,14 +61,14 @@ export const createListUsedWords = () => {
   const unguessedWordsId: string[] = getSessinoStorage('unguessed-words-id');
 
   const listWordsWithTranslate = usedWordsId.map((id) => {
-    const word = dataAllWords.find((item) => item.id === id || item._id === id );
+    const word = dataAllWords.find((item) => item.id === id || item._id === id);
     if (word) {
       return [word.word, word.wordTranslate, word.id || word._id, word.audio];
     }
     return [];
   });
 
-  const addWord = (classTitle: string, words: string[]) => {
+  const addWord = (classTitle: string, words: string[], bg: string) => {
     const descriptionWrapperWord = {
       typeElement: 'li',
       className: classTitle,
@@ -70,6 +76,8 @@ export const createListUsedWords = () => {
       parentElement: wrapperList,
     };
     const wrapperWord = createDomNode(descriptionWrapperWord);
+
+    wrapperWord.style.background = bg;
 
     ['word-en', 'word-ru'].forEach((item, index) => {
       const word = {
@@ -82,11 +90,19 @@ export const createListUsedWords = () => {
     });
   };
 
-  listWordsWithTranslate.forEach((words) => {
-    if (unguessedWordsId.includes(words[2])) {
-      addWord('wrapper-list__item uncorrect-answer', words);
+  listWordsWithTranslate.forEach((words, index) => {
+    let colorLine: string;
+
+    if (index % 2 === 0) {
+      colorLine = '#F5D2D4';
     } else {
-      addWord('wrapper-list__item correct-answer', words);
+      colorLine = '#FAF2F3';
+    }
+
+    if (unguessedWordsId.includes(words[2])) {
+      addWord('wrapper-list__item uncorrect-answer', words, colorLine);
+    } else {
+      addWord('wrapper-list__item correct-answer', words, colorLine);
     }
   });
 
@@ -95,8 +111,8 @@ export const createListUsedWords = () => {
 
 export const addToPageResults = () => {
   const fragment = createListUsedWords();
-  body.append(fragment);
-  const results = document.querySelector('.container-result') as HTMLElement;
+
+  (document.getElementById('root') as HTMLDivElement).append(fragment);
 
   ['used-index-words-in-audio-call', 'list-game-audio', 'guessed-words-id'].forEach((item) => {
     sessionStorage.removeItem(item);

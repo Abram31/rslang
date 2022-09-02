@@ -48,10 +48,6 @@ export default class TextBookChapter {
       }
     }
 
-    if (localStorage.getItem('id') !== null) {
-      this.createSection('7', true);
-    }
-
     this.textBookDescription = createDomNode('div', ['textbook__description'], this.sectionText);
     this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: '../../../assets/svg/icons/info-circle.svg' }, { alt: 'Info' }]);
     this.textBookDescriptionWrapper = createDomNode('div', ['textbook__description-wrapper'], this.textBookDescription);

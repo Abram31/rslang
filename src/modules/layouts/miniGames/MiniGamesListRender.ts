@@ -24,7 +24,7 @@ export default class MiniGamesListRender {
 
     this.title = createDomNode('h1', ['title'], this.gamesWrapper, 'Мини-игры');
 
-    this.game = createDomNode('div', ['game'], this.gamesWrapper);
+    this.game = createDomNode('div', ['game', 'game-sprint'], this.gamesWrapper);
     this.gameImage = createDomNode('img', ['game__image'], this.game, '', [{ src: '../../../assets/svg/sprint-game-image.svg' }, { alt: 'Sprint' }]);
     this.gameText = createDomNode('div', ['game__text'], this.game);
     this.title = createDomNode('p', ['title'], this.gameText, 'Спринт');
@@ -35,7 +35,7 @@ export default class MiniGamesListRender {
       window.location.href = '#/games/sprint';
     });
 
-    this.game = createDomNode('div', ['game'], this.gamesWrapper);
+    this.game = createDomNode('div', ['game', 'game-audio'], this.gamesWrapper);
     this.gameText = createDomNode('div', ['game__text'], this.game);
     this.title = createDomNode('p', ['title'], this.gameText, 'Аудиовызов');
     this.descriptionGame = createDomNode('p', ['game__description'], this.gameText, 'Тренировка Аудиовызов улучшает восприятие речи на слух.');

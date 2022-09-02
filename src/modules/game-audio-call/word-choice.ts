@@ -1,8 +1,7 @@
-import { playSoundsAfterAnswer } from './play-sounds-after-answer';
+import playSoundsAfterAnswer from './play-sounds-after-answer';
 import { addSessionStorage } from './sessionStorage';
 
-// eslint-disable-next-line import/prefer-default-export
-export const choiceWord = (event: MouseEvent) => {
+const choiceWord = (event: MouseEvent) => {
   const element = event.target as HTMLDivElement;
   const wordButtons = document.querySelectorAll('.wrapper-words__word');
   const voiceElement = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
@@ -29,12 +28,13 @@ export const choiceWord = (event: MouseEvent) => {
     });
 
     sessionStorage.setItem('correctness of the choice', 'false');
-    // addSessionStorage('unguessed-words-id', String(idVoice));
   }
 
   wordButtons.forEach((item) => {
     const elem = item as HTMLLIElement;
     elem.style.pointerEvents = 'none';
-    elem.style.borderColor = 'whitesmoke';
+    elem.style.borderColor = 'black';
   });
 };
+
+export default choiceWord;

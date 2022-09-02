@@ -1,15 +1,11 @@
-/* eslint-disable no-underscore-dangle */
 import { baseURL, fetchRequest, IwordsLIst } from '../tutorial/fetch/fetch';
-import { createDomNode, IDomNode } from '../tutorial/function-create-dom-node';
-import { body, IdataFromServer } from '../tutorial/get words/render-result-find-to-page';
-// eslint-disable-next-line import/no-cycle
 import { addToMarkupWords } from './get-list-words';
 import preload from './preload';
 import { addToPageResults } from './results_game';
-import { addSessionStorage, deleteSessionStorage, getSessinoStorage } from './sessionStorage';
+import { addSessionStorage, getSessinoStorage } from './sessionStorage';
 import './game-audio-call.scss';
 import getDifficultStudiedWords from '../tutorial/difficult_words/get_difficult_studied_words';
-import App from '../../components/app';
+import { IdataFromServer } from '../../interface/interface';
 
 export const shuffle = (array: IdataFromServer[]) => {
   array.sort(() => Math.random() - 0.5);
@@ -22,7 +18,7 @@ export const getWordsFromServer = async (
 
 ) => {
   const preloader = preload();
-  debugger
+  debugger;
   let numberGroup = String(Number(window.location.hash.slice(-1)) - 1);
   let randomNumberPage = String(Math.floor(Math.random() * 30));
   if (chapter && page) {
@@ -43,10 +39,13 @@ export const getWordsFromServer = async (
     });
   }
 };
-// eslint-disable-next-line max-len
-export const randomNumberWord = (data: IdataFromServer[]) => Math.floor(Math.random() * data.length);
 
-const choiсeNextWord = async (data: IdataFromServer[], difficult?: boolean): Promise<IdataFromServer | false> => {
+export const randomNumberWord = (
+  data: IdataFromServer[],
+) => Math.floor(Math.random() * data.length);
+
+const choiсeNextWord = async (data: IdataFromServer[], difficult?: boolean)
+: Promise<IdataFromServer | false> => {
   let savedData = getSessinoStorage('game-audio-call');
   if (!savedData || savedData.length === 0) {
     await getWordsFromServer();
@@ -55,8 +54,8 @@ const choiсeNextWord = async (data: IdataFromServer[], difficult?: boolean): Pr
   const randomNumber = randomNumberWord(savedData);
   const usedIndexWords = getSessinoStorage('used-index-words-in-audio-call');
 
-  if (usedIndexWords.includes(savedData[randomNumber].id) 
-  || usedIndexWords.includes(savedData[randomNumber]._id) ) {
+  if (usedIndexWords.includes(savedData[randomNumber].id)
+  || usedIndexWords.includes(savedData[randomNumber]._id)) {
     if (usedIndexWords.length >= savedData.length) {
       addToPageResults();
       sessionStorage.setItem('used-index-words-in-audio-call', '[]');
@@ -84,7 +83,7 @@ export const addWordsToPage = async (difficult?: boolean, chapter?: string, page
     word = await choiсeNextWord(savedData);
   } else {
     await getWordsFromServer(difficult);
-    savedData = getSessinoStorage('game-audio-call'); /////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!
+    savedData = getSessinoStorage('game-audio-call'); // ///////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!
     word = await choiсeNextWord(savedData, true);
   }
   if (word) {

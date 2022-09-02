@@ -1,14 +1,12 @@
 import { fetchRequest } from './fetch/fetch';
 import { body } from './get words/render-result-find-to-page';
-import { createWordContainer } from './create-word-container';
-import { createDomNode } from './function-create-dom-node';
+import createWordContainer from './create-word-container';
+import createDomNode from './function-create-dom-node';
 import playAudio from './play-words';
 import './style.scss';
-import getDifficultStudiedWords from './difficult_words/get_difficult_studied_words';
 
 export const changeBackgroundChapters = () => {
   const chapterInMemory = sessionStorage.getItem('chapter-number');
-  // eslint-disable-next-line default-case
   switch (chapterInMemory) {
     case '1':
       body.style.backgroundColor = 'rgba(239, 251, 251, 0.2)';
@@ -39,26 +37,28 @@ export const miniButtonGames = (wrapper: HTMLElement) => {
   };
   const containerButtons = createDomNode(descriptionContainerButtons);
 
-  const descriptionHome = {
-    typeElement: 'div',
-    className: 'container-buttons__home',
-    parentElement: containerButtons,
-  };
-  const buttonHome = createDomNode(descriptionHome);
+  // const descriptionHome = {
+  //   typeElement: 'div',
+  //   className: 'container-buttons__home',
+  //   parentElement: containerButtons,
+  // };
+  // const buttonHome = createDomNode(descriptionHome);
 
   const descriptionSoundGame = {
     typeElement: 'div',
     className: 'container-buttons__game-audio-call',
     parentElement: containerButtons,
   };
-  const buttonSoundGame = createDomNode(descriptionSoundGame);
+  // const buttonSoundGame =
+  createDomNode(descriptionSoundGame);
 
   const descriptionSprintGame = {
     typeElement: 'div',
     className: 'container-buttons__game-sprint',
     parentElement: containerButtons,
   };
-  const buttonSprintGame = createDomNode(descriptionSprintGame);
+  // const buttonSprintGame =
+  createDomNode(descriptionSprintGame);
 
   containerButtons.addEventListener('click', (event) => {
     const element = event.target as HTMLDivElement;
@@ -93,7 +93,8 @@ const tutorialRender = () => {
     className: 'container-tutorial__title',
     parentElement: wrapperTutorial,
   };
-  const wrapperTitle = createDomNode(descriptionTitle);
+  // const wrapperTitle =
+  createDomNode(descriptionTitle);
 
   const descriptionWrapperSelects = {
     typeElement: 'div',
@@ -170,7 +171,6 @@ const tutorialRender = () => {
     const element = event.target as HTMLHRElement;
     if (element.classList.contains('container-word__title')) {
       const pathAudio = element.getAttribute('data-path-audio');
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       pathAudio ? playAudio(pathAudio) : '';
     }
   });

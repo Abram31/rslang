@@ -1,7 +1,5 @@
-import { CreateNewUser, SignInUser } from '../interface/interface';
-// eslint-disable-next-line import/no-cycle
-import AuthModal from '../modules/authentication/AuthModal';
-import { IdataFromServer } from '../modules/tutorial/get words/render-result-find-to-page';
+import { CreateNewUser, IdataFromServer, SignInUser } from '../interface/interface';
+import AuthorizationStateWindow from '../modules/layouts/authorizationStateWindow/authorizationStateWindow';
 import { TOKEN_ACTION_IN_MILLISECONDS } from '../utils/constants';
 import { getStorage, setStorage } from '../utils/storage';
 
@@ -65,19 +63,6 @@ export default class App {
     return tokenData.token;
   }
 
-  // async request(endpoint: string, params: RequestInit) {
-  //   return fetch(endpoint, params)
-  //     .then(async (res) => {
-  //       if (res.status === 401) {
-  //         await this.refreshToken()
-  //           .catch(() => {
-  //             new AuthModal('Войти', 'Войдите в свою учетную запись').modalSignInRender();
-  //           });
-  //       }
-  //       return res.json();
-  //     });
-  // }
-
   async request(endpoint: string, options: RequestInit) {
     const tokenDateCreation = getStorage('tokenDateCreation');
     const token = getStorage('token');
@@ -90,19 +75,18 @@ export default class App {
           new AuthorizationStateWindow('Время сессии истекло, вам необходимо авторизоваться');
         }
       }
-    } else {
-      new AuthorizationStateWindow('Время сессии истекло, вам необходимо авторизоваться');
-    }
 
-    const requestPromise = await fetch(endpoint, {
-      ...options,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
-    return requestPromise.json();
+      const requestPromise = await fetch(endpoint, {
+        ...options,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+
+      return requestPromise.json();
+    }
   }
 
   async getUser() {
@@ -126,7 +110,7 @@ export default class App {
     });
   }
 
-  async getUserAggregateWords(filter: string) { // ------------------------example ?filter={"userWord.difficulty":"hard"}
+  async getUserAggregateWords(filter: string) { // ---example ?filter={"userWord.difficulty":"hard"}
     const id = getStorage('id');
     return this.request(`${this.userUrl}/${id}/aggregatedWords${filter}`, {
       method: 'GET',
@@ -154,7 +138,7 @@ export default class App {
     }
   }
 
-  async getStatistics() { 
+  async getStatistics() {
     const id = getStorage('id');
     const token = getStorage('token');
     return this.request(`${this.userUrl}/${id}/statistics`, {
@@ -169,7 +153,7 @@ export default class App {
   async setStatistics() {
     const id = getStorage('id');
     const token = getStorage('token');
-    const statistics = getStorage('statistics')
+    const statistics = getStorage('statistics');
     return this.request(`${this.userUrl}/${id}/statistics`, {
       method: 'PUT',
       headers: {

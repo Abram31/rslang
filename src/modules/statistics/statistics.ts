@@ -1,26 +1,10 @@
-type WordDescription = {
-  id: string;
-  correctAnswers: number;
-  lastUsedWord?: string;
-};
-type TfindWordInData = {
-  index?: number,
-  oldDataWord?: WordDescription[],
-  oldrDataUser: IdataStatistics,
-};
-
-interface IdataStatistics {
-  learnedWords: number,
-  optional: {
-    words: [WordDescription]
-  }
-
-}
+import { IdataStatistics } from '../../interface/interface';
+import { TfindWordInData, WordDescription } from '../../interface/type';
 
 class Statistics {
   dataStatistics: IdataStatistics;
 
-  constructor(dataStatistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics')!)) {
+  constructor(dataStatistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string)) {
     this.dataStatistics = dataStatistics;
   }
 
@@ -31,8 +15,10 @@ class Statistics {
     let oldWordData: Array<WordDescription>;
     if (data) {
       let indexWord: number;
+
       oldUserData = data.optional.words;
       if (oldUserData) {
+        // eslint-disable-next-line array-callback-return
         oldWordData = oldUserData.filter((word, index) => {
           if (word.id === idWord) {
             indexWord = index;

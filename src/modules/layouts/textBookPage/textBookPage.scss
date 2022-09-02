@@ -29,6 +29,10 @@
     outline: none;
     border-color: $colorRed;
   }
+
+  @media (max-width: 420px) {
+    width: 15em;
+  }
 }
 
 .image-friend {
