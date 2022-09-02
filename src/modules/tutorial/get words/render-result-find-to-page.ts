@@ -1,29 +1,9 @@
+import { IdataFromServer } from '../../../interface/interface';
+
 export const body = document.querySelector('body') as HTMLElement;
 
 export const div = document.createElement('div') as HTMLElement;
 body.append(div);
-
-export interface IdataFromServer {
-  _id:string,
-  id: string,
-  group: number,
-  page: number,
-  word: string,
-  image: string,
-  audio: string,
-  audioMeaning: string,
-  audioExample: string,
-  textMeaning: string,
-  textExample: string,
-  transcription: string,
-  wordTranslate: string,
-  textMeaningTranslate: string,
-  textExampleTranslate: string,
-  userWord: {
-    difficulty: string,
-  }
-
-}
 
 export const showWords = (data: Array<IdataFromServer>) => {
   div.innerHTML = '';

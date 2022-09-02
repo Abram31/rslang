@@ -1,12 +1,11 @@
-/* eslint-disable import/prefer-default-export */
 import { baseURL } from './fetch/fetch';
-import { IdataFromServer } from './get words/render-result-find-to-page';
-import { createDomNode } from './function-create-dom-node';
+import createDomNode from './function-create-dom-node';
 import App from '../../components/app';
 import hightlitingDifficultWords from './difficult_words/hightliting_difficult_words';
+import { IdataFromServer } from '../../interface/interface';
 import checkDifficultWordBeforeLoading from './difficult_words/check_difficult_word_before_loading';
 
-export const createWordContainer = (word: IdataFromServer) => {
+const createWordContainer = (word: IdataFromServer) => {
   const wordFragment = document.createDocumentFragment();
 
   const descriptionWrapperWord = {
@@ -58,7 +57,8 @@ export const createWordContainer = (word: IdataFromServer) => {
     className: 'container-word__translate-transcription',
     parentElement: containerWord,
   };
-  const translateTranscription = createDomNode(descriptionTranslateTranscription);
+  // const translateTranscription =
+  createDomNode(descriptionTranslateTranscription);
 
   const descriptionTextMeaning = {
     typeElement: 'span',
@@ -75,7 +75,8 @@ export const createWordContainer = (word: IdataFromServer) => {
     className: 'container-word__text-meaning-translate',
     parentElement: containerWord,
   };
-  const textMeaningTranslate = createDomNode(descriptionTextMeaningTranslate);
+  // const textMeaningTranslate =
+  createDomNode(descriptionTextMeaningTranslate);
 
   const descriptionTextExample = {
     typeElement: 'span',
@@ -92,7 +93,8 @@ export const createWordContainer = (word: IdataFromServer) => {
     className: 'container-word__text-example-translate',
     parentElement: containerWord,
   };
-  const textExampleTranslate = createDomNode(descriptionTextExampleTranslate);
+  // const textExampleTranslate =
+  createDomNode(descriptionTextExampleTranslate);
 
   // new buttons
 
@@ -121,7 +123,7 @@ export const createWordContainer = (word: IdataFromServer) => {
     };
 
     const compoundWord = createDomNode(btnCompoundWord) as HTMLImageElement;
-    compoundWord.src = '../../assets/svg/icons/star-transp.svg';
+    compoundWord.src = './assets/svg/icons/star-word.svg';
     compoundWord.alt = 'Star';
 
     const btnLearnedWord = {
@@ -131,7 +133,7 @@ export const createWordContainer = (word: IdataFromServer) => {
     };
 
     const learnedWord = createDomNode(btnLearnedWord) as HTMLImageElement;
-    learnedWord.src = '../../assets/svg/icons/info-bird.svg';
+    learnedWord.src = './assets/svg/icons/info-bird.svg';
     learnedWord.alt = 'Learned';
   }
   if (window.location.hash !== '#/book/section-7') {
@@ -140,3 +142,5 @@ export const createWordContainer = (word: IdataFromServer) => {
 
   return wordFragment;
 };
+
+export default createWordContainer;

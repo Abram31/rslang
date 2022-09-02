@@ -1,4 +1,3 @@
-import createDomNode from '../../utils/createDomNode';
 import { addWordsToPage } from '../game-audio-call/get-voice-word';
 import AboutTeam from '../layouts/aboutTeam/AboutTeam';
 import LevelGame from '../layouts/levelGame/LevelGame';
@@ -19,8 +18,11 @@ import FooterRender from '../layouts/footer/FooterRender';
 
 const generateRouter = () => {
   document.querySelector('div')?.remove();
+  new HeaderRender();
+  new FooterRender();
 
   const wrapper = document.getElementById('root') as HTMLElement;
+  const footer = document.querySelector('.footer') as HTMLElement;
 
   const routes: { [key: string]: string | (() => void) } = {};
   const templates: { [key: string]: (() => void) } = {};
@@ -79,50 +81,37 @@ const generateRouter = () => {
   });
 
   template('game', () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
+    wrapper.innerHTML = '';
     new LevelGame(wrapper);
-    new FooterRender();
   });
 
   template('game-audio-call', async () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
+    wrapper.innerHTML = '';
     baseMarkupAudioCall();
     await addWordsToPage();
     addListeners();
   });
   template('game-audio-call-difficult', async () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
+    wrapper.innerHTML = '';
     baseMarkupAudioCall();
     await addWordsToPage(true);
     addListeners();
   });
   template('game-audio-call-random-page', async () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
-    baseMarkupAudioCall();
-    await addWordsToPage(false, sessionStorage.getItem('chapter-number')!, sessionStorage.getItem('page-number')!);
-    addListeners();
-  });
-
-  template('game-level', () => {
     wrapper.innerHTML = '';
-    createDomNode('h1', ['title'], wrapper, 'В разработке');
+    baseMarkupAudioCall();
+    await addWordsToPage(false, sessionStorage.getItem('chapter-number') as string, sessionStorage.getItem('page-number') as string);
+    addListeners();
   });
 
   template('page-book', () => {
     wrapper.innerHTML = '';
     tutorialRender();
     addListenersToChoicePageChapter();
-    new FooterRender();
   });
   template('page-difficult-words', async () => {
-    document.body.innerHTML = '';
-    new HeaderRender();
+    wrapper.innerHTML = '';
     await addDifficultWordsToPage();
-    new FooterRender();
   });
 
   route('/', 'home');
@@ -163,9 +152,6 @@ const generateRouter = () => {
     }
   }
 
-  route('/book/sprint', 'game-level');
-  route('/book/audio', 'game-level');
-
   const resolveRoute = (routeStr: string) => {
     try {
       return routes[routeStr];
@@ -176,7 +162,7 @@ const generateRouter = () => {
 
   const router = () => {
     const url = window.location.hash.slice(1) || '/';
-    // eslint-disable-next-line @typescript-eslint/no-shadow
+
     const route = resolveRoute(url);
 
     if (typeof route === 'function') {
@@ -184,6 +170,15 @@ const generateRouter = () => {
     }
     if (!window.location.hash.split('-').includes('#/book/section')) {
       body.style.backgroundColor = 'white';
+    }
+
+    if (!window.location.href.match(/audio\//)) {
+      body.style.backgroundImage = 'none';
+      footer.style.display = 'inline-flex';
+      body.style.justifyContent = 'space-between';
+    } else {
+      footer.style.display = 'none';
+      body.style.justifyContent = 'start';
     }
   };
 

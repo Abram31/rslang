@@ -1,12 +1,12 @@
 import { fetchRequest } from './fetch/fetch';
-import { IdataFromServer } from './get words/render-result-find-to-page';
-import { createWordContainer } from './create-word-container';
+import createWordContainer from './create-word-container';
 import { changeBackgroundChapters } from './markup';
-import App from '../../components/app';
-import getDifficultWords from './difficult_words/get_difficult_studied_words';
-import addDifficultWordsToPage from './difficult_words/add_difficult_words_to_page';
-import Statistics from '../statistics/statistics';
+import { IdataFromServer } from '../../interface/interface';
 // import Statistics from '../statistics/statistics';
+
+function updateUrl(numberPart: number | string, numberPage: string | number) {
+  window.location.href = `/#/book/section-${numberPart}/${numberPage}`;
+}
 
 export const addListenersToChoicePageChapter = async () => {
   const valuePage = (document.getElementById('select-pages') as HTMLSelectElement);
@@ -30,10 +30,11 @@ export const addListenersToChoicePageChapter = async () => {
     const numberPage = element.value.split(' ').slice(-1)[0];
     const numberPart = +valuePart.value.split(' ').slice(-1)[0] || '';
 
-    if (+numberPage) {
-      sessionStorage.setItem('page-number', numberPage!);
+    if (numberPage) {
+      sessionStorage.setItem('page-number', numberPage);
       await fetchRequestToWords(String(Number(numberPage) - 1), String(Number(numberPart) - 1));
     }
+    updateUrl(numberPart, numberPage);
   });
 
   valuePart.addEventListener('change', async (event: Event) => {
@@ -41,35 +42,13 @@ export const addListenersToChoicePageChapter = async () => {
     const numberPart = element.value.split(' ').slice(-1)[0];
     const numberPage = +valuePage.value.split(' ').slice(-1)[0] || '';
 
-    if (+numberPart) {
-      sessionStorage.setItem('chapter-number', numberPart!);
+    if (numberPart) {
+      sessionStorage.setItem('chapter-number', numberPart);
       await fetchRequestToWords(String(Number(numberPage) - 1), String(Number(numberPart) - 1));
       changeBackgroundChapters();
     }
+    updateUrl(numberPart, numberPage);
   });
-
-  // const statistics = await new App().getStatistics();                 /////////////////////УДАЛИТЬ!!!!!!!!!!!!!!!!!!!
-  // console.log(statistics);
-  // sessionStorage.setItem('statistics', JSON.stringify(statistics))
-  // sessionStorage.getItem('statistics')
-
-  // new Statistics().wordCorrectAnswer('55555555555555555555')
-  // new App().setStatistics().then((e)=>{
-  //   console.log(e);
-
-  // })
-  // console.log('gfdlgkjdkjgkldjglkdf');
-
-  new Statistics().wordUncorrectAnswer('1111111111111111111111121');
-  new Statistics().wordCorrectAnswer('111111112222222222222222222222222222222222222222121');
-  new Statistics().wordUncorrectAnswer('11111111111111111111111111111');
-
-  try {
-    const resp = await new App().setStatistics();
-    console.log(resp);
-  } catch (e) {
-    console.log(e);
-  }
 };
 
 export const addListenersToTextBookPages = () => {
@@ -88,7 +67,6 @@ export const addListenersToTextBookChapters = () => {
   pageWithPages.addEventListener('change', (event) => {
     const element = event.target as HTMLOptionElement;
     const chapterNumber = element.value;
-    sessionStorage.setItem('page-number', chapterNumber!);
+    sessionStorage.setItem('page-number', chapterNumber);
   });
-  // clearSessionStorage();
 };

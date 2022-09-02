@@ -1,11 +1,9 @@
-import { createDomNode } from '../tutorial/function-create-dom-node';
-import { IdataFromServer } from '../tutorial/get words/render-result-find-to-page';
+import { IdataFromServer } from '../../interface/interface';
+import createDomNode from '../tutorial/function-create-dom-node';
 import playAudio from '../tutorial/play-words';
-// eslint-disable-next-line import/no-cycle
 import { randomNumberWord, shuffle } from './get-voice-word';
-import { playSoundsAfterAnswer } from './play-sounds-after-answer';
-import { addSessionStorage, getSessinoStorage, IData } from './sessionStorage';
-import { stepGameIndicator } from './step-game-indicator';
+import { addSessionStorage, getSessinoStorage } from './sessionStorage';
+import stepGameIndicator from './step-game-indicator';
 
 export const addWords = (): IdataFromServer[] => {
   const result:IdataFromServer[] | never = [];
@@ -13,7 +11,9 @@ export const addWords = (): IdataFromServer[] => {
   const voiceElement = (document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement);
   const idVoice = voiceElement.id;
   const correctWord = savedData.find((word) => word.id === idVoice || word._id === idVoice);
-  result.push(correctWord!);
+  if (correctWord) {
+    result.push(correctWord);
+  }
   for (let i = 0; i <= 3; i += 1) {
     const numberWord: number = randomNumberWord(savedData);
     if ((savedData && savedData[numberWord].id === idVoice)
@@ -23,7 +23,7 @@ export const addWords = (): IdataFromServer[] => {
       result.push(savedData[numberWord]);
     }
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+
   result.length > 0 ? addSessionStorage('list-game-audio', result) : null;
 
   return result;
@@ -34,7 +34,6 @@ export const addToMarkupWords = () => {
   wrapperWords.innerHTML = '';
   stepGameIndicator();
   const data = addWords();
-  let wordLang:string;
   const language = localStorage.getItem('language');
   shuffle(data);
   data.forEach((item, index) => {
@@ -42,11 +41,11 @@ export const addToMarkupWords = () => {
       typeElement: 'li',
       dataAttribute: ['keyboard-key', `${index + 1}`],
       className: 'wrapper-words__word',
-      text: `${index + 1} ${language === 'en' ? item.word : item.wordTranslate}`,
+      text: `${index + 1}. ${language === 'en' ? item.word : item.wordTranslate}`,
       parentElement: wrapperWords,
     };
     const word = createDomNode(descriptionWord);
-    word.id = item.id || item._id ;
+    word.id = item.id || item._id;
   });
   const descriptionButtonDontKnow = {
     typeElement: 'li',

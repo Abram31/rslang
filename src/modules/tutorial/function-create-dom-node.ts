@@ -1,19 +1,6 @@
-export interface IDomNode {
-  id?: string;
-  typeElement: string;
-  className?: string;
-  text?: string;
-  src?: string;
-  type?: string;
-  color?: string;
-  colorText?: string;
-  innerHTML?: string;
-  dataAttribute?:string[];
+import { IDomNode } from '../../interface/interface';
 
-  parentElement?: HTMLElement | HTMLInputElement | DocumentFragment;
-}
-
-export const createDomNode = ({
+const createDomNode = ({
   typeElement,
   id,
   className,
@@ -63,3 +50,5 @@ export const createDomNode = ({
   }
   return element;
 };
+
+export default createDomNode;

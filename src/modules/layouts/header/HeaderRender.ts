@@ -64,12 +64,18 @@ export default class HeaderRender {
 
   private menuTextAbout;
 
+  private logo;
+
+  private maskContent;
+
   constructor() {
     this.header = createDomNode('header', [], document.body);
     this.headerWrapper = createDomNode('div', ['header-wrapper'], this.header);
 
     this.leftSide = createDomNode('div', ['header__left-side'], this.headerWrapper);
     this.rightSide = createDomNode('div', ['header__right-side'], this.headerWrapper);
+
+    this.logo = createDomNode('img', ['logo'], this.leftSide, '', [{ src: './assets/svg/logo.svg' }]);
 
     this.navigation = createDomNode('nav', ['navigation'], this.leftSide);
 
@@ -109,7 +115,9 @@ export default class HeaderRender {
     this.authButton.addEventListener('click', () => this.updateLoginButton());
 
     this.burger = createDomNode('div', ['burger'], this.rightSide);
-    this.burger.addEventListener('click', () => this.toggleMenu());
+    this.burger.addEventListener('click', () => this.burgerSubscribe());
+
+    this.maskContent = createDomNode('div', ['mask-content'], this.rightSide);
 
     this.burgerLine = createDomNode('span', ['burger__line'], this.burger);
 
@@ -131,6 +139,17 @@ export default class HeaderRender {
   toggleMenu() {
     this.burger.classList.toggle('open');
     this.navigation.classList.toggle('open');
+    this.maskContent.classList.toggle('open');
+  }
+
+  burgerSubscribe() {
+    this.toggleMenu();
+    [this.navigationItemMain, this.navigationItemBook, this.navigationItemGame,
+      this.navigationItemStats, this.navigationItemAbout].forEach((el) => el.addEventListener('click', () => {
+      this.burger.classList.remove('open');
+      this.navigation.classList.remove('open');
+      this.maskContent.classList.remove('open');
+    }));
   }
 
   updateLoginButton() {
@@ -158,6 +177,7 @@ export default class HeaderRender {
     this.btnGoOut = createDomNode('button', ['btn', 'btn_red'], this.modalWindow, 'Да') as HTMLButtonElement;
     this.btnGoOut.addEventListener('click', () => {
       localStorage.clear();
+      window.location.reload();
       this.userName.innerHTML = '';
       this.authButton.innerHTML = 'Вход';
       this.overlay?.remove();

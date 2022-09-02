@@ -1,8 +1,9 @@
 import './game-audio-call.scss';
-import { createDomNode } from '../tutorial/function-create-dom-node';
+import createDomNode from '../tutorial/function-create-dom-node';
 import { body } from '../tutorial/get words/render-result-find-to-page';
 
 const baseMarkupAudioCall = () => {
+  const wrap = document.getElementById('root') as HTMLDivElement;
   const fragmentSprint: DocumentFragment = document.createDocumentFragment();
 
   const descriptionContainerAudioCall = {
@@ -24,13 +25,14 @@ const baseMarkupAudioCall = () => {
     className: 'container-game-audio-call__wrapper-step-game',
     parentElement: wrapperVoiceLivesLang,
   };
-  const wrapperStepGame = createDomNode(descriptionWrapperStepGame);
+  // const wrapperStepGame =
+  createDomNode(descriptionWrapperStepGame);
 
-  const descriptionStepGame = {
-    typeElement: 'li',
-    className: 'wrapper-step-game__step-game',
-    parentElement: wrapperStepGame,
-  };
+  // const descriptionStepGame = {
+  //   typeElement: 'li',
+  //   className: 'wrapper-step-game__step-game',
+  //   parentElement: wrapperStepGame,
+  // };
 
   const descriptionLangs = {
     typeElement: 'ul',
@@ -56,7 +58,8 @@ const baseMarkupAudioCall = () => {
     text: '/',
     parentElement: wrapperLangs,
   };
-  const slash = createDomNode(descriptionSlash);
+  // const slash =
+  createDomNode(descriptionSlash);
 
   const descriptionRus = {
     typeElement: 'li',
@@ -81,7 +84,8 @@ const baseMarkupAudioCall = () => {
     className: 'container-game-audio-call__button-call-voice',
     parentElement: wrapperCallVoice,
   };
-  const buttonCallVoice = createDomNode(descriptionButtonCallVoice);
+  // const buttonCallVoice =
+  createDomNode(descriptionButtonCallVoice);
 
   const descriptionButtonCallVoiceBack = {
     typeElement: 'div',
@@ -96,31 +100,34 @@ const baseMarkupAudioCall = () => {
     parentElement: buttonCallVoiceBack,
   };
 
-  const translateWord = createDomNode(descriptionTextWordInEnglish);
+  // const translateWord =
+  createDomNode(descriptionTextWordInEnglish);
 
   const descriptionWrapperWords = {
     typeElement: 'ul',
     className: 'container-game-audio-call__wrapper-words',
     parentElement: containerAudioCall,
   };
-  const wrapperWords = createDomNode(descriptionWrapperWords);
+  // const wrapperWords =
+  createDomNode(descriptionWrapperWords);
 
-  const descriptionWord = {
-    typeElement: 'li',
-    className: 'wrapper-words__word',
-    text: 'word-1',
-    parentElement: wrapperWords,
-  };
+  // const descriptionWord = {
+  //   typeElement: 'li',
+  //   className: 'wrapper-words__word',
+  //   text: 'word-1',
+  //   parentElement: wrapperWords,
+  // };
 
   const descriptionButtonDontKnow = {
     typeElement: 'li',
     className: 'wrapper-words__dont-know',
     text: 'Не знаю',
   };
-  // createDomNode(descriptionButtonDontKnow);
-  body.style.backgroundImage = 'url(../../assets/jpg/game-audio-call/background.jpg)';
+  createDomNode(descriptionButtonDontKnow);
 
-  body.appendChild(fragmentSprint);
+  body.style.backgroundImage = 'url(./assets/jpg/game-audio-call/background.jpg)';
+
+  wrap.appendChild(fragmentSprint);
 };
 
 export default baseMarkupAudioCall;

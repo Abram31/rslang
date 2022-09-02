@@ -19,7 +19,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  // justify-content: space-between;
+  justify-content: space-between;
 }
 
 .wrapper {
@@ -55,6 +55,7 @@ body {
 
 .title {
   @include font(4rem, 600);
+  text-align: center;
 }
 
 .hide {

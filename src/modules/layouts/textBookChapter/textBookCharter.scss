@@ -43,6 +43,10 @@
       color: $colorBlack;
     }
   }
+
+  @media (max-width: 570px) {
+    width: 32em;
+  }
 }
 
 .chapter-1 {

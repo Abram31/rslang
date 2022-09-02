@@ -1,17 +1,9 @@
-import { createDomNode } from '../tutorial/function-create-dom-node';
-import { addToPageResults } from './results_game';
+import createDomNode from '../tutorial/function-create-dom-node';
 import { getSessinoStorage } from './sessionStorage';
 
-// eslint-disable-next-line import/prefer-default-export
-export const stepGameIndicator = () => {
-  // const lengthDataArray = getSessinoStorage('game-audio-call').length;
-  // const lengthDataAttempts = getSessinoStorage('used-index-words-in-audio-call').length;
-  // const lengthStepsСompletedTasks = lengthDataArray - lengthDataAttempts;
+const stepGameIndicator = () => {
   const numberUnguseedWords = getSessinoStorage('unguessed-words-id').length;
 
-  // if (numberUnguseedWords === 5) {
-  //   addToPageResults();
-  // }
   const wrapperStepGame = document.querySelector('.container-game-audio-call__wrapper-step-game') as HTMLUListElement;
   wrapperStepGame.innerHTML = '';
   const descriptionStepGame = {
@@ -29,3 +21,5 @@ export const stepGameIndicator = () => {
     wrapperStepGame.append(stepGame);
   }
 };
+
+export default stepGameIndicator;

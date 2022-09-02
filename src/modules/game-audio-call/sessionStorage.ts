@@ -1,11 +1,7 @@
-import { IdataFromServer } from '../tutorial/get words/render-result-find-to-page';
-import { addToPageResults } from './results_game';
+import { IdataFromServer } from '../../interface/interface';
 
-export interface IData {
-  id?: string,
-}
 export const addSessionStorage = (title: string, data: IdataFromServer[] | string) => {
-  const dataOld = JSON.parse(sessionStorage.getItem(title)!);
+  const dataOld = JSON.parse(sessionStorage.getItem(title) as string);
   if (typeof data === 'string') {
     if (sessionStorage.getItem(title)) {
       dataOld.push(data);
@@ -15,11 +11,6 @@ export const addSessionStorage = (title: string, data: IdataFromServer[] | strin
       const newData = JSON.stringify([data]);
       sessionStorage.setItem(title, newData);
     }
-    // if (title === 'unguessed-words-id' && dataOld && dataOld.length > 4) {
-    //   addToPageResults();                                                             ///// тут этого быть не должно TODO
-    //   const newData = JSON.stringify([]);
-    //   sessionStorage.setItem(title, newData);
-    // }
   } else {
     const JSONData = JSON.stringify(data);
     sessionStorage.setItem(title, JSONData);
@@ -32,7 +23,7 @@ export const deleteSessionStorage = (title: string) => {
 
 export const getSessinoStorage = (title: string) => {
   if (sessionStorage.getItem(title)) {
-    return JSON.parse(sessionStorage.getItem(title)!);
+    return JSON.parse(sessionStorage.getItem(title) as string);
   }
   return [];
 };

@@ -24,7 +24,7 @@ interface IdataStatistics {
 class Statistics {
   dataStatistics: IdataStatistics;
 
-  constructor(dataStatistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics')!)) {
+  constructor(dataStatistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string)) {
     this.dataStatistics = dataStatistics;
   }
 
