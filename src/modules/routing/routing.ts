@@ -9,6 +9,7 @@ import TextBookPage from '../layouts/textBookPage/textBookPage';
 import VideoRender from '../layouts/video/VideoRender';
 import { body } from '../tutorial/get words/render-result-find-to-page';
 import { addListenersToChoicePageChapter, addListenersToTextBookChapters, addListenersToTextBookPages } from '../tutorial/listeners';
+// eslint-disable-next-line import/no-named-as-default
 import tutorialRender, { changeBackgroundChapters } from '../tutorial/markup';
 import baseMarkupAudioCall from '../game-audio-call/markup';
 import addListeners from '../game-audio-call/listeners';
@@ -88,19 +89,21 @@ const generateRouter = () => {
   template('game-audio-call', async () => {
     wrapper.innerHTML = '';
     baseMarkupAudioCall();
-    await addWordsToPage();
+    await addWordsToPage(false);
     addListeners();
   });
+
   template('game-audio-call-difficult', async () => {
     wrapper.innerHTML = '';
     baseMarkupAudioCall();
     await addWordsToPage(true);
     addListeners();
   });
+
   template('game-audio-call-random-page', async () => {
     wrapper.innerHTML = '';
     baseMarkupAudioCall();
-    await addWordsToPage(false, sessionStorage.getItem('chapter-number') as string, sessionStorage.getItem('page-number') as string);
+    await addWordsToPage(false, sessionStorage.getItem('chapter-number') as string);
     addListeners();
   });
 
@@ -109,6 +112,7 @@ const generateRouter = () => {
     tutorialRender();
     addListenersToChoicePageChapter();
   });
+
   template('page-difficult-words', async () => {
     wrapper.innerHTML = '';
     await addDifficultWordsToPage();
@@ -132,14 +136,10 @@ const generateRouter = () => {
   route('/games/audio', 'game');
   route('/games/sprint', 'game');
 
-  for (let i = 0; i <= 8; i += 1) {
-    if (i === 7) {
-      route(`/games/audio/${i}`, 'game-audio-call-difficult');
-    } else if (i === 8) {
-      route(`/games/audio/${i}`, 'game-audio-call-random-page');
-    } else {
-      route(`/games/audio/${i}`, 'game-audio-call');
-    }
+  route('/games/audio/hard-word', 'game-audio-call-difficult');
+
+  for (let i = 0; i <= 6; i += 1) {
+    route(`/games/audio/random/${i}`, 'game-audio-call-random-page');
   }
 
   for (let i = 0; i < 6; i += 1) {
@@ -149,6 +149,7 @@ const generateRouter = () => {
   for (let i = 0; i < 7; i += 1) {
     for (let j = 0; j < 30; j += 1) {
       route(`/book/section-${i}/${j}`, 'page-book');
+      route(`book/games/audio/${i}/${j}`, 'game-audio-call');
     }
   }
 

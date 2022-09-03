@@ -130,6 +130,8 @@ export default class HeaderRender {
         .catch(() => {
           new AuthorizationStateWindow('Время сессии истекло, вам необходимо авторизоваться');
         });
+      new App().getStatistics()
+        .then((res) => sessionStorage.setItem('statistics', JSON.stringify(res)));
     }
 
     this.loadNavigation();

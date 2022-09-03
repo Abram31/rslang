@@ -4,6 +4,7 @@ import createWordContainer from './create-word-container';
 import createDomNode from './function-create-dom-node';
 import playAudio from './play-words';
 import './style.scss';
+import { addWordsToPage } from '../game-audio-call/get-voice-word';
 
 export const changeBackgroundChapters = () => {
   const chapterInMemory = sessionStorage.getItem('chapter-number');
@@ -60,14 +61,18 @@ export const miniButtonGames = (wrapper: HTMLElement) => {
   // const buttonSprintGame =
   createDomNode(descriptionSprintGame);
 
-  containerButtons.addEventListener('click', (event) => {
+  containerButtons.addEventListener('click', async (event) => {
     const element = event.target as HTMLDivElement;
     if (element.classList.contains('container-buttons__game-audio-call')) {
-      // console.log('hi');
-      if (window.location.hash === '#/book/section-7') {
-        window.location.hash = '/games/audio/7';
+      if (window.location.href.match(/section-7/)) {
+        window.location.hash = '/games/audio/hard-word';
       } else {
-        window.location.hash = '/games/audio/8';
+        const parths = (document.querySelector('.wrapper-selects__select-parts') as HTMLSelectElement).value;
+        const part = parseInt(parths.replace(/[^\d]/g, ''), 10);
+
+        const pages = (document.querySelector('.wrapper-selects__select-pages') as HTMLSelectElement).value;
+        const page = parseInt(pages.replace(/[^\d]/g, ''), 10);
+        window.location.hash = `book/games/audio/${part}/${page}`;
       }
     }
   });
