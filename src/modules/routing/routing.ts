@@ -15,6 +15,7 @@ import addListeners from '../game-audio-call/listeners';
 import addDifficultWordsToPage from '../tutorial/difficult_words/add_difficult_words_to_page';
 import HeaderRender from '../layouts/header/HeaderRender';
 import FooterRender from '../layouts/footer/FooterRender';
+import getDifficultStudiedWords from '../tutorial/difficult_words/get_difficult_studied_words';
 
 const generateRouter = () => {
   document.querySelector('div')?.remove();
@@ -106,6 +107,7 @@ const generateRouter = () => {
 
   template('page-book', () => {
     wrapper.innerHTML = '';
+    getDifficultStudiedWords();
     tutorialRender();
     addListenersToChoicePageChapter();
   });
@@ -146,7 +148,11 @@ const generateRouter = () => {
     route(`/games/sprint/${i}`, 'game-level');
   }
 
-  for (let i = 0; i < 7; i += 1) {
+  for (let i = 0; i <= 7; i += 1) {
+    if (i === 7) {
+      route(`/book/section-${i}`, 'page-difficult-words');
+      break;
+    }
     for (let j = 0; j < 30; j += 1) {
       route(`/book/section-${i}/${j}`, 'page-book');
     }

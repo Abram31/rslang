@@ -70,6 +70,8 @@ body {
     width: 50vw;
     height: 40vh;
     @include hover();
+    display: flex;
+    justify-content: center;
 
     .container-game-audio-call__button-call-voice,
     .container-game-audio-call__button-call-voice__back {

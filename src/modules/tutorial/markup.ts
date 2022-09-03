@@ -119,15 +119,25 @@ const tutorialRender = () => {
   createDomNode(descriptionPartsDefaultOption);
 
   for (let i = 1; i <= 7; i += 1) {
+    let optionChapter: HTMLElement;
     if (!localStorage.getItem('id') && i === 7) {
       break;
     }
-    const descriptionPartsOption = {
-      typeElement: 'option',
-      text: `Раздел ${i}`,
-      parentElement: selectParts,
-    };
-    const optionChapter = createDomNode(descriptionPartsOption);
+    if (i === 7) {
+      const descriptionPartsOptionDifficult = {
+        typeElement: 'option',
+        text: 'Сложные слова',
+        parentElement: selectParts,
+      };
+      optionChapter = createDomNode(descriptionPartsOptionDifficult);
+    } else {
+      const descriptionPartsOption = {
+        typeElement: 'option',
+        text: `Раздел ${i}`,
+        parentElement: selectParts,
+      };
+      optionChapter = createDomNode(descriptionPartsOption);
+    }
     if (i === Number(chapterInMemory)) {
       optionChapter.setAttribute('selected', '');
     }

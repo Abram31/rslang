@@ -11,6 +11,8 @@ const createWordContainer = (word: IdataFromServer) => {
   const descriptionWrapperWord = {
     typeElement: 'div',
     className: 'container-tutorial__wrapper-word',
+    id: word._id || word.id,
+    dataAttribute: word.userWord && word.userWord.difficulty === 'hard' ? ['difficults', 'hard'] : ['difficults', ''],
     parentElement: wordFragment,
   };
   const wrapperWord:HTMLElement = createDomNode(descriptionWrapperWord);
@@ -137,7 +139,7 @@ const createWordContainer = (word: IdataFromServer) => {
     learnedWord.alt = 'Learned';
   }
   if (window.location.hash !== '#/book/section-7') {
-    checkDifficultWordBeforeLoading(wrapperWord, word.id);
+    // checkDifficultWordBeforeLoading(wrapperWord, word.id);
   }
 
   return wordFragment;

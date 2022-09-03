@@ -5,8 +5,10 @@ import './difficult_words.scss';
 import preload from '../../game-audio-call/preload';
 import { miniButtonGames } from '../markup';
 import { IdataFromServer } from '../../../interface/interface';
+import { body } from '../get words/render-result-find-to-page';
 
 const addDifficultWordsToPage = async () => {
+  body.style.backgroundColor = '#44b9b9';
   const root = document.getElementById('root') as HTMLDivElement;
   const prel = preload();
   root.append(prel);

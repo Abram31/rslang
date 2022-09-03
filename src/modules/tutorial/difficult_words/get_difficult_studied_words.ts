@@ -12,4 +12,31 @@ const getDifficultStudiedWords = async () => {
   sessionStorage.setItem('studied-words', JSON.stringify(studiedWords));
 };
 
+// const removeDifficultWords = (event: MouseEvent) => {
+//   const element = event.target as HTMLElement;
+//   const cardOfWord = element.closest('.container-tutorial__wrapper-word') as HTMLElement;
+//   cardOfWord.remove();
+//   const dataWord: IdataFromServer = {
+//     id: String(cardOfWord.id),
+//     _id: '',
+//     group: 0,
+//     page: 0,
+//     word: '',
+//     image: '',
+//     audio: '',
+//     audioMeaning: '',
+//     audioExample: '',
+//     textMeaning: '',
+//     textExample: '',
+//     transcription: '',
+//     wordTranslate: '',
+//     textMeaningTranslate: '',
+//     textExampleTranslate: '',
+//     userWord: {
+//       difficulty: '',
+//     },
+//   };
+//   new App().postUserWords(dataWord, 'hard');
+// };
+
 export default getDifficultStudiedWords;

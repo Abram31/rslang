@@ -1,16 +1,18 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 type WordDescription = {
   [key: string]: {
     correctAnswers: number,
     lastUsedWord: string,
+    nameGame: string,
   };
 };
-// eslint-disable-next-line @typescript-eslint/naming-convention
 type percentagesDescription = {
   [key: string]: {
     percentCorrectAnswers: number,
     longestSeriesOfCorrectAnswers: number,
+    nameGame: string,
   };
 };
 interface IdataStatistics {
@@ -24,8 +26,14 @@ interface IdataStatistics {
 class Statistics {
   dataStatistics: IdataStatistics;
 
-  constructor(dataStatistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string)) {
+  nameGame: string;
+
+  constructor(
+    nameGame:string,
+    dataStatistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string),
+  ) {
     this.dataStatistics = dataStatistics;
+    this.nameGame = nameGame;
   }
 
   wordCorrectAnswer(idWord: string) {
@@ -53,6 +61,7 @@ class Statistics {
         const newDataWord = {
           correctAnswers: 1,
           lastUsedWord: new Date().toLocaleDateString('en-US'),
+          nameGame: this.nameGame,
         };
         data.optional.words[idWord] = newDataWord;
       }
@@ -65,6 +74,7 @@ class Statistics {
             [`${idWord}`]: {
               correctAnswers: 1,
               lastUsedWord: new Date().toLocaleDateString('en-US'),
+              nameGame: this.nameGame,
             },
           },
           correctAnswersInGames: {},
@@ -89,6 +99,7 @@ class Statistics {
         const newDataWord = {
           correctAnswers: 0,
           lastUsedWord: new Date().toLocaleDateString('en-US'),
+          nameGame: this.nameGame,
         };
         data.optional.words[idWord] = newDataWord;
       }
@@ -101,6 +112,7 @@ class Statistics {
             [`${idWord}`]: {
               correctAnswers: 0,
               lastUsedWord: new Date().toLocaleDateString('en-US'),
+              nameGame: this.nameGame,
             },
           },
           correctAnswersInGames: {},
@@ -120,7 +132,11 @@ class Statistics {
     data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
       percentCorrectAnswers: statisticPercetCorrectAnswers,
       longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
-    }
+      nameGame: this.nameGame,
+    };
+
+    console.log(Object.entries(data.optional.correctAnswersInGames));
+    
 
     console.log(unguessedWords.length);
     console.log(guessedWords.length);
