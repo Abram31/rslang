@@ -5,7 +5,7 @@ import hightlitingDifficultWords from './difficult_words/hightliting_difficult_w
 import { IdataFromServer } from '../../interface/interface';
 import checkDifficultWordBeforeLoading from './difficult_words/check_difficult_word_before_loading';
 
-const createWordContainer = (word: IdataFromServer) => {
+const createWordContainer = (word: IdataFromServer, id?: string) => {
   const wordFragment = document.createDocumentFragment();
 
   const descriptionWrapperWord = {
@@ -14,16 +14,38 @@ const createWordContainer = (word: IdataFromServer) => {
     parentElement: wordFragment,
   };
   const wrapperWord:HTMLElement = createDomNode(descriptionWrapperWord);
+
   wrapperWord.addEventListener('click', (e: Event) => {
     const target = e.target as HTMLElement;
+
     if (target.classList.contains('hard')) {
-      new App().postUserWords(word, 'hard');
-      hightlitingDifficultWords(target, 'hard');
+      if ((target as HTMLImageElement).src.match(/star-word/)) {
+        new App().postUserWords(word, 'hard');
+        hightlitingDifficultWords(target, 'hard');
+      } else if ((target as HTMLImageElement).src.match(/cross-red/)) {
+        new App().deleteUserWord((target.parentNode as HTMLElement)?.dataset.id as string);
+        hightlitingDifficultWords(target, 'easyHard');
+      }
     }
     if (target.classList.contains('studied')) {
-      new App().postUserWords(word, 'studied');
-      hightlitingDifficultWords(target, 'studied');
+      if ((target as HTMLImageElement).src.match(/info-bird/)) {
+        new App().postUserWords(word, 'studied');
+        hightlitingDifficultWords(target, 'studied');
+      } else if ((target as HTMLImageElement).src.match(/cross-green/)) {
+        new App().deleteUserWord((target.parentNode as HTMLElement)?.dataset.id as string);
+        hightlitingDifficultWords(target, 'easyStudied');
+      }
     }
+
+    // if (target.classList.contains('hard')) {
+    //   new App().postUserWords(word, 'hard');
+    //   hightlitingDifficultWords(target, 'hard');
+    // }
+    // if (target.classList.contains('studied')) {
+    //   // target.classList.add('studied-active');
+    //   new App().postUserWords(word, 'studied');
+    //   hightlitingDifficultWords(target, 'studied');
+    // }
   });
 
   const descriptionContainerImg = {
@@ -115,6 +137,10 @@ const createWordContainer = (word: IdataFromServer) => {
 
   if (localStorage.getItem('id')) {
     const btns1 = createDomNode(btns);
+
+    if (id) {
+      btns1.dataset.id = id;
+    }
 
     const btnCompoundWord = {
       typeElement: 'img',

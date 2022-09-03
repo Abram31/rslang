@@ -58,7 +58,7 @@ const choiсeNextWord = async (data: IdataFromServer[])
   if (usedIndexWords.includes(savedData[randomNumber].id)
   || usedIndexWords.includes(savedData[randomNumber]._id)) {
     if (usedIndexWords.length >= savedData.length) {
-      new Statistics().setStatiscticAboutGame()
+      new Statistics().setStatiscticAboutGame();
       addToPageResults();
       sessionStorage.setItem('used-index-words-in-audio-call', '[]');
       sessionStorage.setItem('unguessed-words-id', '[]'); /// /TODO данные на сервер

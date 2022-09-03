@@ -45,7 +45,7 @@ export const miniButtonGames = (wrapper: HTMLElement) => {
   // const buttonHome = createDomNode(descriptionHome);
 
   const descriptionSoundGame = {
-    typeElement: 'div',
+    typeElement: 'button',
     className: 'container-buttons__game-audio-call',
     parentElement: containerButtons,
   };
@@ -53,7 +53,7 @@ export const miniButtonGames = (wrapper: HTMLElement) => {
   createDomNode(descriptionSoundGame);
 
   const descriptionSprintGame = {
-    typeElement: 'div',
+    typeElement: 'button',
     className: 'container-buttons__game-sprint',
     parentElement: containerButtons,
   };
@@ -63,6 +63,7 @@ export const miniButtonGames = (wrapper: HTMLElement) => {
   containerButtons.addEventListener('click', (event) => {
     const element = event.target as HTMLDivElement;
     if (element.classList.contains('container-buttons__game-audio-call')) {
+      // console.log('hi');
       if (window.location.hash === '#/book/section-7') {
         window.location.hash = '/games/audio/7';
       } else {
@@ -183,7 +184,7 @@ const tutorialRender = () => {
   })
     .then((data) => {
       for (let i = 0; i < data.length; i += 1) {
-        const fragmentWord = createWordContainer(data[i]);
+        const fragmentWord = createWordContainer(data[i], data[i].id);
         containerWords.appendChild(fragmentWord);
       }
     });
