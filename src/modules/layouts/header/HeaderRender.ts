@@ -6,6 +6,7 @@ import { getStorage } from '../../../utils/storage';
 import NavigationSvg from '../../../interface/enumNavigationSvg';
 import AuthorizationStateWindow from '../authorizationStateWindow/authorizationStateWindow';
 import helpLoadNavigation from '../../../utils/helpLoadNavigation';
+import uploadStatistics from '../../statistics/upload-statistics';
 
 export default class HeaderRender {
   private header;
@@ -130,8 +131,9 @@ export default class HeaderRender {
         .catch(() => {
           new AuthorizationStateWindow('Время сессии истекло, вам необходимо авторизоваться');
         });
-      new App().getStatistics()
-        .then((res) => sessionStorage.setItem('statistics', JSON.stringify(res)));
+      // new App().getStatistics()
+      //   .then((res) => sessionStorage.setItem('statistics', JSON.stringify(res)));
+      uploadStatistics()
     }
 
     this.loadNavigation();
