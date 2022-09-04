@@ -61,7 +61,22 @@ body {
 }
 
 .sprint-answer-icon {
+	position: absolute;
+	top: 56%;
+	left: 50%;
 	height: 25px;
+	opacity: 0;
+}
+
+@keyframes icon-animation {
+	0% {opacity: 0;}
+	50% {opacity: 1;}
+	100% {opacity: 0;}
+}
+
+.animated {
+	animation-name: icon-animation;
+	animation-duration: 1s;
 }
 
 .sprint-buttons {
@@ -72,3 +87,4 @@ body {
 	align-items: center;
 	justify-content: space-between;
 }
+

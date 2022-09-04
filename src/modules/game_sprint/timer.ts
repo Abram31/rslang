@@ -1,14 +1,16 @@
 import { renderSprintResults } from './results/sprint_results';
 
 const timer = () => {
-	
 	let timerDiv = document.querySelector('.sprint-timer') as HTMLElement;
 	let time: number = Number(timerDiv.innerText);
 	const changeTime = setInterval(() => {
 		if (time <= 0) {
-			renderSprintResults();
+			let counter = document.querySelector('.sprint-counter') as HTMLElement;
+			let score = Number(counter.innerText);
+			renderSprintResults(score);
 			clearInterval(changeTime);
 		} else {
+			
 			timerDiv.innerHTML = time.toString();
 		}
 		time--;

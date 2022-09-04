@@ -6,7 +6,7 @@ const hideBackground = (page: HTMLElement) => {
 	page.style.background = 'none';
 }
 
-const renderSprintResults = () => {
+const renderSprintResults = (score: number) => {
   let page = document.querySelector('.sprint-game') as HTMLElement;
   page.innerHTML = '';
 
@@ -14,6 +14,7 @@ const renderSprintResults = () => {
 	let sprintResultsWrapper = createDomNode('div', ['wrapper', 'sprint-results-wrapper'], sprintResultsPage);
 
 	createDomNode('h1', ['sprint-results__title'], sprintResultsWrapper, 'Результаты');
+	createDomNode('h3', ['results-score'], sprintResultsWrapper, `Ваш результат: ${score}.`)
 	let resultsContainer = createDomNode('div', ['sprint-results__container'], sprintResultsWrapper);
 
 	for (let i = 0; i < result.length; i++) {
@@ -31,6 +32,10 @@ const renderSprintResults = () => {
 			}]);
 	}
 
+	let resultButtons = createDomNode('div', ['result-buttons'], sprintResultsWrapper);
+	createDomNode('button', ['btn', 'restart__button'], resultButtons, 'Начать сначала');
+	createDomNode('button', ['btn', 'btn_red', 'cancel__button'], resultButtons, 'Выйти');
+
 	let soundIcon = document.querySelectorAll('.results-sound-icon') as NodeListOf<HTMLElement>;
 	soundIcon.forEach((icon, iconIdx) => {
 		icon.addEventListener('click', () => {
@@ -40,7 +45,16 @@ const renderSprintResults = () => {
 				}
 			})
 		})
-	})
+	});
+
+	resultButtons.addEventListener('click', (e) => {
+		const button = e.target as HTMLDivElement;
+		if (button.classList.contains('restart__button')) {
+			window.location.hash = '/games/sprint';
+		} else if (button.classList.contains('cancel__button')) {
+			window.location.hash = '/games';
+		}
+	});
 
 	hideBackground(page);
 }

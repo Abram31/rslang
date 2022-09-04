@@ -32,7 +32,7 @@ const renderSprintGame = () => {
 	let sprintHeader = createDomNode('div', ['sprint-header'], sprintContainer);
 	createDomNode('p', ['sprint-english-word'], sprintContainer, '');
 	createDomNode('p', ['sprint-russian-word'], sprintContainer, '');
-	createDomNode('img', ['sprint-answer-icon'], sprintContainer, '', [{ src: '' }]);
+	createDomNode('img', ['sprint-answer-icon'], sprintContainer, '', [{ src: '../../assets/svg/icons/result-sprint-correct.svg' }]);
 	let sprintButtons = createDomNode('div', ['sprint-buttons'], sprintContainer);
 
 	createDomNode('div', ['sprint-timer'], sprintHeader, '10');
@@ -70,7 +70,6 @@ const getWords = async () => {
 	let pathAudio: Array<string> = [];
 
 	let difficulty: number = Number(window.location.href.split('/').reverse()[0]) - 1;
-	console.log(difficulty)
 
 	let chapterNumber: number = Number(sessionStorage.getItem('chapter-number')) - 1;
 	let pageNumber: number = Number(sessionStorage.getItem('page-number')) - 1;
@@ -110,6 +109,7 @@ const getWords = async () => {
 	let russianWord = document.querySelector('.sprint-russian-word') as HTMLElement;
 	const correctButton = document.querySelector('.correct__button') as HTMLElement;
 	const wrongButton = document.querySelector('.wrong__button') as HTMLElement;
+	let icon = document.querySelector('.sprint-answer-icon') as HTMLElement;
 
 	let translation: Array<string> = arrayGenerator(words, wordsTranslate);
 	
@@ -122,23 +122,32 @@ const getWords = async () => {
 		counter++
 		englishWord.innerText = words[counter];
 		russianWord.innerText = translation[counter];
-		console.log(words[counter])
+		icon.classList.add('animated');
+		setTimeout(() => {
+			icon.classList.remove('animated');
+		}, 700);
 		if (words[counter] === undefined || translation[counter] === undefined) {
-			console.log('by if')
-			renderSprintResults();
+			let counter = document.querySelector('.sprint-counter') as HTMLElement;
+			let score = Number(counter.innerText);
+			renderSprintResults(score);
 		}
 	}
 
 	correctButton.addEventListener('click', changeWords);
 	wrongButton.addEventListener('click', changeWords);
 
-	const keyboardEvents = (e: KeyboardEvent) => {
+	const keyboardEvents = (e: KeyboardEvent) => {	
 		if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
 			changeWords();
 		}
 	}
 
-	document.addEventListener('keydown', keyboardEvents)
+	const removeKeyboardEvents = () => {
+		document.removeEventListener('keydown', keyboardEvents);
+	}
+
+	window.addEventListener('hashchange', removeKeyboardEvents);
+	document.addEventListener('keydown', keyboardEvents);
 
 	return [words, wordsTranslate, answers, pathAudio];
 }
@@ -210,7 +219,7 @@ const userResponse = async () => {
 		}
 	});
 
-	document.addEventListener('keydown', (e: KeyboardEvent) => {
+	const keyboardEvents = (e: KeyboardEvent) => {
 		if (e.code === 'ArrowRight') {
 			if (answers[2][counter - 1]) {
 				let currentScore = Number(score.innerText)
@@ -232,7 +241,14 @@ const userResponse = async () => {
 				result.push(true)
 			}
 		}
-	});
+	}
+
+	const removeKeyboardEvents = () => {
+		document.removeEventListener('keydown', keyboardEvents);
+	}
+
+	window.addEventListener('hashchange', removeKeyboardEvents)
+	document.addEventListener('keydown', keyboardEvents);
 
 	soundIcon.addEventListener('click', () => {
 		audioPaths.forEach((path, idx) => {
