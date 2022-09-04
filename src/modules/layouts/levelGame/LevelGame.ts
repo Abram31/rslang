@@ -53,9 +53,15 @@ export default class LevelGame {
     this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item'], this.textBookDescription, 'Свободное владение');
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  getRandomArbitrary(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
   createSection(item: string, level: string) {
+    const randomNum = this.getRandomArbitrary(0, 29);
     const currentGame = window.location.href.split('/').pop();
-    this.chapter = createDomNode('a', ['chapter', `chapter-${item}`], this.sectionList, '', [{ href: `#/games/${currentGame}/random/${item}` }]) as HTMLAnchorElement;
+    this.chapter = createDomNode('a', ['chapter', `chapter-${item}`], this.sectionList, '', [{ href: `#/games/${currentGame}/random/${item}/${randomNum}` }]) as HTMLAnchorElement;
 
     this.chapterText = createDomNode('span', ['chapter-text'], this.chapter, `${level}`) as HTMLParagraphElement;
   }

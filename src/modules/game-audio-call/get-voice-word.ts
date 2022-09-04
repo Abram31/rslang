@@ -72,20 +72,19 @@ const choiсeNextWord = async (data: IdataFromServer[])
   return savedData[randomNumber];
 };
 
-export const addWordsToPage = async (difficult?: boolean, chapter?: string, page?: string) => {
-  const randomNum = String(Math.floor(Math.random() * (29 - 0)) + 29);
+export const addWordsToPage = async () => {
   let savedData: IdataFromServer[];
   let word: boolean | IdataFromServer;
 
+  const hash = window.location.href.split('/');
+  const partHash = hash[hash.length - 2];
+  const pageHash = hash[hash.length - 1];
+
   if (window.location.href.match(/random/)) {
-    await getWordsFromServer(false, chapter, randomNum);
+    await getWordsFromServer(false, partHash, pageHash);
     savedData = getSessinoStorage('game-audio-call');
     word = await choiсeNextWord(savedData);
   } else if (window.location.href.match(/book\/games/)) {
-    const hash = window.location.href.split('/');
-    const partHash = hash[hash.length - 2];
-    const pageHash = hash[hash.length - 1];
-
     await getWordsFromServer(false, partHash, pageHash);
     savedData = getSessinoStorage('game-audio-call');
     word = await choiсeNextWord(savedData);

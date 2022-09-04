@@ -89,21 +89,21 @@ const generateRouter = () => {
   template('game-audio-call', async () => {
     wrapper.innerHTML = '';
     baseMarkupAudioCall();
-    await addWordsToPage(false);
+    await addWordsToPage();
     addListeners();
   });
 
   template('game-audio-call-difficult', async () => {
     wrapper.innerHTML = '';
     baseMarkupAudioCall();
-    await addWordsToPage(true);
+    await addWordsToPage();
     addListeners();
   });
 
   template('game-audio-call-random-page', async () => {
     wrapper.innerHTML = '';
     baseMarkupAudioCall();
-    await addWordsToPage(false, sessionStorage.getItem('chapter-number') as string);
+    await addWordsToPage();
     addListeners();
   });
 
@@ -138,9 +138,10 @@ const generateRouter = () => {
 
   route('/games/audio/hard-word', 'game-audio-call-difficult');
 
-  for (let i = 0; i <= 6; i += 1) {
-    route(`/games/audio/random/${i}`, 'game-audio-call-random-page');
-  }
+  // for (let i = 0; i <= 6; i += 1) {
+
+  //   route(`/games/audio/random/${i}`, 'game-audio-call-random-page');
+  // }
 
   for (let i = 0; i < 6; i += 1) {
     route(`/games/sprint/${i}`, 'game-level');
@@ -150,6 +151,7 @@ const generateRouter = () => {
     for (let j = 0; j < 30; j += 1) {
       route(`/book/section-${i}/${j}`, 'page-book');
       route(`book/games/audio/${i}/${j}`, 'game-audio-call');
+      route(`/games/audio/random/${i}/${j}`, 'game-audio-call-random-page');
     }
   }
 
