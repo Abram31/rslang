@@ -16,6 +16,8 @@ import addListeners from '../game-audio-call/listeners';
 import addDifficultWordsToPage from '../tutorial/difficult_words/add_difficult_words_to_page';
 import HeaderRender from '../layouts/header/HeaderRender';
 import FooterRender from '../layouts/footer/FooterRender';
+import { renderSprintGame, userResponse } from '../game_sprint/game_sprint';
+import { renderSprintResults } from '../game_sprint/results/sprint_results';
 
 const generateRouter = () => {
   document.querySelector('div')?.remove();
@@ -107,6 +109,26 @@ const generateRouter = () => {
     addListeners();
   });
 
+  template('game-sprint', async () => {
+    wrapper.innerHTML = '';
+    renderSprintGame();
+    userResponse();
+  });
+
+  // // start
+  // template('game-sprint-some', async () => {
+  //   wrapper.innerHTML = '';
+  //   renderSprintGame();
+  //   userResponse();
+  // });
+
+  // template('game-sprint-another', async () => {
+  //   wrapper.innerHTML = '';
+  //   renderSprintGame();
+  //   userResponse();
+  // });
+  // // end
+
   template('page-book', () => {
     wrapper.innerHTML = '';
     tutorialRender();
@@ -143,8 +165,15 @@ const generateRouter = () => {
   //   route(`/games/audio/random/${i}`, 'game-audio-call-random-page');
   // }
 
-  for (let i = 0; i < 6; i += 1) {
-    route(`/games/sprint/${i}`, 'game-level');
+  // NOW
+  for (let i = 0; i <= 8; i += 1) {
+    if (i === 7) {
+      route(`/games/sprint/${i}`, 'game-sprint')
+    } else if (i === 8) {
+      route(`/games/sprint/${i}`, 'game-sprint');
+    } else {
+      route(`/games/sprint/${i}`, 'game-sprint');
+    } 
   }
 
   for (let i = 0; i < 7; i += 1) {

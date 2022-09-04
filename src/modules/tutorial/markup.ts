@@ -74,6 +74,12 @@ export const miniButtonGames = (wrapper: HTMLElement) => {
         const page = parseInt(pages.replace(/[^\d]/g, ''), 10);
         window.location.hash = `book/games/audio/${part}/${page}`;
       }
+    } else if (element.classList.contains('container-buttons__game-sprint')) {
+      if (window.location.hash === '#/book/section-7') {
+        window.location.hash = '/games/sprint/7';
+      } else {
+        window.location.hash = '/games/sprint/8';
+      }
     }
   });
 };
