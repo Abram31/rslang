@@ -5,7 +5,6 @@ import { addToPageResults } from './results_game';
 import { addSessionStorage, getSessinoStorage } from './sessionStorage';
 import './game-audio-call.scss';
 import getDifficultStudiedWords from '../tutorial/difficult_words/get_difficult_studied_words';
-import App from '../../components/app';
 import Statistics from '../statistics/statistics';
 import { IdataFromServer } from '../../interface/interface';
 
@@ -26,6 +25,7 @@ export const getWordsFromServer = async (
     numberGroup = chapter;
     randomNumberPage = page;
   }
+
   const argumentForFetch: IwordsLIst = {
     page: page ? String(Number(page) - 1) : false || randomNumberPage,
     group: chapter ? String(Number(chapter) - 1) : false || numberGroup,
@@ -58,7 +58,7 @@ const choiсeNextWord = async (data: IdataFromServer[])
   if (usedIndexWords.includes(savedData[randomNumber].id)
   || usedIndexWords.includes(savedData[randomNumber]._id)) {
     if (usedIndexWords.length >= savedData.length) {
-      new Statistics().setStatiscticAboutGame()
+      new Statistics().setStatiscticAboutGame();
       addToPageResults();
       sessionStorage.setItem('used-index-words-in-audio-call', '[]');
       sessionStorage.setItem('unguessed-words-id', '[]'); /// /TODO данные на сервер
@@ -72,21 +72,30 @@ const choiсeNextWord = async (data: IdataFromServer[])
   return savedData[randomNumber];
 };
 
-export const addWordsToPage = async (difficult?: boolean, chapter?: string, page?: string) => {
+export const addWordsToPage = async () => {
   let savedData: IdataFromServer[];
   let word: boolean | IdataFromServer;
-  if (!getSessinoStorage('game-audio-call') || getSessinoStorage('game-audio-call').length !== 0) {
+
+  const hash = window.location.href.split('/');
+  const partHash = hash[hash.length - 2];
+  const pageHash = hash[hash.length - 1];
+
+  if (window.location.href.match(/random/)) {
+    await getWordsFromServer(false, partHash, pageHash);
     savedData = getSessinoStorage('game-audio-call');
     word = await choiсeNextWord(savedData);
-  } else if (chapter && page) {
-    await getWordsFromServer(difficult, chapter, page);
+  } else if (window.location.href.match(/book\/games/)) {
+    await getWordsFromServer(false, partHash, pageHash);
+    savedData = getSessinoStorage('game-audio-call');
+    word = await choiсeNextWord(savedData);
+  } else if (window.location.href.match(/hard-word/)) {
+    await getWordsFromServer(true);
     savedData = getSessinoStorage('game-audio-call');
     word = await choiсeNextWord(savedData);
   } else {
-    await getWordsFromServer(difficult);
-    savedData = getSessinoStorage('game-audio-call'); // ///////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!
-    word = await choiсeNextWord(savedData);
+    return;
   }
+
   if (word) {
     const buttonCallVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
     buttonCallVoice.setAttribute('data-voice', word.audio);

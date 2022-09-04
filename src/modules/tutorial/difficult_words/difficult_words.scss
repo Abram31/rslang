@@ -4,7 +4,8 @@
 body {
   gap: 2.5rem;
 
-  .wrapper-difficult-words__title {
+  .wrapper-difficult-words__title,
+  .wrapper-difficult-words__not-world {
     @include flex();
     @include font(3rem, 600);
     gap: 1rem;
@@ -27,6 +28,7 @@ body {
   gap: 4rem;
   justify-content: space-around;
   margin: 0 5rem;
+  padding-bottom: 2rem;
 
   .container-tutorial__wrapper-word {
     @include flex($justify: space-between);
@@ -195,4 +197,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.wrapper-difficult-words__not-world {
+  padding: 2rem;
 }

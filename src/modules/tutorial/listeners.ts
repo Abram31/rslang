@@ -2,6 +2,7 @@ import { fetchRequest } from './fetch/fetch';
 import createWordContainer from './create-word-container';
 import { changeBackgroundChapters } from './markup';
 import { IdataFromServer } from '../../interface/interface';
+// import App from '../../components/app';
 // import Statistics from '../statistics/statistics';
 
 function updateUrl(numberPart: number | string, numberPage: string | number) {

@@ -4,6 +4,7 @@ import createWordContainer from './create-word-container';
 import createDomNode from './function-create-dom-node';
 import playAudio from './play-words';
 import './style.scss';
+import { addWordsToPage } from '../game-audio-call/get-voice-word';
 
 export const changeBackgroundChapters = () => {
   const chapterInMemory = sessionStorage.getItem('chapter-number');
@@ -45,7 +46,7 @@ export const miniButtonGames = (wrapper: HTMLElement) => {
   // const buttonHome = createDomNode(descriptionHome);
 
   const descriptionSoundGame = {
-    typeElement: 'div',
+    typeElement: 'button',
     className: 'container-buttons__game-audio-call',
     parentElement: containerButtons,
   };
@@ -53,20 +54,25 @@ export const miniButtonGames = (wrapper: HTMLElement) => {
   createDomNode(descriptionSoundGame);
 
   const descriptionSprintGame = {
-    typeElement: 'div',
+    typeElement: 'button',
     className: 'container-buttons__game-sprint',
     parentElement: containerButtons,
   };
   // const buttonSprintGame =
   createDomNode(descriptionSprintGame);
 
-  containerButtons.addEventListener('click', (event) => {
+  containerButtons.addEventListener('click', async (event) => {
     const element = event.target as HTMLDivElement;
     if (element.classList.contains('container-buttons__game-audio-call')) {
-      if (window.location.hash === '#/book/section-7') {
-        window.location.hash = '/games/audio/7';
+      if (window.location.href.match(/section-7/)) {
+        window.location.hash = '/games/audio/hard-word';
       } else {
-        window.location.hash = '/games/audio/8';
+        const parths = (document.querySelector('.wrapper-selects__select-parts') as HTMLSelectElement).value;
+        const part = parseInt(parths.replace(/[^\d]/g, ''), 10);
+
+        const pages = (document.querySelector('.wrapper-selects__select-pages') as HTMLSelectElement).value;
+        const page = parseInt(pages.replace(/[^\d]/g, ''), 10);
+        window.location.hash = `book/games/audio/${part}/${page}`;
       }
     } else if (element.classList.contains('container-buttons__game-sprint')) {
       if (window.location.hash === '#/book/section-7') {
@@ -189,7 +195,7 @@ const tutorialRender = () => {
   })
     .then((data) => {
       for (let i = 0; i < data.length; i += 1) {
-        const fragmentWord = createWordContainer(data[i]);
+        const fragmentWord = createWordContainer(data[i], data[i].id);
         containerWords.appendChild(fragmentWord);
       }
     });
