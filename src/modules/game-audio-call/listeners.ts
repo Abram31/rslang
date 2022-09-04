@@ -22,28 +22,39 @@ const clickAudioGame = (event:MouseEvent) => {
   if (element.classList.contains('wrapper-words__word')) {
     choiceWord(event);
     cardFlipAfterChoice();
+    sessionStorage.setItem('touch-button-words', 'true')
   }
   if (element.classList.contains('wrapper-words__dont-know')) {
-    const buttonVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
-    const buttonVoiceId = buttonVoice.id;
-    if (sessionStorage.getItem('correctness of the choice') === 'false') {
-      addSessionStorage('unguessed-words-id', buttonVoiceId);
-      new Statistics().wordUncorrectAnswer(buttonVoiceId);
+    debugger
+    if (sessionStorage.getItem('touch-button-words') === 'true' ) {
+      const buttonVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
+      const buttonVoiceId = buttonVoice.id;
+      if (sessionStorage.getItem('correctness of the choice') === 'false') {
+        addSessionStorage('unguessed-words-id', buttonVoiceId);
+        new Statistics('audio-call').wordUncorrectAnswer(buttonVoiceId);
+      } else {
+        new Statistics('audio-call').wordCorrectAnswer(buttonVoiceId);
+      }
+      const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
+      if (ungessedWords.length > 4) {
+        new Statistics('audio-call').setStatiscticAboutGame();
+        cardUnflip();
+        addToPageResults();
+        sessionStorage.removeItem('unguessed-words-id');
+        sessionStorage.removeItem('touch-button-words')
+      } else {
+        addWordsToPage();
+        sessionStorage.setItem('correctness of the choice', 'false');
+        cardUnflip();
+        sessionStorage.removeItem('touch-button-words')
+      }
     } else {
-      new Statistics().wordCorrectAnswer(buttonVoiceId);
+      choiceWord(event);
+      cardFlipAfterChoice();
+      sessionStorage.setItem('touch-button-words', 'true')
     }
-    const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
-    if (ungessedWords.length > 4) {
-      new Statistics().setStatiscticAboutGame();
-      new App().setStatistics();
-      cardUnflip();
-      addToPageResults();
-      sessionStorage.removeItem('unguessed-words-id');
-    } else {
-      addWordsToPage();
-      sessionStorage.setItem('correctness of the choice', 'false');
-      cardUnflip();
-    }
+    new App().setStatistics();
+
   }
 
   if (element.classList.contains('langs__ru') || element.classList.contains('langs__en')) {
@@ -57,6 +68,13 @@ const clickAudioGame = (event:MouseEvent) => {
   }
   if (element.classList.contains('wrapper-buttons__finish')) {
     window.location.hash = '/games';
+    document.querySelectorAll('.navigation__item').forEach((el) => {
+      el.classList.remove('active');
+      if (el.getAttribute('href') === '#/games') {
+        el.classList.add('active');
+        (el.childNodes[1] as HTMLElement).classList.add('active');
+      }
+    });
   }
 
   if (element.classList.contains('wrapper-list__item')
@@ -83,7 +101,6 @@ const addListeners = () => {
     sessionStorage.removeItem('longest-series-of-correct-answers');
     body.removeEventListener('click', clickAudioGame);
   });
-
 };
 
 export default addListeners;

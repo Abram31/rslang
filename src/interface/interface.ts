@@ -16,6 +16,7 @@ export interface Attributes {
 export interface IdataStatistics {
   learnedWords: number,
   optional: {
+    correctAnswersInGames(correctAnswersInGames: any): unknown;
     words: [WordDescription]
   }
 }

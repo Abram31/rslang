@@ -47,8 +47,9 @@ const baseMarkupAudioCall = () => {
     text: 'EN',
     parentElement: wrapperLangs,
   };
+  debugger
   const english = createDomNode(descriptionEnglish);
-  if (localStorage.getItem('language') === 'en' || null) {
+  if (localStorage.getItem('language') === 'en') {
     english.classList.add('active');
   }
 
@@ -68,7 +69,7 @@ const baseMarkupAudioCall = () => {
     parentElement: wrapperLangs,
   };
   const russian = createDomNode(descriptionRus);
-  if (localStorage.getItem('language') === 'ru') {
+  if (localStorage.getItem('language') === 'ru' || localStorage.getItem('language') === null) {
     russian.classList.add('active');
   }
 

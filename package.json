@@ -6,8 +6,10 @@
     "lint": "eslint . --ext .ts"
   },
   "devDependencies": {
+    "@types/chart.js": "^2.9.37",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
+    "chart.js": "^3.9.1",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
