@@ -8,7 +8,7 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./Final Task/Project/rslang/tsconfig.json"
+    "project": "./tsconfig.json"
   },
   "env": {
     "es6": true,
