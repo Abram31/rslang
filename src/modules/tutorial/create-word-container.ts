@@ -7,14 +7,14 @@ import checkDifficultWordBeforeLoading from './difficult_words/check_difficult_w
 
 function updateBird(id: string) {
   const stat = (JSON.parse(sessionStorage.getItem('statistics') as string));
-
   let count = 0;
-
-  Object.keys(stat.optional.words).forEach((key) => {
-    if (key === id) {
-      count = stat.optional.words[key].correctAnswers;
-    }
-  });
+  if (stat) {
+    Object.keys(stat.optional.words).forEach((key) => {
+      if (key === id) {
+        count = stat.optional.words[key].correctAnswers;
+      }
+    });
+  }
   return count;
 }
 

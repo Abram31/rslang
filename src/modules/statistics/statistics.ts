@@ -125,17 +125,26 @@ class Statistics {
   }
 
   setStatiscticAboutGame() {
-    const guessedWords = JSON.parse(sessionStorage.getItem('guessed-words-id') as string) || 0;
-    const unguessedWords = JSON.parse(sessionStorage.getItem('unguessed-words-id') as string) || 0;
+    const guessedWords = JSON.parse(sessionStorage.getItem('guessed-words-id') as string) || [];
+    const unguessedWords = JSON.parse(sessionStorage.getItem('unguessed-words-id') as string) || [];
     const statisticPercetCorrectAnswers = Math.round(guessedWords.length
     / (unguessedWords.length + guessedWords.length) * 100) || 0;
 
     const data = this.dataStatistics;
-    data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
-      percentCorrectAnswers: statisticPercetCorrectAnswers,
-      longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
-      nameGame: this.nameGame,
-    };
+    if (data.optional.correctAnswersInGames) {
+      data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
+        percentCorrectAnswers: statisticPercetCorrectAnswers,
+        longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
+        nameGame: this.nameGame,
+      };
+    } else {
+      data.optional.correctAnswersInGames = {};
+      data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
+        percentCorrectAnswers: statisticPercetCorrectAnswers,
+        longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
+        nameGame: this.nameGame,
+      };
+    }
 
     console.log(Object.entries(data.optional.correctAnswersInGames));
     
