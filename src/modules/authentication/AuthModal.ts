@@ -1,8 +1,9 @@
 import './authModal.scss';
 import App from '../../components/app';
 import createDomNode from '../../utils/createDomNode';
-import setStorage from '../../utils/storage';
 import { VALIDATION_EMAIL } from '../../utils/constants';
+import { setStorage } from '../../utils/storage';
+import AuthorizationStateWindow from '../layouts/authorizationStateWindow/authorizationStateWindow';
 
 export default class AuthModal {
   private overlay;
@@ -91,7 +92,7 @@ export default class AuthModal {
   }
 
   modalSignInRender() {
-    this.actionBtn.addEventListener('click', () => this.userSignIn());
+    this.actionBtn.addEventListener('click', () => this.userSignIn(this.inputEmail.value, this.inputPassword.value));
 
     this.question = createDomNode('p', ['question'], this.modalWindow, 'У вас нет аккаунта?');
     this.registrationOpen = createDomNode('span', ['open-link'], this.question, ' Регистрация');
@@ -114,19 +115,19 @@ export default class AuthModal {
     });
   }
 
-  async userSignIn() {
-    const emailUser = this.inputEmail.value;
-    const passwordUser = this.inputPassword.value;
-
+  async userSignIn(emailUser: string, passwordUser: string) {
     if (VALIDATION_EMAIL.test(emailUser) && passwordUser) {
       await this.app.loginUser({ email: emailUser, password: passwordUser })
-        .then((res) => {
-          for (const key of Object.keys(res)) {
-            setStorage(key, res[key]);
-          }
+        .then(async (res) => {
+          setStorage('token', res.token);
+          setStorage('refreshToken', res.refreshToken);
+          setStorage('id', res.userId);
+          setStorage('tokenDateCreation', String(Date.now()));
+
           (document.querySelector('.user-name') as HTMLElement).innerHTML = res.name;
           (document.querySelector('.btn') as HTMLElement).innerHTML = 'Выйти';
           this.overlay?.remove();
+          window.location.reload();
         })
         .catch(() => {
           this.errorMessage.innerHTML = 'Введите корректные данные';
@@ -145,39 +146,14 @@ export default class AuthModal {
       await this.app.createUser({ name: nameUser, email: emailUser, password: passwordUser })
         .then(() => {
           this.overlay?.remove();
-          this.successfulRegistrationRender();
+          new AuthorizationStateWindow('Поздравляем с успешной регистрацией, теперь вы можете войти в свой аккаунт');
         })
         .catch(() => {
-          this.errorMessage.innerHTML = 'Пользователь с такими данными уже зарегестрирован!';
+          this.errorMessage.innerHTML = 'Пользователь с такими данными уже зарегистрирован!';
         });
-    } else {
+    } 
+    else {
       this.errorMessage.innerHTML = 'Введите корректные данные';
     }
-  }
-
-  successfulRegistrationRender() {
-    this.overlay = createDomNode('div', ['overlay'], document.body);
-    this.modalWindow = createDomNode('div', ['modal-window'], this.overlay);
-
-    this.title = createDomNode(
-      'h2',
-      ['title'],
-      this.modalWindow,
-      'Поздравляем с успешной регистрацией, теперь вы можете войти в свой аккаунт',
-    );
-
-    this.actionBtn = createDomNode('button', ['btn-auth'], this.modalWindow, 'Войти');
-    this.actionBtn.addEventListener('click', () => {
-      this.overlay?.remove();
-      new AuthModal('Войти', 'Войдите в свою учетную запись').modalSignInRender();
-    });
-
-    this.cancelBtn = createDomNode(
-      'button',
-      ['btn-auth'],
-      this.modalWindow,
-      'Отмена',
-    );
-    this.cancelBtn.addEventListener('click', () => this.overlay?.remove());
   }
 }

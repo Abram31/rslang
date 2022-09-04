@@ -1,7 +1,9 @@
 import createDomNode from '../../utils/createDomNode';
+import preload from '../game-audio-call/preload';
 import './game_sprint.scss';
-import HeaderRender from '../layouts/header/HeaderRender';
+import { renderSprintResults } from '../game_sprint/results/sprint_results';
 import { timer } from './timer';
+import App from '../../components/app';
 
 interface IData {
 	id: string,
@@ -21,16 +23,16 @@ interface IData {
 }
 
 const renderSprintGame = () => {
-	let body = document.querySelector('body') as HTMLElement;
-	body.innerHTML = '';
-	new HeaderRender();
+	let root = document.querySelector('#root') as HTMLElement;
+	root.innerHTML = '';
 
-	let sprintPage = createDomNode('main', ['sprint-game'], document.body);
+	let sprintPage = createDomNode('section', ['sprint-game'], root);
 	let sprintContainer = createDomNode('div', ['wrapper', 'sprint-game-wrapper'], sprintPage);
 
 	let sprintHeader = createDomNode('div', ['sprint-header'], sprintContainer);
 	createDomNode('p', ['sprint-english-word'], sprintContainer, '');
 	createDomNode('p', ['sprint-russian-word'], sprintContainer, '');
+	createDomNode('img', ['sprint-answer-icon'], sprintContainer, '', [{ src: '' }]);
 	let sprintButtons = createDomNode('div', ['sprint-buttons'], sprintContainer);
 
 	createDomNode('div', ['sprint-timer'], sprintHeader, '10');
@@ -67,17 +69,43 @@ const getWords = async () => {
 	let wordsTranslate: Array<string> = [];
 	let pathAudio: Array<string> = [];
 
-	for (let i = 1; i <= 30; i++) {
-		let result = await fetch(`https://base-rs-lang-1.herokuapp.com/words?group=1&page=${i}`);
-		let data: Array<IData> = await result.json();
+	let difficulty: number = Number(window.location.href.split('/').reverse()[0]) - 1;
+	console.log(difficulty)
+
+	let chapterNumber: number = Number(sessionStorage.getItem('chapter-number')) - 1;
+	let pageNumber: number = Number(sessionStorage.getItem('page-number')) - 1;
+
+	if (difficulty <= 5) {
+		for (let i = 1; i <= 30; i++) {
+			let result = await fetch(`https://base-rs-lang-1.herokuapp.com/words?group=${difficulty}&page=${i}`);
+			let data: Array<IData> = await result.json();
+			data.forEach(item => {
+				pathAudio.push(item.audio);
+				words.push(item.word);
+				wordsTranslate.push(item.wordTranslate);
+			})
+		}
+	} else if (difficulty === 6) {
+		let filter = `?filter={"userWord.difficulty":"hard"}`;
+		const result = await (new App).getUserAggregateWords(filter);
+		const data: Array<IData> = result[0].paginatedResults;
 		data.forEach(item => {
 			pathAudio.push(item.audio);
 			words.push(item.word);
 			wordsTranslate.push(item.wordTranslate);
 		})
+	} else {
+		for (let i = pageNumber; i >= 0; i--) {
+			let result = await fetch(`https://base-rs-lang-1.herokuapp.com/words?group=${chapterNumber}&page=${i}`);
+			let data: Array<IData> = await result.json();
+			data.forEach(item => {
+				pathAudio.push(item.audio);
+				words.push(item.word);
+				wordsTranslate.push(item.wordTranslate);
+			})
+		}
 	}
-
-	let score = document.querySelector('.sprint-counter') as HTMLElement;
+	
 	let englishWord = document.querySelector('.sprint-english-word') as HTMLElement;
 	let russianWord = document.querySelector('.sprint-russian-word') as HTMLElement;
 	const correctButton = document.querySelector('.correct__button') as HTMLElement;
@@ -91,28 +119,34 @@ const getWords = async () => {
 	const answers = wordsCheck(wordsTranslate, translation);
 
 	const changeWords = () => {
-		let current = Number(score.innerText)
-		score.innerText = (current += 10).toString();
 		counter++
 		englishWord.innerText = words[counter];
 		russianWord.innerText = translation[counter];
-		
+		console.log(words[counter])
+		if (words[counter] === undefined || translation[counter] === undefined) {
+			console.log('by if')
+			renderSprintResults();
+		}
 	}
 
 	correctButton.addEventListener('click', changeWords);
 	wrongButton.addEventListener('click', changeWords);
 
-	document.addEventListener('keydown', (e: KeyboardEvent) => {
-		if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') changeWords();
-	})
+	const keyboardEvents = (e: KeyboardEvent) => {
+		if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
+			changeWords();
+		}
+	}
+
+	document.addEventListener('keydown', keyboardEvents)
 
 	return [words, wordsTranslate, answers, pathAudio];
 }
 
-export const englishWords: Array<string> = []; 
-export const russianWords: Array<string> = []; 
-export const result: Array<boolean> = [];
-export const audioPaths: Array<string> = [];
+export let englishWords: Array<string> = []; 
+export let russianWords: Array<string> = []; 
+export let result: Array<boolean> = [];
+export let audioPaths: Array<string> = [];
 
 const play = (path: string) => {
 	const url = 'https://base-rs-lang-1.herokuapp.com/';
@@ -121,11 +155,18 @@ const play = (path: string) => {
 }
 
 const userResponse = async () => {
+	counter = 0;
+	englishWords = []; 
+	russianWords = []; 
+	result = [];
+	audioPaths = [];
+	const prel = preload();
 	const answers = await getWords();
-	const score = document.querySelector('.sprint-counter') as HTMLElement;
 	const correctButton = document.querySelector('.correct__button') as HTMLElement;
 	const wrongButton = document.querySelector('.wrong__button') as HTMLElement;
 	const soundIcon = document.querySelector('.sprint-sound-icon') as HTMLElement;
+	let score = document.querySelector('.sprint-counter') as HTMLElement;
+	let answerResult = document.querySelector('.sprint-answer-icon') as HTMLImageElement;
 
 	answers[0].forEach(word => {
 		if (typeof word === 'string') {
@@ -146,20 +187,50 @@ const userResponse = async () => {
 	})
 
 	correctButton.addEventListener('click', () => {
-		answers[2][counter - 1] ? result.push(true) : result.push(false);
+		if (answers[2][counter - 1]) {
+			let currentScore = Number(score.innerText)
+			score.innerText = (currentScore += 10).toString();
+			answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
+			result.push(true);
+		} else {
+			answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
+			result.push(false);
+		} 
 	});
 
 	wrongButton.addEventListener('click', () => {
-		answers[2][counter - 1] ? result.push(false) : result.push(true);
+		if (answers[2][counter - 1]) {
+			answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
+			result.push(false)
+		} else {
+			let currentScore = Number(score.innerText)
+			score.innerText = (currentScore += 10).toString();
+			answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
+			result.push(true)
+		}
 	});
 
 	document.addEventListener('keydown', (e: KeyboardEvent) => {
 		if (e.code === 'ArrowRight') {
-
-			answers[2][counter - 1] ? result.push(true) : result.push(false);
+			if (answers[2][counter - 1]) {
+				let currentScore = Number(score.innerText)
+				score.innerText = (currentScore += 10).toString();
+				answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
+				result.push(true)
+			} else {
+				answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
+				result.push(false)
+			}
 		} else if (e.code === 'ArrowLeft') {
-
-			answers[2][counter - 1] ? result.push(false) : result.push(true);
+			if (answers[2][counter - 1]) {
+				answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
+				result.push(false)
+			} else {
+				let currentScore = Number(score.innerText)
+				score.innerText = (currentScore += 10).toString();
+				answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
+				result.push(true)
+			}
 		}
 	});
 
@@ -169,12 +240,10 @@ const userResponse = async () => {
 				play(path);
 			}
 		})
-	})
+	});
 
+	prel.remove();
 	timer();
 }
 
-renderSprintGame();
-userResponse();
-
-export { renderSprintGame, getWords, play };
+export { renderSprintGame, userResponse, getWords, play };

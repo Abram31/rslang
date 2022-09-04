@@ -26,6 +26,10 @@
   background-image: url('../../assets/png/sign-modal.png');
   background-repeat: no-repeat;
   background-size: 100% 100%;
+
+  @media (max-width: 675px) {
+    width: 90%;
+  }
 }
 
 .title-modal {
@@ -99,5 +103,3 @@
   text-align: center;
   color: $colorRed;
 }
-
-

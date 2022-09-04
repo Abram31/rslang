@@ -21,6 +21,12 @@
     "@typescript-eslint/no-var-requires": 0,
     "@typescript-eslint/no-explicit-any": "error",
     "no-new": 0,
-    "no-restricted-syntax": "off"
+    "no-restricted-syntax": "off",
+    "import/no-cycle": "off",
+    "consistent-return": "off",
+    "no-underscore-dangle": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "default-case": "off"
   }
 }

@@ -3,6 +3,11 @@
 
 .games {
   background: url('../../../assets/png/games-bg.png') 100% 100% no-repeat;
+  background-size: cover;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .games-wrapper {
@@ -15,6 +20,10 @@
   @include flex();
   gap: 10em;
   flex-wrap: wrap;
+
+  @media (max-width: 1311px) {
+    gap: 5em;
+  }
 }
 
 .game__text {
@@ -27,4 +36,16 @@
 .game__description {
   @include font(2.4rem, 400);
   color: $colorBlack;
+}
+
+.game-sprint {
+  @media (max-width: 1261px) {
+    flex-direction: column-reverse;
+  }
+}
+
+.game-audio {
+  @media (max-width: 1261px) {
+    flex-direction: column;
+  }
 }

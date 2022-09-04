@@ -10,54 +10,60 @@ export default class AboutTeam {
 
   private teamItems;
 
-  private teamItem: HTMLDivElement | undefined;
+  private person: HTMLDivElement | undefined;
+
+  private container: HTMLDivElement | undefined;
+
+  private containerInner: HTMLDivElement | undefined;
+
+  private background: HTMLImageElement | undefined;
 
   private photo: HTMLImageElement | undefined;
 
-  private teamItemWrapper: HTMLDivElement | undefined;
+  private name: HTMLDivElement | undefined;
 
-  private nameItem: HTMLParagraphElement | undefined;
-
-  private actionDescription: HTMLParagraphElement | undefined;
-
-  private socialLinks: HTMLDivElement | undefined;
+  private divider: HTMLDivElement | undefined;
 
   private linkIcon: HTMLAnchorElement | undefined;
 
-  constructor() {
-    this.mainTeam = createDomNode('main', ['team'], document.body);
+  private socialLinks: HTMLDivElement | undefined;
+
+  constructor(container: HTMLElement) {
+    this.mainTeam = createDomNode('main', ['team'], container);
     this.teamWrapper = createDomNode('div', ['wrapper', 'team-wrapper'], this.mainTeam);
 
     this.title = createDomNode('h1', ['title'], this.teamWrapper, 'О команде');
 
     this.teamItems = createDomNode('div', ['team__items'], this.teamWrapper);
 
-    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Veronika', 'ФИО', 'Чем занимался?', 'https://github.com/Veronika2811', 'https://www.linkedin.com/in/veranika-smiayun-9a2297235/', '#');
-    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Artem', 'ФИО', 'Чем занимался?', 'https://github.com/abram31', '#', '#');
-    this.createItemTeam('../../../assets/teamPhoto/1.jpg', 'Pasha', 'ФИО', 'Чем занимался?', 'https://github.com/paulonio', '#', '#');
+    this.createItemTeam('./assets/teamPhoto/bg1.jpg', 'Фон', 'img1', './assets/teamPhoto/veronika.png', 'Veronika', 'Вероника', 'Авторизация, дизайн приложения', 'https://github.com/Veronika2811', 'https://www.linkedin.com/in/veranika-smiayun-9a2297235/');
+    this.createItemTeam('./assets/teamPhoto/bg2.jpg', 'Фон', 'img2', './assets/teamPhoto/artem.png', 'Artem', 'Артем', 'Учебник, игра "Аудиовызов"', 'https://github.com/abram31', 'https://www.linkedin.com/in/artem-abramovich-45a06a230/');
+    this.createItemTeam('./assets/teamPhoto/bg3.jpg', 'Фон', 'img1', './assets/teamPhoto/veronika.png', 'Pavel', 'Павел', 'Роутинг, игра "Спринт"', 'https://github.com/paulonio', '#');
   }
 
   createItemTeam(
+    bg: string,
+    bgAlt: string,
+    classPhoto: string,
     photo: string,
     photoAlt: string,
     name: string,
     didDo: string,
     linkGithub: string,
     linkLinkedin: string,
-    linkTelegram: string,
   ) {
-    this.teamItem = createDomNode('div', ['team-item'], this.teamItems) as HTMLDivElement;
-    this.photo = createDomNode('img', ['photo'], this.teamItem, '', [{ src: `${photo}` }, { alt: `${photoAlt}` }]) as HTMLImageElement;
+    this.person = createDomNode('div', ['person'], this.teamItems) as HTMLDivElement;
+    this.container = createDomNode('div', ['container'], this.person) as HTMLDivElement;
+    this.containerInner = createDomNode('div', ['container-inner'], this.container) as HTMLDivElement;
+    this.background = createDomNode('img', ['circ'], this.containerInner, '', [{ src: `${bg}` }, { alt: `${bgAlt}` }]) as HTMLImageElement;
+    this.photo = createDomNode('img', ['img', `${classPhoto}`], this.containerInner, '', [{ src: `${photo}` }, { alt: `${photoAlt}` }]) as HTMLImageElement;
 
-    this.teamItemWrapper = createDomNode('div', ['team-item-wrapper'], this.teamItem) as HTMLDivElement;
+    this.divider = createDomNode('div', ['divider'], this.person) as HTMLDivElement;
+    this.name = createDomNode('div', ['name'], this.person, `${name}`) as HTMLDivElement;
+    this.title = createDomNode('div', ['title-description'], this.person, `${didDo}`) as HTMLDivElement;
 
-    this.nameItem = createDomNode('p', ['name-item'], this.teamItemWrapper, `${name}`) as HTMLParagraphElement;
-
-    this.actionDescription = createDomNode('p', ['action-description'], this.teamItemWrapper, `${didDo}`) as HTMLParagraphElement;
-
-    this.socialLinks = createDomNode('div', ['social-links'], this.teamItemWrapper) as HTMLDivElement;
-    this.linkIcon = createDomNode('a', ['icon-link', 'in-link'], this.socialLinks, '', [{ href: `${linkGithub}` }]) as HTMLAnchorElement;
-    this.linkIcon = createDomNode('a', ['icon-link', 'github-link-team'], this.socialLinks, '', [{ href: `${linkLinkedin}` }]) as HTMLAnchorElement;
-    this.linkIcon = createDomNode('a', ['icon-link', 'telegram-link'], this.socialLinks, '', [{ href: `${linkTelegram}` }]) as HTMLAnchorElement;
+    this.socialLinks = createDomNode('div', ['social-links'], this.person) as HTMLDivElement;
+    this.linkIcon = createDomNode('a', ['icon-link', 'in-link'], this.socialLinks, '', [{ href: `${linkLinkedin}` }]) as HTMLAnchorElement;
+    this.linkIcon = createDomNode('a', ['icon-link', 'github-link-team'], this.socialLinks, '', [{ href: `${linkGithub}` }]) as HTMLAnchorElement;
   }
 }

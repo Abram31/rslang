@@ -1,0 +1,8 @@
+@import "../../../utils/scss/constants.scss";
+@import "../../../utils/scss/mixin.scss";
+
+.about-app-wrapper {
+  @include flex();
+  flex-direction: column;
+  gap: 2em;
+}

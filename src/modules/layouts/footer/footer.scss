@@ -1,10 +1,10 @@
-@import '../../../utils/scss/constants.scss';
-@import '../../../utils/scss/mixin.scss';
+@import "../../../utils/scss/constants.scss";
+@import "../../../utils/scss/mixin.scss";
 
 .footer {
   background: url('../../../assets/png/footer.png') 100% 100% no-repeat;
   background-size: cover;
-  min-height: 18.1em;
+  min-height: 25em;
   @include flex($align: flex-end);
 }
 
@@ -30,7 +30,7 @@
 }
 
 .rs-icon {
-  background: url('../../../assets/svg/rss.svg') 100% 100% no-repeat;
+  background: url("../../../assets/svg/rss.svg") 100% 100% no-repeat;
   height: 66px;
   width: 159px;
 

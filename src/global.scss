@@ -1,6 +1,6 @@
-@import './utils/scss/constants.scss';
-@import './utils/scss/mixin.scss';
-@import '../src/modules/layouts/textBookChapter/textBookCharter.scss';
+@import "./utils/scss/constants.scss";
+@import "./utils/scss/mixin.scss";
+@import "../src/modules/layouts/textBookChapter/textBookCharter.scss";
 
 * {
   padding: 0;
@@ -13,7 +13,6 @@ html {
 }
 
 body {
-  max-width: 1920px;
   margin: 0 auto;
   background-color: $colorWhite;
   font-family: $fontMain;
@@ -25,6 +24,9 @@ body {
 
 .wrapper {
   padding: 50px;
+  @include flex();
+  flex-direction: column;
+  gap: 2em;
 }
 
 .btn {
@@ -53,6 +55,7 @@ body {
 
 .title {
   @include font(4rem, 600);
+  text-align: center;
 }
 
 .hide {

@@ -16,9 +16,9 @@ export default class MainPageRender {
 
   private mainPageImage;
 
-  constructor() {
-    this.mainPage = createDomNode('main', ['main-page'], document.body);
-    this.mainWrapper = createDomNode('div', ['wrapper', 'main-wrapper'], this.mainPage);
+  constructor(container: HTMLElement) {
+    this.mainPage = createDomNode('main', ['main-page'], container);
+    this.mainWrapper = createDomNode('div', ['main-wrapper'], this.mainPage);
 
     this.description = createDomNode('div', ['main-page__description'], this.mainWrapper);
     this.title = createDomNode('h1', ['title'], this.description, 'Увеличивайте свой словарный запас вместе с нами');
@@ -30,6 +30,6 @@ export default class MainPageRender {
       window.location.href = '#/video';
     });
 
-    this.mainPageImage = createDomNode('img', ['main-page-image'], this.mainWrapper, '', [{ src: '../../../assets/girl-main.jpg' }, { alt: 'Girl' }]);
+    this.mainPageImage = createDomNode('img', ['main-page-image'], this.mainWrapper, '', [{ src: './assets/girl-main.jpg' }, { alt: 'Girl' }]);
   }
 }

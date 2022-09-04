@@ -14,8 +14,8 @@ export default class TextBookPage {
 
   private imageFriend;
 
-  constructor() {
-    this.pageTextbook = createDomNode('main', ['page-textbook'], document.body);
+  constructor(container: HTMLElement) {
+    this.pageTextbook = createDomNode('main', ['page-textbook'], container);
 
     this.textBookWrapper = createDomNode('div', ['wrapper', 'page-textbook-wrapper'], this.pageTextbook);
     this.title = createDomNode('h1', ['title'], this.textBookWrapper, 'Выберите страницу');
@@ -29,7 +29,7 @@ export default class TextBookPage {
     this.option = createDomNode('option', [], this.selectPage, 'Выберите страницу', [{ hidden: '' }, { value: '' }]);
     this.createSelectPage();
 
-    this.imageFriend = createDomNode('img', ['image-friend'], this.textBookWrapper, '', [{ src: '../../../assets/friends.jpg' }, { alt: 'friend' }]);
+    this.imageFriend = createDomNode('img', ['image-friend'], this.textBookWrapper, '', [{ src: './assets/friends.jpg' }, { alt: 'friend' }]);
   }
 
   createSelectPage() {

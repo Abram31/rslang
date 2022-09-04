@@ -25,8 +25,8 @@ export default class LevelGame {
 
   private chapterText: HTMLParagraphElement | undefined;
 
-  constructor() {
-    this.textBook = createDomNode('main', ['textbook'], document.body);
+  constructor(container: HTMLElement) {
+    this.textBook = createDomNode('main', ['textbook'], container);
     this.textBookWrapper = createDomNode('div', ['wrapper', 'textbook-wrapper'], this.textBook);
 
     this.title = createDomNode('h1', ['title'], this.textBookWrapper, 'Выберите уровень сложности мини-игры');
@@ -41,15 +41,15 @@ export default class LevelGame {
     }
 
     this.textBookDescription = createDomNode('div', ['level__description'], this.sectionText);
-    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: '../../../assets/svg/icons/A.svg' }, { alt: 'A' }]);
+    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/A.svg' }, { alt: 'A' }]);
     this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item'], this.textBookDescription, 'Элементарное владение');
 
     this.textBookDescription = createDomNode('div', ['level__description'], this.sectionText);
-    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: '../../../assets/svg/icons/B.svg' }, { alt: 'B' }]);
+    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/B.svg' }, { alt: 'B' }]);
     this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item'], this.textBookDescription, 'Самостоятельное владение');
 
     this.textBookDescription = createDomNode('div', ['level__description'], this.sectionText);
-    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: '../../../assets/svg/icons/C.svg' }, { alt: 'C' }]);
+    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/C.svg' }, { alt: 'C' }]);
     this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item'], this.textBookDescription, 'Свободное владение');
   }
 

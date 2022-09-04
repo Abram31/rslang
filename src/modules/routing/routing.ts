@@ -1,134 +1,218 @@
+import { addWordsToPage } from '../game-audio-call/get-voice-word';
+import AboutTeam from '../layouts/aboutTeam/AboutTeam';
+import LevelGame from '../layouts/levelGame/LevelGame';
+import MainPageRender from '../layouts/mainPage/MainPageRender';
+import MiniGamesListRender from '../layouts/miniGames/MiniGamesListRender';
+import StatisticsPageRender from '../layouts/statisticsPage/statisticsPage';
+import TextBookChapter from '../layouts/textBookChapter/TextBookChapter';
+import TextBookPage from '../layouts/textBookPage/textBookPage';
+import VideoRender from '../layouts/video/VideoRender';
+import { body } from '../tutorial/get words/render-result-find-to-page';
+import { addListenersToChoicePageChapter, addListenersToTextBookChapters, addListenersToTextBookPages } from '../tutorial/listeners';
+import tutorialRender, { changeBackgroundChapters } from '../tutorial/markup';
+import baseMarkupAudioCall from '../game-audio-call/markup';
+import addListeners from '../game-audio-call/listeners';
+import addDifficultWordsToPage from '../tutorial/difficult_words/add_difficult_words_to_page';
+import HeaderRender from '../layouts/header/HeaderRender';
+import FooterRender from '../layouts/footer/FooterRender';
+import { renderSprintGame, userResponse } from '../game_sprint/game_sprint';
+import { renderSprintResults } from '../game_sprint/results/sprint_results';
+
 const generateRouter = () => {
-	let routes: { [key: string]: string | (() => void) } = {};
-	let templates: { [key: string]: (() => void) } = {};
+  document.querySelector('div')?.remove();
+  new HeaderRender();
+  new FooterRender();
 
-	let body = document.querySelector('body') as HTMLElement;
+  const wrapper = document.getElementById('root') as HTMLElement;
+  const footer = document.querySelector('.footer') as HTMLElement;
 
-	const generateHeader = () => {
-	let linksContainer = document.createElement('div');
-	let main = document.createElement('a');
-	main.href = '#/';
-	main.innerText = 'Main';
-	let book = document.createElement('a');
-	book.href = '#/book';
-	book.innerText = 'Book';
-	let games = document.createElement('a');
-	games.href = '#/games';
-	games.innerText = 'Games';
-	let stats = document.createElement('a');
-	stats.href = '#/stats';
-	stats.innerText = 'Stats';
-	let about = document.createElement('a');
-	about.href = '#/about';
-	about.innerText = 'About';
+  const routes: { [key: string]: string | (() => void) } = {};
+  const templates: { [key: string]: (() => void) } = {};
 
-	let linksArray = [main, book, games, stats, about];
+  const route = (path: string, template: string | (() => void)) => {
+    if (typeof template === 'function') {
+      routes[path] = template;
+    }
+    if (typeof template === 'string') {
+      routes[path] = templates[template];
+    }
+    return routes[path];
+  };
 
-	linksArray.forEach(link => {
-		linksContainer.append(link);
-		})
-	body.append(linksContainer);
-	}
+  const template = (name: string, templateFunction: (() => void)) => {
+    templates[name] = templateFunction;
+    return templates[name];
+  };
 
-	const home = () => {
-		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>Home</h1>';
-		body.append(div);
-	}
+  template('home', () => {
+    wrapper.innerHTML = '';
+    new MainPageRender(wrapper);
+  });
 
-	const book = () => {
-		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>Book</h1>';
-		body.append(div);
-	}
+  template('book', () => {
+    wrapper.innerHTML = '';
+    new TextBookChapter(wrapper);
+    addListenersToTextBookPages();
+  });
 
-	const games = () => {
-		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>Games</h1>';
-		body.append(div);
-	}
+  template('games', () => {
+    wrapper.innerHTML = '';
+    new MiniGamesListRender(wrapper);
+  });
 
-	const stats = () => {
-		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>Stats</h1>';
-		body.append(div);
-	}
+  template('stats', () => {
+    wrapper.innerHTML = '';
+    new StatisticsPageRender(wrapper).statisc('Изученные слова за день: ');
+  });
 
-	const about = () => {
-		body.innerHTML = '';
-		generateHeader();
-		let div = document.createElement('div');
-		div.innerHTML = '<h1>About</h1>';
-		body.append(div);
-	}
+  template('video', () => {
+    wrapper.innerHTML = '';
+    new VideoRender(wrapper);
+  });
 
-	const route = (path: string, template: string | (() => void)) => {
-		if (typeof template === 'function') {
-			return routes[path] = template;
-		} else if (typeof template === 'string') {
-				return routes[path] = templates[template];
-		} else {
-				return;
-		};
-	};
+  template('about', () => {
+    wrapper.innerHTML = '';
+    new AboutTeam(wrapper);
+  });
 
-	const template = (name: string, templateFunction: (() => void)) => {
-		return templates[name] = templateFunction;
-	};
+  template('selection-page', () => {
+    wrapper.innerHTML = '';
+    new TextBookPage(wrapper);
+    addListenersToTextBookChapters();
+    changeBackgroundChapters();
+  });
 
-	template('home', () => {
-		home();
-	});
+  template('game', () => {
+    wrapper.innerHTML = '';
+    new LevelGame(wrapper);
+  });
 
-	template('book', () => {
-		book();
-	});
+  template('game-audio-call', async () => {
+    wrapper.innerHTML = '';
+    baseMarkupAudioCall();
+    await addWordsToPage();
+    addListeners();
+  });
+  template('game-audio-call-difficult', async () => {
+    wrapper.innerHTML = '';
+    baseMarkupAudioCall();
+    await addWordsToPage(true);
+    addListeners();
+  });
+  template('game-audio-call-random-page', async () => {
+    wrapper.innerHTML = '';
+    baseMarkupAudioCall();
+    await addWordsToPage(false, sessionStorage.getItem('chapter-number') as string, sessionStorage.getItem('page-number') as string);
+    addListeners();
+  });
 
-	template('games', () => {
-		games();
-	});
+  template('game-sprint', async () => {
+    wrapper.innerHTML = '';
+    renderSprintGame();
+    userResponse();
+  });
 
-	template('stats', () => {
-		stats();
-	});
+  // // start
+  // template('game-sprint-some', async () => {
+  //   wrapper.innerHTML = '';
+  //   renderSprintGame();
+  //   userResponse();
+  // });
 
-	template('about', () => {
-		about();
-	});
+  // template('game-sprint-another', async () => {
+  //   wrapper.innerHTML = '';
+  //   renderSprintGame();
+  //   userResponse();
+  // });
+  // // end
 
-	route('/', 'home');
-	route('/book', 'book');
-	route('/games', 'games');
-	route('/stats', 'stats');
-	route('/about', 'about');
+  template('page-book', () => {
+    wrapper.innerHTML = '';
+    tutorialRender();
+    addListenersToChoicePageChapter();
+  });
+  template('page-difficult-words', async () => {
+    wrapper.innerHTML = '';
+    await addDifficultWordsToPage();
+  });
 
-	const resolveRoute = (route: string) => {
-		try {
-			return routes[route];
-		} catch (e) {
-			throw new Error(`Route ${route} not found`);
-		};
-	};
+  route('/', 'home');
+  route('/book', 'book');
+  route('/games', 'games');
+  route('/stats', 'stats');
+  route('/about', 'about');
+  route('/video', 'video');
 
-	const router = () => {
-		let url = window.location.hash.slice(1) || '/';
-		let route = resolveRoute(url);
+  for (let i = 0; i <= 7; i += 1) {
+    if (i < 7) {
+      route(`/book/section-${i}`, 'selection-page');
+    } else {
+      route(`/book/section-${i}`, 'page-difficult-words');
+    }
+  }
 
-		if (typeof route === 'function') {
-			route();
-		}
-	};
+  route('/games/audio', 'game');
+  route('/games/sprint', 'game');
 
-	window.addEventListener('load', router);
-	window.addEventListener('hashchange', router);
-}
+  for (let i = 0; i <= 8; i += 1) {
+    if (i === 7) {
+      route(`/games/audio/${i}`, 'game-audio-call-difficult');
+    } else if (i === 8) {
+      route(`/games/audio/${i}`, 'game-audio-call-random-page');
+    } else {
+      route(`/games/audio/${i}`, 'game-audio-call');
+    }
+  }
 
-export { generateRouter };
+  // NOW
+  for (let i = 0; i <= 8; i += 1) {
+    if (i === 7) {
+      route(`/games/sprint/${i}`, 'game-sprint')
+    } else if (i === 8) {
+      route(`/games/sprint/${i}`, 'game-sprint');
+    } else {
+      route(`/games/sprint/${i}`, 'game-sprint');
+    } 
+  }
+
+  for (let i = 0; i < 7; i += 1) {
+    for (let j = 0; j < 30; j += 1) {
+      route(`/book/section-${i}/${j}`, 'page-book');
+    }
+  }
+
+  const resolveRoute = (routeStr: string) => {
+    try {
+      return routes[routeStr];
+    } catch (e) {
+      throw new Error(`Route ${routeStr} not found`);
+    }
+  };
+
+  const router = () => {
+    const url = window.location.hash.slice(1) || '/';
+
+    const route = resolveRoute(url);
+
+    if (typeof route === 'function') {
+      route();
+    }
+    if (!window.location.hash.split('-').includes('#/book/section')) {
+      body.style.backgroundColor = 'white';
+    }
+
+    if (!window.location.href.match(/audio\//)) {
+      body.style.backgroundImage = 'none';
+      footer.style.display = 'inline-flex';
+      body.style.justifyContent = 'space-between';
+    } else {
+      footer.style.display = 'none';
+      body.style.justifyContent = 'start';
+    }
+  };
+
+  window.addEventListener('load', router);
+  window.addEventListener('hashchange', router);
+};
+
+export default generateRouter;
