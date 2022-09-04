@@ -39,8 +39,8 @@ class Statistics {
 
   wordCorrectAnswer(idWord: string) {
     if (sessionStorage.getItem('series-of-correct-answers') && sessionStorage.getItem('longest-series-of-correct-answers')) {
-      const seriesAnswers = Number(JSON.parse(sessionStorage.getItem('series-of-correct-answers')!)) + 1;
-      const longestSeries = Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!));
+      const seriesAnswers = Number(JSON.parse(sessionStorage.getItem('series-of-correct-answers') as string)) + 1;
+      const longestSeries = Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers') as string));
       if (seriesAnswers > longestSeries) {
         sessionStorage.setItem('longest-series-of-correct-answers', JSON.stringify(seriesAnswers));
       }
@@ -125,8 +125,8 @@ class Statistics {
   }
 
   setStatiscticAboutGame() {
-    const guessedWords = JSON.parse(sessionStorage.getItem('guessed-words-id')!) || 0;
-    const unguessedWords = JSON.parse(sessionStorage.getItem('unguessed-words-id')!) || 0;
+    const guessedWords = JSON.parse(sessionStorage.getItem('guessed-words-id') as string) || 0;
+    const unguessedWords = JSON.parse(sessionStorage.getItem('unguessed-words-id') as string) || 0;
     const statisticPercetCorrectAnswers = Math.round(guessedWords.length
     / (unguessedWords.length + guessedWords.length) * 100) || 0;
 
@@ -140,8 +140,8 @@ class Statistics {
     console.log(Object.entries(data.optional.correctAnswersInGames));
     
 
-    console.log(unguessedWords.length);
-    console.log(guessedWords.length);
+    // console.log(unguessedWords.length);
+    // console.log(guessedWords.length);
     sessionStorage.setItem('statistics', JSON.stringify(data));
   }
 }

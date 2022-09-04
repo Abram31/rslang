@@ -68,6 +68,13 @@ const clickAudioGame = (event:MouseEvent) => {
   }
   if (element.classList.contains('wrapper-buttons__finish')) {
     window.location.hash = '/games';
+    document.querySelectorAll('.navigation__item').forEach((el) => {
+      el.classList.remove('active');
+      if (el.getAttribute('href') === '#/games') {
+        el.classList.add('active');
+        (el.childNodes[1] as HTMLElement).classList.add('active');
+      }
+    });
   }
 
   if (element.classList.contains('wrapper-list__item')
@@ -94,7 +101,6 @@ const addListeners = () => {
     sessionStorage.removeItem('longest-series-of-correct-answers');
     body.removeEventListener('click', clickAudioGame);
   });
-
 };
 
 export default addListeners;

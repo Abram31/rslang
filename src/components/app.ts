@@ -1,8 +1,5 @@
-import { CreateNewUser, SignInUser } from '../interface/interface';
-// eslint-disable-next-line import/no-cycle
-import AuthModal from '../modules/authentication/AuthModal';
+import { CreateNewUser, IdataFromServer, SignInUser } from '../interface/interface';
 import AuthorizationStateWindow from '../modules/layouts/authorizationStateWindow/authorizationStateWindow';
-import { IdataFromServer } from '../interface/interface';
 import { TOKEN_ACTION_IN_MILLISECONDS } from '../utils/constants';
 import { getStorage, setStorage } from '../utils/storage';
 
@@ -88,6 +85,10 @@ export default class App {
         },
       });
 
+      // if (await requestPromise.status === 417) {
+      //   console.warn()
+      // }
+
       return requestPromise.json();
     }
   }
@@ -164,6 +165,38 @@ export default class App {
         Accept: 'application/json',
       },
       body: statistics!,
+    });
+  }
+
+  async deleteUserWord(wordId: string) {
+    const id = getStorage('id');
+    const token = getStorage('token');
+
+    return fetch(`${this.userUrl}/${id}/words/${wordId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        // Accept: 'application/json',
+      },
+    });
+    // console.log((await response));
+  }
+
+  async putUserWord(wordId: string) {
+    const id = getStorage('id');
+    const token = getStorage('token');
+
+    const aboutWord = {
+      difficulty: 'studied',
+    };
+
+    return this.request(`${this.userUrl}/${id}/words/${wordId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(aboutWord),
     });
   }
 }

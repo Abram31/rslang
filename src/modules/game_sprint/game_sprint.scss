@@ -1,0 +1,74 @@
+body {
+  justify-content: flex-start;
+}
+
+.sprint-game {
+  background: url('../../assets/png/sprint-background.jpg') 50% 100% no-repeat;
+}
+
+.sprint-game-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.sprint-header {
+	width: 309px;
+	margin-top: 56px;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.sprint-timer,
+.sprint-counter  {
+	font-size: 36px;
+	line-height: 1.5;
+	font-weight: 700;
+}
+
+.sprint-timer {
+	width: 50px;
+}
+
+.sprint-counter {
+	width: 50px;
+}
+
+.sprint-sound-icon {
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+.sprint-english-word {
+	margin-top: 24px;
+
+	font-size: 48px;
+	line-height: 1.2;
+	font-weight: 700;
+}
+
+.sprint-russian-word {
+	margin-top: 36px;
+
+	font-size: 48px;
+	line-height: 1.2;
+	font-weight: 700;
+	opacity: .7;
+}
+
+.sprint-answer-icon {
+	height: 25px;
+}
+
+.sprint-buttons {
+	margin-top: 48px;
+	width: 408px;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
