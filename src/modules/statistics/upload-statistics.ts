@@ -7,4 +7,4 @@ const uploadStatistics = async () => {
     sessionStorage.setItem('statistics', JSON.stringify(statistics));
   }
 };
-uploadStatistics();
+export default uploadStatistics;

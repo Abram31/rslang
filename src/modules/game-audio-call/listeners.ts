@@ -38,7 +38,6 @@ const clickAudioGame = (event:MouseEvent) => {
       const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
       if (ungessedWords.length > 4) {
         new Statistics('audio-call').setStatiscticAboutGame();
-        new App().setStatistics();
         cardUnflip();
         addToPageResults();
         sessionStorage.removeItem('unguessed-words-id');
@@ -54,7 +53,8 @@ const clickAudioGame = (event:MouseEvent) => {
       cardFlipAfterChoice();
       sessionStorage.setItem('touch-button-words', 'true')
     }
-    
+    new App().setStatistics();
+
   }
 
   if (element.classList.contains('langs__ru') || element.classList.contains('langs__en')) {

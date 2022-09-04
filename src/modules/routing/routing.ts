@@ -16,6 +16,7 @@ import addDifficultWordsToPage from '../tutorial/difficult_words/add_difficult_w
 import HeaderRender from '../layouts/header/HeaderRender';
 import FooterRender from '../layouts/footer/FooterRender';
 import getDifficultStudiedWords from '../tutorial/difficult_words/get_difficult_studied_words';
+import { statisticByWords } from '../statistics/addStatisticToPage';
 
 const generateRouter = () => {
   document.querySelector('div')?.remove();
@@ -61,7 +62,12 @@ const generateRouter = () => {
 
   template('stats', () => {
     wrapper.innerHTML = '';
-    new StatisticsPageRender(wrapper).statisc('Изученные слова за день: ');
+    const statisticsByWords = statisticByWords();
+    new StatisticsPageRender(wrapper).statisc(
+      statisticsByWords.newWordsDay,
+      ['Изученные слова за день: ', statisticsByWords.newLearnedWordsDay],
+      statisticsByWords.percentAnswers,
+    );
   });
 
   template('video', () => {

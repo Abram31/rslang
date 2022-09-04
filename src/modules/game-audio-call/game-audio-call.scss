@@ -80,12 +80,16 @@ body {
       left: 0;
       top: 0;
       @include flex();
-      transition: 1s;
+      transition: .5s;
       backface-visibility: hidden;
       background-image: url("../../assets/svg/game-audio-call/voice.svg");
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
+
+      &:active {
+        transform: scale(.8);
+      }
 
       &.front__flip {
         transform: rotateY(180deg);

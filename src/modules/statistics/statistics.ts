@@ -4,7 +4,8 @@
 type WordDescription = {
   [key: string]: {
     correctAnswers: number,
-    lastUsedWord: string,
+    firstlyUsedWord: string,
+    dateLearnedWord?:string,
     nameGame: string,
   };
 };
@@ -15,7 +16,7 @@ type percentagesDescription = {
     nameGame: string,
   };
 };
-interface IdataStatistics {
+export interface IdataStatistics {
   learnedWords: number,
   optional: {
     words: WordDescription
@@ -55,12 +56,13 @@ class Statistics {
           data.optional.words[idWord].correctAnswers += 1;
           if (data.optional.words[idWord].correctAnswers === 3) {
             data.learnedWords += 1;
+            data.optional.words[idWord].dateLearnedWord = new Date().toLocaleDateString('en-US');
           }
         }
       } else {
         const newDataWord = {
           correctAnswers: 1,
-          lastUsedWord: new Date().toLocaleDateString('en-US'),
+          firstlyUsedWord: new Date().toLocaleDateString('en-US'),
           nameGame: this.nameGame,
         };
         data.optional.words[idWord] = newDataWord;
@@ -73,7 +75,7 @@ class Statistics {
           words: {
             [`${idWord}`]: {
               correctAnswers: 1,
-              lastUsedWord: new Date().toLocaleDateString('en-US'),
+              firstlyUsedWord: new Date().toLocaleDateString('en-US'),
               nameGame: this.nameGame,
             },
           },
@@ -98,7 +100,7 @@ class Statistics {
       } else {
         const newDataWord = {
           correctAnswers: 0,
-          lastUsedWord: new Date().toLocaleDateString('en-US'),
+          firstlyUsedWord: new Date().toLocaleDateString('en-US'),
           nameGame: this.nameGame,
         };
         data.optional.words[idWord] = newDataWord;
@@ -111,7 +113,7 @@ class Statistics {
           words: {
             [`${idWord}`]: {
               correctAnswers: 0,
-              lastUsedWord: new Date().toLocaleDateString('en-US'),
+              firstlyUsedWord: new Date().toLocaleDateString('en-US'),
               nameGame: this.nameGame,
             },
           },

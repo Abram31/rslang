@@ -151,8 +151,7 @@ export default class AuthModal {
         .catch(() => {
           this.errorMessage.innerHTML = 'Пользователь с такими данными уже зарегистрирован!';
         });
-    } 
-    else {
+    } else {
       this.errorMessage.innerHTML = 'Введите корректные данные';
     }
   }
