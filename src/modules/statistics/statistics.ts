@@ -1,19 +1,22 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 type WordDescription = {
   [key: string]: {
     correctAnswers: number,
-    lastUsedWord: string,
+    firstlyUsedWord: string,
+    dateLearnedWord?:string,
+    nameGame: string,
   };
 };
-// eslint-disable-next-line @typescript-eslint/naming-convention
 type percentagesDescription = {
   [key: string]: {
     percentCorrectAnswers: number,
     longestSeriesOfCorrectAnswers: number,
+    nameGame: string,
   };
 };
-interface IdataStatistics {
+export interface IdataStatistics {
   learnedWords: number,
   optional: {
     words: WordDescription
@@ -24,8 +27,14 @@ interface IdataStatistics {
 class Statistics {
   dataStatistics: IdataStatistics;
 
-  constructor(dataStatistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string)) {
+  nameGame: string;
+
+  constructor(
+    nameGame:string,
+    dataStatistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string),
+  ) {
     this.dataStatistics = dataStatistics;
+    this.nameGame = nameGame;
   }
 
   wordCorrectAnswer(idWord: string) {
@@ -47,12 +56,14 @@ class Statistics {
           data.optional.words[idWord].correctAnswers += 1;
           if (data.optional.words[idWord].correctAnswers === 3) {
             data.learnedWords += 1;
+            data.optional.words[idWord].dateLearnedWord = new Date().toLocaleDateString('en-US');
           }
         }
       } else {
         const newDataWord = {
           correctAnswers: 1,
-          lastUsedWord: new Date().toLocaleDateString('en-US'),
+          firstlyUsedWord: new Date().toLocaleDateString('en-US'),
+          nameGame: this.nameGame,
         };
         data.optional.words[idWord] = newDataWord;
       }
@@ -64,7 +75,8 @@ class Statistics {
           words: {
             [`${idWord}`]: {
               correctAnswers: 1,
-              lastUsedWord: new Date().toLocaleDateString('en-US'),
+              firstlyUsedWord: new Date().toLocaleDateString('en-US'),
+              nameGame: this.nameGame,
             },
           },
           correctAnswersInGames: {},
@@ -88,7 +100,8 @@ class Statistics {
       } else {
         const newDataWord = {
           correctAnswers: 0,
-          lastUsedWord: new Date().toLocaleDateString('en-US'),
+          firstlyUsedWord: new Date().toLocaleDateString('en-US'),
+          nameGame: this.nameGame,
         };
         data.optional.words[idWord] = newDataWord;
       }
@@ -100,7 +113,8 @@ class Statistics {
           words: {
             [`${idWord}`]: {
               correctAnswers: 0,
-              lastUsedWord: new Date().toLocaleDateString('en-US'),
+              firstlyUsedWord: new Date().toLocaleDateString('en-US'),
+              nameGame: this.nameGame,
             },
           },
           correctAnswersInGames: {},
@@ -119,8 +133,12 @@ class Statistics {
     const data = this.dataStatistics;
     data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
       percentCorrectAnswers: statisticPercetCorrectAnswers,
-      longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers') as string)),
+      longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
+      nameGame: this.nameGame,
     };
+
+    console.log(Object.entries(data.optional.correctAnswersInGames));
+    
 
     // console.log(unguessedWords.length);
     // console.log(guessedWords.length);

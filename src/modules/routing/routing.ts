@@ -18,6 +18,8 @@ import HeaderRender from '../layouts/header/HeaderRender';
 import FooterRender from '../layouts/footer/FooterRender';
 import { renderSprintGame, userResponse } from '../game_sprint/game_sprint';
 import { renderSprintResults } from '../game_sprint/results/sprint_results';
+import { statisticByWords } from '../statistics/addStatisticToPage';
+import getDifficultStudiedWords from '../tutorial/difficult_words/get_difficult_studied_words';
 
 const generateRouter = () => {
   document.querySelector('div')?.remove();
@@ -63,7 +65,12 @@ const generateRouter = () => {
 
   template('stats', () => {
     wrapper.innerHTML = '';
-    new StatisticsPageRender(wrapper).statisc('Изученные слова за день: ');
+    const statisticsByWords = statisticByWords();
+    new StatisticsPageRender(wrapper).statisc(
+      statisticsByWords.newWordsDay,
+      ['Изученные слова за день: ', statisticsByWords.newLearnedWordsDay],
+      statisticsByWords.percentAnswers,
+    );
   });
 
   template('video', () => {
@@ -131,6 +138,7 @@ const generateRouter = () => {
 
   template('page-book', () => {
     wrapper.innerHTML = '';
+    getDifficultStudiedWords();
     tutorialRender();
     addListenersToChoicePageChapter();
   });

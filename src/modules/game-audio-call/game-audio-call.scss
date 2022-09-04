@@ -70,6 +70,8 @@ body {
     width: 50vw;
     height: 40vh;
     @include hover();
+    display: flex;
+    justify-content: center;
 
     .container-game-audio-call__button-call-voice,
     .container-game-audio-call__button-call-voice__back {
@@ -78,12 +80,16 @@ body {
       left: 0;
       top: 0;
       @include flex();
-      transition: 1s;
+      transition: .5s;
       backface-visibility: hidden;
       background-image: url("../../assets/svg/game-audio-call/voice.svg");
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
+
+      &:active {
+        transform: scale(.8);
+      }
 
       &.front__flip {
         transform: rotateY(180deg);

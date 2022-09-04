@@ -2,7 +2,7 @@ import { fetchRequest } from './fetch/fetch';
 import createWordContainer from './create-word-container';
 import { changeBackgroundChapters } from './markup';
 import { IdataFromServer } from '../../interface/interface';
-// import App from '../../components/app';
+import { body } from './get words/render-result-find-to-page';
 // import Statistics from '../statistics/statistics';
 
 function updateUrl(numberPart: number | string, numberPage: string | number) {
@@ -42,13 +42,17 @@ export const addListenersToChoicePageChapter = async () => {
     const element = event.target as HTMLSelectElement;
     const numberPart = element.value.split(' ').slice(-1)[0];
     const numberPage = +valuePage.value.split(' ').slice(-1)[0] || '';
-
     if (numberPart) {
-      sessionStorage.setItem('chapter-number', numberPart);
-      await fetchRequestToWords(String(Number(numberPage) - 1), String(Number(numberPart) - 1));
-      changeBackgroundChapters();
+      if (numberPart === 'слова') {
+        sessionStorage.setItem('chapter-number', '7');
+        window.location.href = '/#/book/section-7';
+      } else {
+        sessionStorage.setItem('chapter-number', numberPart);
+        await fetchRequestToWords(String(Number(numberPage) - 1), String(Number(numberPart) - 1));
+        changeBackgroundChapters();
+        updateUrl(numberPart, numberPage);
+      }
     }
-    updateUrl(numberPart, numberPage);
   });
 };
 
@@ -58,6 +62,7 @@ export const addListenersToTextBookPages = () => {
     const element = event.target as HTMLElement;
     if (element.classList.contains('chapter')) {
       const chapterNumber = (element.firstChild as HTMLElement).innerText.split(' ').slice(-1)[0];
+      console.log(chapterNumber);
       sessionStorage.setItem('chapter-number', chapterNumber);
     }
   });
