@@ -1,7 +1,7 @@
 import App from '../../components/app';
 import { IdataStatistics } from './statistics';
 
-export const saveDifficultWord = (id: string) => {
+export const addToLearnedWords = (id: string) => {
   const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics')!);
   data.optional.words[id] = {
     correctAnswers: data.optional.words[id] ? data.optional.words[id].correctAnswers : 0,
@@ -13,8 +13,7 @@ export const saveDifficultWord = (id: string) => {
   new App().setStatistics()
 };
 
-export const deleteDifficultWord = (id: string) => {
-  debugger
+export const deleteFromLearnedWords = (id: string) => {
   const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics')!);
   if (data.optional.words[id] && data.optional.words[id].dateLearnedWord) {
     delete data.optional.words[id].dateLearnedWord;
