@@ -3,7 +3,7 @@ import createWordContainer from './create-word-container';
 import { changeBackgroundChapters } from './markup';
 import { IdataFromServer } from '../../interface/interface';
 import { body } from './get words/render-result-find-to-page';
-import { deleteDifficultWord } from '../statistics/save-delete-difficult-words';
+import { deleteDifficultWord } from '../statistics/save-delete-learned-words';
 // import Statistics from '../statistics/statistics';
 
 function updateUrl(numberPart: number | string, numberPage: string | number) {
