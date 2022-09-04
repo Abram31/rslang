@@ -25,19 +25,18 @@ const clickAudioGame = (event:MouseEvent) => {
     sessionStorage.setItem('touch-button-words', 'true')
   }
   if (element.classList.contains('wrapper-words__dont-know')) {
-    debugger
     if (sessionStorage.getItem('touch-button-words') === 'true' ) {
       const buttonVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
       const buttonVoiceId = buttonVoice.id;
       if (sessionStorage.getItem('correctness of the choice') === 'false') {
         addSessionStorage('unguessed-words-id', buttonVoiceId);
-        new Statistics('audio-call').wordUncorrectAnswer(buttonVoiceId);
+        localStorage.getItem('id') && new Statistics('audio-call').wordUncorrectAnswer(buttonVoiceId);
       } else {
-        new Statistics('audio-call').wordCorrectAnswer(buttonVoiceId);
+        localStorage.getItem('id') && new Statistics('audio-call').wordCorrectAnswer(buttonVoiceId);
       }
       const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
       if (ungessedWords.length > 4) {
-        new Statistics('audio-call').setStatiscticAboutGame();
+        localStorage.getItem('id') && new Statistics('audio-call').setStatiscticAboutGame();
         cardUnflip();
         addToPageResults();
         sessionStorage.removeItem('unguessed-words-id');
@@ -53,7 +52,7 @@ const clickAudioGame = (event:MouseEvent) => {
       cardFlipAfterChoice();
       sessionStorage.setItem('touch-button-words', 'true')
     }
-    new App().setStatistics();
+    localStorage.getItem('id') && new App().setStatistics();
 
   }
 

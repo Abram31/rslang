@@ -47,7 +47,6 @@ const baseMarkupAudioCall = () => {
     text: 'EN',
     parentElement: wrapperLangs,
   };
-  debugger
   const english = createDomNode(descriptionEnglish);
   if (localStorage.getItem('language') === 'en') {
     english.classList.add('active');
