@@ -27,6 +27,7 @@
     "no-underscore-dangle": "off",
     "@typescript-eslint/no-unused-expressions": "off",
     "@typescript-eslint/no-shadow": "off",
-    "default-case": "off"
+    "default-case": "off",
+    "import/no-extraneous-dependencies": "off"
   }
 }

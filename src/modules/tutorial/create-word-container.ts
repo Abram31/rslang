@@ -2,7 +2,7 @@ import { baseURL } from './fetch/fetch';
 import createDomNode from './function-create-dom-node';
 import App from '../../components/app';
 import hightlitingDifficultWords from './difficult_words/hightliting_difficult_words';
-import { IdataFromServer } from '../../interface/interface';
+import { IdataAboutWordDificulty, IdataFromServer } from '../../interface/interface';
 import checkDifficultWordBeforeLoading from './difficult_words/check_difficult_word_before_loading';
 
 function updateBird(id: string) {
@@ -133,6 +133,8 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
     };
     const threeBirds = createDomNode(threeBird) as HTMLImageElement;
 
+    // console.log(word);
+
     if (num === 1 || num1 === 1) {
       oneBirds.src = './assets/svg/icons/green-bird.svg';
       twoBirds.src = './assets/svg/icons/grey-bird.svg';
@@ -145,8 +147,6 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
       oneBirds.src = './assets/svg/icons/green-bird.svg';
       twoBirds.src = './assets/svg/icons/green-bird.svg';
       threeBirds.src = './assets/svg/icons/green-bird.svg';
-      const parent = oneBirds.closest('.container-tutorial__wrapper-word') as HTMLElement;
-      hightlitingDifficultWords(parent, 'studied');
     } else {
       oneBirds.src = './assets/svg/icons/grey-bird.svg';
       twoBirds.src = './assets/svg/icons/grey-bird.svg';
@@ -172,6 +172,13 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
     const learnedWord = createDomNode(btnLearnedWord) as HTMLImageElement;
     learnedWord.src = './assets/svg/icons/info-bird.svg';
     learnedWord.alt = 'Learned';
+
+    // console.log(word);
+
+    const one = [oneBirds.src, twoBirds.src, threeBirds.src].every((elem) => elem.match(/green/));
+    if (one) {
+      new App().putUserWord(word._id);
+    }
   }
   const descriptionTitle = {
     typeElement: 'h5',
@@ -229,10 +236,24 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
   createDomNode(descriptionTextExampleTranslate);
 
   if (window.location.hash !== '#/book/section-7') {
-    // checkDifficultWordBeforeLoading(wrapperWord, word.id);
+    checkDifficultWordBeforeLoading(wrapperWord, word.id);
   }
 
   return wordFragment;
 };
 
 export default createWordContainer;
+
+// const updateWord = async (id: string) => {
+//   let currentDifficult = 'easy';
+//   const userWords = await new App().getUsersWords();
+//   userWords.forEach((el: IdataAboutWordDificulty) => {
+//     if (el.wordId === id) {
+//       if (el.difficulty === 'studied') {
+//         currentDifficult = 'studied';
+//       }
+//       currentDifficult = 'hard';
+//     }
+//   });
+//   return currentDifficult;
+// };
