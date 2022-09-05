@@ -17,7 +17,7 @@ const timer = () => {
 			try {
 				timerDiv.innerHTML = time.toString();
 			} catch {
-				console.log('ended')
+
 			}	
 		}
 		time--;

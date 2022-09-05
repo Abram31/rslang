@@ -39,7 +39,7 @@ const renderSprintGame = () => {
   createDomNode('img', ['sprint-answer-icon'], sprintContainer, '', [{ src: '../../assets/svg/icons/result-sprint-correct.svg' }]);
   const sprintButtons = createDomNode('div', ['sprint-buttons'], sprintContainer);
 
-  createDomNode('div', ['sprint-timer'], sprintHeader, '60');
+  createDomNode('div', ['sprint-timer'], sprintHeader, '10');
   createDomNode('img', ['sprint-sound-icon'], sprintHeader, '', [{ src: '../../assets/svg/icons/sprint-sound-icon.svg' }, { alt: 'Sprint sound icon' }]);
   createDomNode('div', ['sprint-counter'], sprintHeader, '0');
 

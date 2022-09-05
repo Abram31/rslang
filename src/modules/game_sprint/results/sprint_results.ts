@@ -6,6 +6,12 @@ import {
 } from '../game_sprint';
 import App from '../../../components/app';
 
+interface ISprintStats {
+	percentCorrectAnswers: number;
+	longestSeriesOfCorrectAnswers: number;
+	newWordsGameDay?: string;
+}
+
 const hideBackground = (page: HTMLElement) => {
   // eslint-disable-next-line no-param-reassign
   page.style.background = 'none';
@@ -23,6 +29,19 @@ const answersCounter = (array: Array<boolean>) => {
 const statsAboutGame = (array: Array<number>) => {
 	const percentCorrectAnswers = Math.round((array[0] / (array[0] + array[1])) * 100);
 	return percentCorrectAnswers;
+}
+
+export const generateStatistics = () => {
+	const data: Array<ISprintStats> = Object.values(JSON.parse(sessionStorage.getItem('statistics')!).optional.correctAnswersInGames);
+	const percentCorrectAnswers: Array<number> = [];
+	const longestSeriesAnswers: Array<number> = [];
+	data.forEach(item => {
+		percentCorrectAnswers.push(item.percentCorrectAnswers)
+		longestSeriesAnswers.push(item.longestSeriesOfCorrectAnswers)
+	})
+	const percent: number = Math.round((percentCorrectAnswers.reduce((acc, curr) => acc + curr)) / percentCorrectAnswers.length);
+	const series: number = longestSeriesAnswers.sort((a, b) => b - a)[0];
+	return [percent, series];
 }
 
 const stats = new Statistics('sprint');
@@ -77,11 +96,15 @@ const resultButtons = createDomNode('div', ['result-buttons'], sprintResultsWrap
 		}
 	});
 
+	hideBackground(page);
+
 	const count: Array<number> = answersCounter(result);
 	const percentCorrectAnswers: number = statsAboutGame(count);
+
 	stats.setStatisticsAboutSprintGame(percentCorrectAnswers);
+	
 	(new App).setStatistics();
 
-	hideBackground(page);
 }
+
 export default renderSprintResults;
