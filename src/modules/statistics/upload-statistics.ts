@@ -11,7 +11,7 @@ const uploadStatistics = async () => {
           correctAnswersInGames: {},
         },
       };
-      sessionStorage.setItem('statistics', JSON.stringify(newData))
+      sessionStorage.setItem('statistics', JSON.stringify(newData));
     });
 
   if (statistics) {

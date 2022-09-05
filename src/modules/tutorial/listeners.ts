@@ -2,10 +2,7 @@ import { fetchRequest } from './fetch/fetch';
 import createWordContainer from './create-word-container';
 import { changeBackgroundChapters } from './markup';
 import { IdataFromServer } from '../../interface/interface';
-import { body } from './get words/render-result-find-to-page';
-import { deleteFromLearnedWords } from '../statistics/save-delete-difficult-words';
-import checkDifficultWordBeforeLoading from './difficult_words/check_difficult_word_before_loading';
-// import Statistics from '../statistics/statistics';
+import { deleteFromLearnedWords } from '../statistics/save-delete-learned-words';
 
 function updateUrl(numberPart: number | string, numberPage: string | number) {
   window.location.href = `/#/book/section-${numberPart}/${numberPage}`;
@@ -29,7 +26,7 @@ export const addListenersToChoicePageChapter = async () => {
   };
 
   valuePage.addEventListener('change', async (event: Event) => {
-    deleteFromLearnedWords('1111111111111111111');
+    deleteFromLearnedWords('1111111111111111111'); // Это чего такое?
 
     const element = event.target as HTMLSelectElement;
     const numberPage = element.value.split(' ').slice(-1)[0];
@@ -66,7 +63,6 @@ export const addListenersToTextBookPages = () => {
     const element = event.target as HTMLElement;
     if (element.classList.contains('chapter')) {
       const chapterNumber = (element.firstChild as HTMLElement).innerText.split(' ').slice(-1)[0];
-      console.log(chapterNumber);
       sessionStorage.setItem('chapter-number', chapterNumber);
     }
   });

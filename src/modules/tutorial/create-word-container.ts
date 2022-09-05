@@ -2,17 +2,17 @@ import { baseURL } from './fetch/fetch';
 import createDomNode from './function-create-dom-node';
 import App from '../../components/app';
 import hightlitingDifficultWords from './difficult_words/hightliting_difficult_words';
-import { IdataAboutWordDificulty, IdataFromServer } from '../../interface/interface';
+import { IdataFromServer } from '../../interface/interface';
 import checkDifficultWordBeforeLoading from './difficult_words/check_difficult_word_before_loading';
-import { addToLearnedWords, deleteFromLearnedWords } from '../statistics/save-delete-difficult-words';
+import { addToLearnedWords, deleteFromLearnedWords } from '../statistics/save-delete-learned-words';
 
-function updateBird(id: string) {
-  const stat = (JSON.parse(sessionStorage.getItem('statistics') as string));
+function addCountCorrectAnswer(id: string) {
+  const statistics = (JSON.parse(sessionStorage.getItem('statistics') as string));
   let count = 0;
-  if (stat) {
-    Object.keys(stat.optional.words).forEach((key) => {
+  if (statistics) {
+    Object.keys(statistics.optional.words).forEach((key) => {
       if (key === id) {
-        count = stat.optional.words[key].correctAnswers;
+        count = statistics.optional.words[key].correctAnswers;
       }
     });
   }
@@ -20,8 +20,8 @@ function updateBird(id: string) {
 }
 
 const createWordContainer = (word: IdataFromServer, idS?: string) => {
-  const currentTrue = word.id || word._id;
-  const num = updateBird(currentTrue);
+  const currentIdWord = word.id || word._id;
+  const num = addCountCorrectAnswer(currentIdWord);
 
   const wordFragment = document.createDocumentFragment();
 
@@ -32,7 +32,7 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
     dataAttribute: word.userWord && word.userWord.difficulty === 'hard' ? ['difficults', 'hard'] : ['difficults', ''],
     parentElement: wordFragment,
   };
-  const wrapperWord:HTMLElement = createDomNode(descriptionWrapperWord);
+  const wrapperWord: HTMLElement = createDomNode(descriptionWrapperWord);
 
   wrapperWord.addEventListener('click', (e: Event) => {
     const target = e.target as HTMLElement;
@@ -48,7 +48,6 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
     }
     if (target.classList.contains('studied')) {
       if ((target as HTMLImageElement).src.match(/info-bird/)) {
-        // console.log(num);
         new App().postUserWords(word, 'studied');
         addToLearnedWords((target.parentNode as HTMLElement)?.dataset.id as string);
         hightlitingDifficultWords(target, 'studied');
@@ -58,16 +57,6 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
         hightlitingDifficultWords(target, 'easyStudied');
       }
     }
-
-    // if (target.classList.contains('hard')) {
-    //   new App().postUserWords(word, 'hard');
-    //   hightlitingDifficultWords(target, 'hard');
-    // }
-    // if (target.classList.contains('studied')) {
-    //   // target.classList.add('studied-active');
-    //   new App().postUserWords(word, 'studied');
-    //   hightlitingDifficultWords(target, 'studied');
-    // }
   });
 
   const descriptionContainerImg = {
@@ -86,18 +75,15 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
   const containerWord = createDomNode(descriptionContainerWord);
 
   // new buttons
-
   const containerBtnsWord = {
     typeElement: 'div',
     className: 'btns-word',
     parentElement: containerWord,
   };
-
   const containerBtns = createDomNode(containerBtnsWord);
 
   const btns = {
     typeElement: 'div',
-    // text: word.word,
     className: 'container-btns',
     parentElement: containerBtns,
   };
@@ -137,8 +123,6 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
     };
     const threeBirds = createDomNode(threeBird) as HTMLImageElement;
 
-    // console.log(word);
-
     if (num === 1) {
       oneBirds.src = './assets/svg/icons/green-bird.svg';
       twoBirds.src = './assets/svg/icons/grey-bird.svg';
@@ -158,7 +142,6 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
       className: 'compound-word hard',
       parentElement: btns1,
     };
-
     const compoundWord = createDomNode(btnCompoundWord) as HTMLImageElement;
     compoundWord.src = './assets/svg/icons/star-word.svg';
     compoundWord.alt = 'Star';
@@ -168,21 +151,11 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
       className: 'compound-word studied',
       parentElement: btns1,
     };
-
     const learnedWord = createDomNode(btnLearnedWord) as HTMLImageElement;
     learnedWord.src = './assets/svg/icons/info-bird.svg';
     learnedWord.alt = 'Learned';
-
-    // console.log(word);
-
-    // const birdsCardsAll = [oneBirds.src, twoBirds.src, threeBirds.src].every((elem) => elem.match(/green/));
-    
-    // let birdsCardsOne = false;
-
-    // if (!birdsCardsAll) {
-    //   birdsCardsOne = [oneBirds.src, twoBirds.src, threeBirds.src].some((elem) => elem.match(/green/));
-    // }
   }
+
   const descriptionTitle = {
     typeElement: 'h5',
     text: word.word,
@@ -190,6 +163,7 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
     parentElement: containerWord,
   };
   const titleWord = createDomNode(descriptionTitle);
+
   const listAudioPath = JSON.stringify([[word.audio], [word.audioMeaning], [word.audioExample]]);
   titleWord.setAttribute('data-path-audio', listAudioPath);
 
@@ -199,7 +173,6 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
     className: 'container-word__translate-transcription',
     parentElement: containerWord,
   };
-  // const translateTranscription =
   createDomNode(descriptionTranslateTranscription);
 
   const descriptionTextMeaning = {
@@ -217,7 +190,6 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
     className: 'container-word__text-meaning-translate',
     parentElement: containerWord,
   };
-  // const textMeaningTranslate =
   createDomNode(descriptionTextMeaningTranslate);
 
   const descriptionTextExample = {
@@ -235,33 +207,13 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
     className: 'container-word__text-example-translate',
     parentElement: containerWord,
   };
-  // const textExampleTranslate =
   createDomNode(descriptionTextExampleTranslate);
 
   if (window.location.hash !== '#/book/section-7') {
-    // if (num) {
-      checkDifficultWordBeforeLoading(wrapperWord, word.id, word, num);
-    // } 
-    // else if (num1) {
-    //   checkDifficultWordBeforeLoading(wrapperWord, word.id, word, num1);
-    // }
+    checkDifficultWordBeforeLoading(wrapperWord, word.id, word, num);
   }
 
   return wordFragment;
 };
 
 export default createWordContainer;
-
-// const updateWord = async (id: string) => {
-//   let currentDifficult = 'easy';
-//   const userWords = await new App().getUsersWords();
-//   userWords.forEach((el: IdataAboutWordDificulty) => {
-//     if (el.wordId === id) {
-//       if (el.difficulty === 'studied') {
-//         currentDifficult = 'studied';
-//       }
-//       currentDifficult = 'hard';
-//     }
-//   });
-//   return currentDifficult;
-// };

@@ -85,10 +85,6 @@ export default class App {
         },
       });
 
-      // if (await requestPromise.status === 417) {
-      //   console.warn()
-      // }
-
       return requestPromise.json();
     }
   }
@@ -158,8 +154,8 @@ export default class App {
     const id = getStorage('id');
     const token = getStorage('token');
     let statistics = sessionStorage.getItem('statistics');
-    if (JSON.parse(statistics!).id) {
-      const data = JSON.parse(statistics!);
+    if (JSON.parse(statistics as string).id) {
+      const data = JSON.parse(statistics as string);
       delete data.id;
       statistics = JSON.stringify(data);
     }
@@ -169,7 +165,7 @@ export default class App {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
       },
-      body: statistics!,
+      body: statistics as string,
     });
   }
 
@@ -181,10 +177,8 @@ export default class App {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
-        // Accept: 'application/json',
       },
     });
-    // console.log((await response));
   }
 
   async putUserWord(wordId: string) {
