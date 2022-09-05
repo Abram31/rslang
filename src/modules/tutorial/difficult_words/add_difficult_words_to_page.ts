@@ -18,7 +18,6 @@ const addDifficultWordsToPage = async () => {
 
   if (document.querySelector('.tutorial__difficult-words')) {
     root.innerHTML = '';
-    // document.querySelector('.tutorial__difficult-words')?.remove();
   }
 
   const difficultWord = {
@@ -49,8 +48,6 @@ const addDifficultWordsToPage = async () => {
   if (difficultWords.length) {
     difficultWords.forEach(async (word, index) => {
       wrapperWord.append(createWordContainer(word, word._id));
-
-      // console.log(word._id);
 
       if (difficultWords.length - 1 === index) {
         prel.remove();

@@ -114,7 +114,7 @@ export const addToPageResults = () => {
 
   (document.getElementById('root') as HTMLDivElement).append(fragment);
   ['used-index-words-in-audio-call', 'list-game-audio',
-  'guessed-words-id', 'series-of-correct-answers', 'longest-series-of-correct-answers'].forEach((item) => {
+    'guessed-words-id', 'series-of-correct-answers', 'longest-series-of-correct-answers'].forEach((item) => {
     sessionStorage.removeItem(item);
   });
 };

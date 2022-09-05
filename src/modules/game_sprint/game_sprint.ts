@@ -1,14 +1,16 @@
+/* eslint-disable import/no-mutable-exports */
+/* eslint-disable no-await-in-loop */
 import createDomNode from '../../utils/createDomNode';
 import preload from '../game-audio-call/preload';
 import './game_sprint.scss';
-import { renderSprintResults } from '../game_sprint/results/sprint_results';
-import { timer } from './timer';
+import renderSprintResults from './results/sprint_results';
+import timer from './timer';
 import App from '../../components/app';
 import Statistics from '../statistics/statistics';
 import { stat } from 'fs';
 
 interface IData {
-	id: string,
+  id: string,
   group: 0,
   page: 0,
   word: string,
@@ -25,46 +27,45 @@ interface IData {
 }
 
 const renderSprintGame = () => {
-	let root = document.querySelector('#root') as HTMLElement;
-	root.innerHTML = '';
+  const root = document.querySelector('#root') as HTMLElement;
+  root.innerHTML = '';
 
-	let sprintPage = createDomNode('section', ['sprint-game'], root);
-	let sprintContainer = createDomNode('div', ['wrapper', 'sprint-game-wrapper'], sprintPage);
+  const sprintPage = createDomNode('section', ['sprint-game'], root);
+  const sprintContainer = createDomNode('div', ['wrapper', 'sprint-game-wrapper'], sprintPage);
 
-	let sprintHeader = createDomNode('div', ['sprint-header'], sprintContainer);
-	createDomNode('p', ['sprint-english-word'], sprintContainer, '');
-	createDomNode('p', ['sprint-russian-word'], sprintContainer, '');
-	createDomNode('img', ['sprint-answer-icon'], sprintContainer, '', [{ src: '../../assets/svg/icons/result-sprint-correct.svg' }]);
-	let sprintButtons = createDomNode('div', ['sprint-buttons'], sprintContainer);
+  const sprintHeader = createDomNode('div', ['sprint-header'], sprintContainer);
+  createDomNode('p', ['sprint-english-word'], sprintContainer, '');
+  createDomNode('p', ['sprint-russian-word'], sprintContainer, '');
+  createDomNode('img', ['sprint-answer-icon'], sprintContainer, '', [{ src: '../../assets/svg/icons/result-sprint-correct.svg' }]);
+  const sprintButtons = createDomNode('div', ['sprint-buttons'], sprintContainer);
 
-	createDomNode('div', ['sprint-timer'], sprintHeader, '10');
-	createDomNode('img', ['sprint-sound-icon'], sprintHeader, '', [{ src: '../../assets/svg/icons/sprint-sound-icon.svg' }, { alt: 'Sprint sound icon' }]);
-	createDomNode('div', ['sprint-counter'], sprintHeader, '0');
+  createDomNode('div', ['sprint-timer'], sprintHeader, '10');
+  createDomNode('img', ['sprint-sound-icon'], sprintHeader, '', [{ src: '../../assets/svg/icons/sprint-sound-icon.svg' }, { alt: 'Sprint sound icon' }]);
+  createDomNode('div', ['sprint-counter'], sprintHeader, '0');
 
-	createDomNode('button', ['btn', 'btn_red', 'wrong__button'], sprintButtons, 'Не верно');
-	createDomNode('button', ['btn', 'correct__button'], sprintButtons, 'Верно');
-	
-}
+  createDomNode('button', ['btn', 'btn_red', 'wrong__button'], sprintButtons, 'Не верно');
+  createDomNode('button', ['btn', 'correct__button'], sprintButtons, 'Верно');
+};
 
 const arrayGenerator = (arrayEng: Array<string>, arrayRus: Array<string>) => {
-	const result: Array<string> = [];
-	arrayEng.forEach((item, idx) => {
-		let bool: number = Math.floor(Math.random() * 2);
-		let index: number = Math.floor(Math.random() * arrayEng.length);
-		bool ? result.push(arrayRus[idx]) : result.push(arrayRus[index]);
-	})
-	return result;
-}
+  const result: Array<string> = [];
+  arrayEng.forEach((item, idx) => {
+    const bool: number = Math.floor(Math.random() * 2);
+    const index: number = Math.floor(Math.random() * arrayEng.length);
+    bool ? result.push(arrayRus[idx]) : result.push(arrayRus[index]);
+  });
+  return result;
+};
 
 const wordsCheck = (array: Array<string>, translation: Array<string>) => {
-	const result: Array<boolean> = [];
-	array.forEach((item, idx) => {
-		item === translation[idx] ? result.push(true) : result.push(false);
-	})
-	return result;
-}
+  const result: Array<boolean> = [];
+  array.forEach((item, idx) => {
+    item === translation[idx] ? result.push(true) : result.push(false);
+  });
+  return result;
+};
 
-let counter: number = 0;
+let counter = 0;
 
 const getWords = async () => {
 	let words: Array<string> = [];
@@ -117,12 +118,7 @@ const getWords = async () => {
 	const wrongButton = document.querySelector('.wrong__button') as HTMLElement;
 	let icon = document.querySelector('.sprint-answer-icon') as HTMLElement;
 
-	let translation: Array<string> = arrayGenerator(words, wordsTranslate);
-	
-	englishWord.innerText = words[counter];
-	russianWord.innerText = translation[counter];
-
-	const answers = wordsCheck(wordsTranslate, translation);
+ 	const translation: Array<string> = arrayGenerator(words, wordsTranslate);
 
 	const changeWords = () => {
 		counter++
@@ -139,8 +135,7 @@ const getWords = async () => {
 		}
 	}
 
-	correctButton.addEventListener('click', changeWords);
-	wrongButton.addEventListener('click', changeWords);
+  const answers = wordsCheck(wordsTranslate, translation);
 
 	const keyboardEvents = (e: KeyboardEvent) => {	
 		if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
@@ -158,50 +153,51 @@ const getWords = async () => {
 	return [words, wordsTranslate, answers, pathAudio, wordsId];
 }
 
-export let englishWords: Array<string> = []; 
-export let russianWords: Array<string> = []; 
+
+export let englishWords: Array<string> = [];
+export let russianWords: Array<string> = [];
 export let result: Array<boolean> = [];
 export let audioPaths: Array<string> = [];
 let wordsId: Array<string> = [];
 export const stats = new Statistics('sprint');
 
 const play = (path: string) => {
-	const url = 'https://base-rs-lang-1.herokuapp.com/';
-	const audio = new Audio(`${url}${path}`);
-	audio.play();
-}
+  const url = 'https://base-rs-lang-1.herokuapp.com/';
+  const audio = new Audio(`${url}${path}`);
+  audio.play();
+};
 
 const userResponse = async () => {
-	counter = 0;
-	englishWords = []; 
-	russianWords = []; 
-	result = [];
-	audioPaths = [];
-	const prel = preload();
-	const answers = await getWords();
-	const correctButton = document.querySelector('.correct__button') as HTMLElement;
-	const wrongButton = document.querySelector('.wrong__button') as HTMLElement;
-	const soundIcon = document.querySelector('.sprint-sound-icon') as HTMLElement;
-	let score = document.querySelector('.sprint-counter') as HTMLElement;
-	let answerResult = document.querySelector('.sprint-answer-icon') as HTMLImageElement;
+  counter = 0;
+  englishWords = [];
+  russianWords = [];
+  result = [];
+  audioPaths = [];
+  const prel = preload();
+  const answers = await getWords();
+  const correctButton = document.querySelector('.correct__button') as HTMLElement;
+  const wrongButton = document.querySelector('.wrong__button') as HTMLElement;
+  const soundIcon = document.querySelector('.sprint-sound-icon') as HTMLElement;
+  const score = document.querySelector('.sprint-counter') as HTMLElement;
+  const answerResult = document.querySelector('.sprint-answer-icon') as HTMLImageElement;
 
-	answers[0].forEach(word => {
-		if (typeof word === 'string') {
-			englishWords.push(word)
-		}
-	})
+  answers[0].forEach((word) => {
+    if (typeof word === 'string') {
+      englishWords.push(word);
+    }
+  });
 
-	answers[1].forEach(word => {
-		if (typeof word === 'string') {
-			russianWords.push(word)
-		}
-	})
+  answers[1].forEach((word) => {
+    if (typeof word === 'string') {
+      russianWords.push(word);
+    }
+  });
 
-	answers[3].forEach(path => {
-		if (typeof path === 'string') {
-			audioPaths.push(path);
-		}
-	})
+  answers[3].forEach((path) => {
+    if (typeof path === 'string') {
+      audioPaths.push(path);
+    }
+  });
 
 	answers[4].forEach(id => {
 		if (typeof id === 'string') {
@@ -272,16 +268,18 @@ const userResponse = async () => {
 	window.addEventListener('hashchange', removeKeyboardEvents)
 	document.addEventListener('keydown', keyboardEvents);
 
-	soundIcon.addEventListener('click', () => {
-		audioPaths.forEach((path, idx) => {
-			if (counter === idx) {
-				play(path);
-			}
-		})
-	});
+  soundIcon.addEventListener('click', () => {
+    audioPaths.forEach((path, idx) => {
+      if (counter === idx) {
+        play(path);
+      }
+    });
+  });
 
-	prel.remove();
-	timer();
-}
+  prel.remove();
+  timer();
+};
 
-export { renderSprintGame, userResponse, getWords, play };
+export {
+  renderSprintGame, userResponse, getWords, play,
+};

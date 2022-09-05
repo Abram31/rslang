@@ -1,4 +1,3 @@
-// import Statistics from '../statistics/statistics';
 import App from '../../components/app';
 import Statistics from '../statistics/statistics';
 import { body } from '../tutorial/get words/render-result-find-to-page';
@@ -22,39 +21,37 @@ const clickAudioGame = (event:MouseEvent) => {
   if (element.classList.contains('wrapper-words__word')) {
     choiceWord(event);
     cardFlipAfterChoice();
-    sessionStorage.setItem('touch-button-words', 'true')
+    sessionStorage.setItem('touch-button-words', 'true');
   }
   if (element.classList.contains('wrapper-words__dont-know')) {
-    debugger
-    if (sessionStorage.getItem('touch-button-words') === 'true' ) {
+    if (sessionStorage.getItem('touch-button-words') === 'true') {
       const buttonVoice = document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement;
       const buttonVoiceId = buttonVoice.id;
       if (sessionStorage.getItem('correctness of the choice') === 'false') {
         addSessionStorage('unguessed-words-id', buttonVoiceId);
-        new Statistics('audio-call').wordUncorrectAnswer(buttonVoiceId);
+        localStorage.getItem('id') && new Statistics('audio-call').wordUncorrectAnswer(buttonVoiceId);
       } else {
-        new Statistics('audio-call').wordCorrectAnswer(buttonVoiceId);
+        localStorage.getItem('id') && new Statistics('audio-call').wordCorrectAnswer(buttonVoiceId);
       }
       const ungessedWords: Array<string> = getSessinoStorage('unguessed-words-id');
       if (ungessedWords.length > 4) {
-        new Statistics('audio-call').setStatiscticAboutGame();
+        localStorage.getItem('id') && new Statistics('audio-call').setStatiscticAboutGame();
         cardUnflip();
         addToPageResults();
         sessionStorage.removeItem('unguessed-words-id');
-        sessionStorage.removeItem('touch-button-words')
+        sessionStorage.removeItem('touch-button-words');
       } else {
         addWordsToPage();
         sessionStorage.setItem('correctness of the choice', 'false');
         cardUnflip();
-        sessionStorage.removeItem('touch-button-words')
+        sessionStorage.removeItem('touch-button-words');
       }
     } else {
       choiceWord(event);
       cardFlipAfterChoice();
-      sessionStorage.setItem('touch-button-words', 'true')
+      sessionStorage.setItem('touch-button-words', 'true');
     }
-    new App().setStatistics();
-
+    localStorage.getItem('id') && new App().setStatistics();
   }
 
   if (element.classList.contains('langs__ru') || element.classList.contains('langs__en')) {

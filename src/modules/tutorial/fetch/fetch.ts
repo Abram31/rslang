@@ -1,5 +1,5 @@
-import preload from "../../game-audio-call/preload";
-import { body } from "../get words/render-result-find-to-page";
+import preload from '../../game-audio-call/preload';
+import { body } from '../get words/render-result-find-to-page';
 
 export interface IwordsLIst {
   page: string,

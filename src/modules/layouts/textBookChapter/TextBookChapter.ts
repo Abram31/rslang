@@ -59,11 +59,11 @@ export default class TextBookChapter {
 
     this.textBookDescription = createDomNode('div', ['textbook__description'], this.textBookAuth);
     this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/star.svg' }, { alt: 'Star' }]);
-    this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item'], this.textBookDescription, 'Сложные слова можно отменить звёздочкой. Эти слова будут находиться в разделе Сложные');
+    this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item'], this.textBookDescription, 'Сложные слова можно отметить нажав на звёздочку. Эти слова будут находиться в разделе "Сложные слова"');
 
     this.textBookDescription = createDomNode('div', ['textbook__description'], this.textBookAuth);
     this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/check-mark.svg' }, { alt: 'Сheck-mark' }]);
-    this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item'], this.textBookDescription, 'Изученные слова можно отметить причкой. Изученные разделы будут отмечены птичкой');
+    this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item'], this.textBookDescription, 'Изученные слова можно отметить нажав на птичку. Изученные слова не задействуются в мини-играх, которые запускаются на страницах учебника');
 
     this.textBookDescription = createDomNode('div', ['textbook__description'], this.textBookAuth);
     this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/info-circle-red.svg' }, { alt: 'Info' }]);

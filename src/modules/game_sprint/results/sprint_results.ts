@@ -1,11 +1,14 @@
 import createDomNode from '../../../utils/createDomNode';
 import './sprint_results.scss';
-import { englishWords, russianWords, result, audioPaths, play } from '../game_sprint';
 import Statistics from '../../statistics/statistics';
+import {
+  englishWords, russianWords, result, audioPaths, play,
+} from '../game_sprint';
 
 const hideBackground = (page: HTMLElement) => {
-	page.style.background = 'none';
-}
+  // eslint-disable-next-line no-param-reassign
+  page.style.background = 'none';
+};
 
 const answersCounter = (array: Array<boolean>) => {
 	let correctAnswers = 0;
@@ -17,41 +20,41 @@ const answersCounter = (array: Array<boolean>) => {
 }
 
 const statsAboutGame = (array: Array<number>) => {
-	let percentCorrectAnswers = Math.round((array[0] / (array[0] + array[1])) * 100);
+	const percentCorrectAnswers = Math.round((array[0] / (array[0] + array[1])) * 100);
 	return percentCorrectAnswers;
 }
 
 const renderSprintResults = (score: number) => {
-  let page = document.querySelector('.sprint-game') as HTMLElement;
+	const page = document.querySelector('.sprint-game') as HTMLElement;
   page.innerHTML = '';
 
-	let sprintResultsPage = createDomNode('div', ['sprint-results', 'hidden'], page);
-	let sprintResultsWrapper = createDomNode('div', ['wrapper', 'sprint-results-wrapper'], sprintResultsPage);
+  const sprintResultsPage = createDomNode('div', ['sprint-results', 'hidden'], page);
+  const sprintResultsWrapper = createDomNode('div', ['wrapper', 'sprint-results-wrapper'], sprintResultsPage);
 
 	createDomNode('h1', ['sprint-results__title'], sprintResultsWrapper, 'Результаты');
 	createDomNode('h3', ['results-score'], sprintResultsWrapper, `Ваш результат: ${score}.`)
-	let resultsContainer = createDomNode('div', ['sprint-results__container'], sprintResultsWrapper);
+	const resultsContainer = createDomNode('div', ['sprint-results__container'], sprintResultsWrapper);
 
-	for (let i = 0; i < result.length; i++) {
-		let row = createDomNode('div', ['results-container__row'], resultsContainer);
-		createDomNode('img', ['results-sound-icon'], row, '', [{ src: '../../assets/svg/icons/result-sprint-sound.svg' }, { alt: 'Results sound icon' }]);
-		let wordsWrapper = createDomNode('div', ['results-words-wrapper'], row);
-		createDomNode('p', ['results__english-word'], wordsWrapper, `${englishWords[i]}`);
-		createDomNode('p', ['results__russian-word'], wordsWrapper, `${russianWords[i]}`);
-		createDomNode('img', ['results-icon'], row, '', [
-			{ 
-				src: result[i] ? '../../assets/svg/icons/result-sprint-correct.svg' : '../../assets/svg/icons/result-sprint-incorrect.svg'
-			}, 
-			{ 
-				alt: 'Results icon' 
-			}]);
-	}
+  for (let i = 0; i < result.length; i += 1) {
+    const row = createDomNode('div', ['results-container__row'], resultsContainer);
+    createDomNode('img', ['results-sound-icon'], row, '', [{ src: '../../assets/svg/icons/result-sprint-sound.svg' }, { alt: 'Results sound icon' }]);
+    const wordsWrapper = createDomNode('div', ['results-words-wrapper'], row);
+    createDomNode('p', ['results__english-word'], wordsWrapper, `${englishWords[i]}`);
+    createDomNode('p', ['results__russian-word'], wordsWrapper, `${russianWords[i]}`);
+    createDomNode('img', ['results-icon'], row, '', [
+      {
+        src: result[i] ? '../../assets/svg/icons/result-sprint-correct.svg' : '../../assets/svg/icons/result-sprint-incorrect.svg',
+      },
+      {
+        alt: 'Results icon',
+      }]);
+  }
 
-	let resultButtons = createDomNode('div', ['result-buttons'], sprintResultsWrapper);
+const resultButtons = createDomNode('div', ['result-buttons'], sprintResultsWrapper);
 	createDomNode('button', ['btn', 'restart__button'], resultButtons, 'Начать сначала');
 	createDomNode('button', ['btn', 'btn_red', 'cancel__button'], resultButtons, 'Выйти');
 
-	let soundIcon = document.querySelectorAll('.results-sound-icon') as NodeListOf<HTMLElement>;
+	const soundIcon = document.querySelectorAll('.results-sound-icon') as NodeListOf<HTMLElement>;
 	soundIcon.forEach((icon, iconIdx) => {
 		icon.addEventListener('click', () => {
 			audioPaths.forEach((path, idx) => {
@@ -71,16 +74,14 @@ const renderSprintResults = (score: number) => {
 		}
 	});
 
-	let count: Array<number> = answersCounter(result);
-	let percentCorrectAnswers: number = statsAboutGame(count);
+	const count: Array<number> = answersCounter(result);
+	const percentCorrectAnswers: number = statsAboutGame(count);
 	console.log(statsAboutGame(count));
 
-	let stats = new Statistics('sprint');
+	const stats = new Statistics('sprint');
 	stats.setStatisticsAboutSprintGame(percentCorrectAnswers)
 	console.log(JSON.parse(sessionStorage.statistics))
 
-
 	hideBackground(page);
 }
-
-export { renderSprintResults };
+export default renderSprintResults;

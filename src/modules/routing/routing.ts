@@ -9,7 +9,6 @@ import TextBookPage from '../layouts/textBookPage/textBookPage';
 import VideoRender from '../layouts/video/VideoRender';
 import { body } from '../tutorial/get words/render-result-find-to-page';
 import { addListenersToChoicePageChapter, addListenersToTextBookChapters, addListenersToTextBookPages } from '../tutorial/listeners';
-// eslint-disable-next-line import/no-named-as-default
 import tutorialRender, { changeBackgroundChapters } from '../tutorial/markup';
 import baseMarkupAudioCall from '../game-audio-call/markup';
 import addListeners from '../game-audio-call/listeners';
@@ -17,7 +16,6 @@ import addDifficultWordsToPage from '../tutorial/difficult_words/add_difficult_w
 import HeaderRender from '../layouts/header/HeaderRender';
 import FooterRender from '../layouts/footer/FooterRender';
 import { renderSprintGame, userResponse } from '../game_sprint/game_sprint';
-import { renderSprintResults } from '../game_sprint/results/sprint_results';
 import { statisticByWords } from '../statistics/addStatisticToPage';
 import getDifficultStudiedWords from '../tutorial/difficult_words/get_difficult_studied_words';
 
@@ -154,17 +152,12 @@ const generateRouter = () => {
 
   route('/games/audio/hard-word', 'game-audio-call-difficult');
 
-  // for (let i = 0; i <= 6; i += 1) {
-
-  //   route(`/games/audio/random/${i}`, 'game-audio-call-random-page');
-  // }
-
   for (let i = 0; i <= 8; i += 1) {
     for (let k = 0; k < 30; k += 1) {
       route(`/games/sprint/random/${i}/${k}`, 'game-sprint');
     }
     if (i === 7) {
-      route(`/games/sprint/${i}`, 'game-sprint')
+      route(`/games/sprint/${i}`, 'game-sprint');
     } else if (i === 8) {
       route(`/games/sprint/${i}`, 'game-sprint');
     } 

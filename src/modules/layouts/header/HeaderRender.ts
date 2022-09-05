@@ -6,6 +6,7 @@ import { getStorage } from '../../../utils/storage';
 import NavigationSvg from '../../../interface/enumNavigationSvg';
 import AuthorizationStateWindow from '../authorizationStateWindow/authorizationStateWindow';
 import helpLoadNavigation from '../../../utils/helpLoadNavigation';
+import uploadStatistics from '../../statistics/upload-statistics';
 
 export default class HeaderRender {
   private header;
@@ -130,8 +131,9 @@ export default class HeaderRender {
         .catch(() => {
           new AuthorizationStateWindow('Время сессии истекло, вам необходимо авторизоваться');
         });
-      new App().getStatistics()
-        .then((res) => sessionStorage.setItem('statistics', JSON.stringify(res)));
+      // new App().getStatistics()
+      //   .then((res) => sessionStorage.setItem('statistics', JSON.stringify(res)));
+      uploadStatistics()
     }
 
     this.loadNavigation();
@@ -179,6 +181,7 @@ export default class HeaderRender {
     this.btnGoOut = createDomNode('button', ['btn', 'btn_red'], this.modalWindow, 'Да') as HTMLButtonElement;
     this.btnGoOut.addEventListener('click', () => {
       localStorage.clear();
+      sessionStorage.clear();
       window.location.reload();
       this.userName.innerHTML = '';
       this.authButton.innerHTML = 'Вход';

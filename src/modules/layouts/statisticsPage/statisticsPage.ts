@@ -1,9 +1,6 @@
 import './statisticsPage.scss';
 import Chart from 'chart.js/auto';
 import { ChartConfiguration } from 'chart.js';
-import type { ChartData, ChartOptions } from 'chart.js';
-
-import { config } from 'process';
 import createDomNode from '../../../utils/createDomNode';
 import {
   numberNewWordsEachDay, numbersLearnedWordsEveryDay, statisticByWords, statisticsGame,
@@ -61,26 +58,34 @@ export default class StatisticsPageRender {
     this.btnGroup = createDomNode('div', ['btn-group'], this.statiscticsWrapper);
 
     this.btnWords = createDomNode('button', ['btn-static', 'btn__active'], this.btnGroup, 'По словам');
-    this.btnWords.addEventListener('click', () => this.statisc(
-      this.statisticsByWords.newWordsDay,
-      ['Изученные слова за день: ', this.statisticsByWords.newLearnedWordsDay],
-      this.statisticsByWords.percentAnswers,
-    ));
+    this.btnWords.addEventListener('click', () => {
+      this.statisc(
+        this.statisticsByWords.newWordsDay,
+        ['Изученные слова за день: ', this.statisticsByWords.newLearnedWordsDay],
+        this.statisticsByWords.percentAnswers,
+      );
+    });
 
     this.btnAudio = createDomNode('button', ['btn-static'], this.btnGroup, 'Aудиовызов');
-    this.btnAudio.addEventListener('click', () => this.statisc(
-      this.statisticsAudioCallGame.newWordsGameDay,
-      ['Самая длинная серия правильных ответов: ', this.statisticsAudioCallGame.longestSeriesAnswers],
-      this.statisticsAudioCallGame.percentAnswers,
-    ));
+    this.btnAudio.addEventListener('click', () => {
+      this.statisc(
+        this.statisticsAudioCallGame.newWordsGameDay,
+        ['Самая длинная серия правильных ответов: ', this.statisticsAudioCallGame.longestSeriesAnswers],
+        this.statisticsAudioCallGame.percentAnswers,
+      );
+    });
 
     this.btnSprint = createDomNode('button', ['btn-static'], this.btnGroup, 'Спринт');
-    // this.btnSprint.addEventListener('click', () =>
-    // // this.statisc('Самая длинная серия правильных ответов: ')
-    // );
+    this.btnSprint.addEventListener('click', () => {
+      this.contentStatic?.remove();
+      this.contentStatic = createDomNode('div', ['content-static'], this.statiscticsWrapper);
+      this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'В РАЗРАБОТКЕ');
+    });
 
     this.btnStatic = createDomNode('button', ['btn-static'], this.btnGroup, 'Общая статистика');
-    this.btnStatic.addEventListener('click', () => this.statisticsChart());
+    this.btnStatic.addEventListener('click', () => {
+      this.statisticsChart();
+    });
 
     [this.btnWords, this.btnAudio, this.btnSprint, this.btnStatic].forEach((el) => {
       el.addEventListener('click', () => this.toogleBtn(el));
@@ -100,86 +105,92 @@ export default class StatisticsPageRender {
 
   statisc(firstRow: string, secondRow: Array<string>, percents:string) {
     this.contentStatic?.remove();
-    this.contentStatic = createDomNode('div', ['content-static'], this.statiscticsWrapper);
-    this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'Новые слова за день: ');
-    this.newWords = createDomNode('span', ['static__new-word'], this.staticItem, firstRow);
+    if (localStorage.getItem('id')) {
+      this.contentStatic = createDomNode('div', ['content-static'], this.statiscticsWrapper);
+      this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'Новые слова за день: ');
+      this.newWords = createDomNode('span', ['static__new-word'], this.staticItem, firstRow);
 
-    this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, secondRow[0]);
-    this.learnedWord = createDomNode('span', ['static__learned-word'], this.staticItem, secondRow[1]);
+      this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, secondRow[0]);
+      this.learnedWord = createDomNode('span', ['static__learned-word'], this.staticItem, secondRow[1]);
 
-    this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'Правильные ответы за день: ');
+      this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'Правильные ответы за день: ');
 
-    this.circle = createDomNode('div', ['circle'], this.contentStatic);
-    this.percent = createDomNode('p', ['percent'], this.circle, percents);
-    this.percentSign = createDomNode('span', ['percent-sign'], this.percent, '%');
+      this.circle = createDomNode('div', ['circle'], this.contentStatic);
+      this.percent = createDomNode('p', ['percent'], this.circle, percents);
+      this.percentSign = createDomNode('span', ['percent-sign'], this.percent, '%');
+    } else {
+      this.contentStatic = createDomNode('div', ['content-static'], this.statiscticsWrapper);
+      this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'Для отображения статистики вам необходимо авторизироваться');
+    }
   }
 
   statisticsChart() {
     this.contentStatic?.remove();
-    this.contentStatic = createDomNode('div', ['content-static'], this.statiscticsWrapper);
-    this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'График, отображающий количество новых слов за каждый день изучения');
+    if (localStorage.getItem('id')) {
+      this.contentStatic = createDomNode('div', ['content-static'], this.statiscticsWrapper);
+      this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'График, отображающий количество новых слов за каждый день изучения');
 
-    this.chartNewWOrdsOfEveryDay = createDomNode('canvas', ['chart-every-day-learning'], this.contentStatic);
-    this.chartNewWOrdsOfEveryDay.id = 'chartEveryDayLearning';
+      this.chartNewWOrdsOfEveryDay = createDomNode('canvas', ['chart-every-day-learning'], this.contentStatic);
+      this.chartNewWOrdsOfEveryDay.id = 'chartEveryDayLearning';
 
-    const amountWordsOfDays = numberNewWordsEachDay();
+      const amountWordsOfDays = numberNewWordsEachDay();
 
-    const labels = Object.keys(amountWordsOfDays);
+      const labels = Object.keys(amountWordsOfDays);
 
-    const data1 = {
-      labels,
-      datasets: [{
-        label: '',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        data: Object.values(amountWordsOfDays),
+      const data1 = {
+        labels,
+        datasets: [{
+          label: '',
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderColor: 'rgb(255, 99, 132)',
+          data: Object.values(amountWordsOfDays),
 
-      }],
-    };
+        }],
+      };
 
-    const config: ChartConfiguration = {
-      type: 'bar',
-      data: data1,
-      options: { },
+      const config: ChartConfiguration = {
+        type: 'bar',
+        data: data1,
+        options: {},
 
-    };
+      };
 
-    new Chart(
-      document.getElementById('chartEveryDayLearning') as HTMLCanvasElement,
-      config,
-    );
+      new Chart(
+        document.getElementById('chartEveryDayLearning') as HTMLCanvasElement,
+        config,
+      );
 
-    this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'График, отображающий увеличение общего количества изученных слов за весь период обучения по дням');
+      this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'График, отображающий увеличение общего количества изученных слов за весь период обучения по дням');
 
-    this.chartIncreaseTotalNumber = createDomNode('canvas', ['chart-increase-total-number'], this.contentStatic);
-    this.chartIncreaseTotalNumber.id = 'chartIncreaseTotalNumber';
+      this.chartIncreaseTotalNumber = createDomNode('canvas', ['chart-increase-total-number'], this.contentStatic);
+      this.chartIncreaseTotalNumber.id = 'chartIncreaseTotalNumber';
 
-    const amountLearnedEveryDayWords = numbersLearnedWordsEveryDay();
+      const amountLearnedEveryDayWords = numbersLearnedWordsEveryDay();
 
-    const label = ['', ...Object.keys(amountLearnedEveryDayWords)];
+      const label = ['', ...Object.keys(amountLearnedEveryDayWords)];
 
-    const data2 = {
-      labels: label,
-      datasets: [{
-        label: '',
-        backgroundColor: '#f57600',
-        borderColor: '#f57600',
-        data: [0, ...Object.values(amountLearnedEveryDayWords)],
-      }],
-    };
-    const config2: ChartConfiguration = {
-      type: 'line',
-      data: data2,
-      options: {},
-    };
+      const data2 = {
+        labels: label,
+        datasets: [{
+          label: '',
+          backgroundColor: '#f57600',
+          borderColor: '#f57600',
+          data: [0, ...Object.values(amountLearnedEveryDayWords)],
+        }],
+      };
+      const config2: ChartConfiguration = {
+        type: 'line',
+        data: data2,
+        options: {},
+      };
 
-    new Chart(
-      document.getElementById('chartIncreaseTotalNumber') as HTMLCanvasElement,
-      config2,
-    );
-  }
-
-  staticsAll() {
-    this.contentStatic?.remove();
+      new Chart(
+        document.getElementById('chartIncreaseTotalNumber') as HTMLCanvasElement,
+        config2,
+      );
+    } else {
+      this.contentStatic = createDomNode('div', ['content-static'], this.statiscticsWrapper);
+      this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'Для отображения графиков вам необходимо авторизироваться');
+    }
   }
 }

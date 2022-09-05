@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable no-mixed-operators */
 type WordDescription = {
   [key: string]: {
     correctAnswers: number,
@@ -9,7 +6,8 @@ type WordDescription = {
     nameGame: string,
   };
 };
-type percentagesDescription = {
+
+type PercentagesDescription = {
   [key: string]: {
     percentCorrectAnswers: number,
     longestSeriesOfCorrectAnswers: number,
@@ -20,7 +18,7 @@ export interface IdataStatistics {
   learnedWords: number,
   optional: {
     words: WordDescription
-    correctAnswersInGames: percentagesDescription,
+    correctAnswersInGames: PercentagesDescription,
   },
 }
 
@@ -127,30 +125,24 @@ class Statistics {
   setStatiscticAboutGame() {
     const guessedWords = JSON.parse(sessionStorage.getItem('guessed-words-id') as string) || [];
     const unguessedWords = JSON.parse(sessionStorage.getItem('unguessed-words-id') as string) || [];
-    const statisticPercetCorrectAnswers = Math.round(guessedWords.length
-    / (unguessedWords.length + guessedWords.length) * 100) || 0;
+    // eslint-disable-next-line max-len, no-mixed-operators
+    const statisticPercetCorrectAnswers = Math.round(guessedWords.length / (unguessedWords.length + guessedWords.length) * 100) || 0;
 
     const data = this.dataStatistics;
     if (data.optional.correctAnswersInGames) {
       data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
         percentCorrectAnswers: statisticPercetCorrectAnswers,
-        longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
+        longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers') as string)),
         nameGame: this.nameGame,
       };
     } else {
       data.optional.correctAnswersInGames = {};
       data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
         percentCorrectAnswers: statisticPercetCorrectAnswers,
-        longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
+        longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers') as string)),
         nameGame: this.nameGame,
       };
     }
-
-    console.log(Object.entries(data.optional.correctAnswersInGames));
-    
-
-    // console.log(unguessedWords.length);
-    // console.log(guessedWords.length);
     sessionStorage.setItem('statistics', JSON.stringify(data));
   }
 
