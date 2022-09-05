@@ -1,9 +1,6 @@
 import './statisticsPage.scss';
 import Chart from 'chart.js/auto';
 import { ChartConfiguration } from 'chart.js';
-import type { ChartData, ChartOptions } from 'chart.js';
-
-import { config } from 'process';
 import createDomNode from '../../../utils/createDomNode';
 import {
   numberNewWordsEachDay, numbersLearnedWordsEveryDay, statisticByWords, statisticsGame,
@@ -195,9 +192,5 @@ export default class StatisticsPageRender {
       this.contentStatic = createDomNode('div', ['content-static'], this.statiscticsWrapper);
       this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'Для отображения графиков вам необходимо авторизироваться');
     }
-  }
-
-  staticsAll() {
-    this.contentStatic?.remove();
   }
 }

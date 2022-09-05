@@ -4,6 +4,7 @@ import { body } from '../tutorial/get words/render-result-find-to-page';
 
 const baseMarkupAudioCall = () => {
   const wrap = document.getElementById('root') as HTMLDivElement;
+
   const fragmentSprint: DocumentFragment = document.createDocumentFragment();
 
   const descriptionContainerAudioCall = {
@@ -25,14 +26,7 @@ const baseMarkupAudioCall = () => {
     className: 'container-game-audio-call__wrapper-step-game',
     parentElement: wrapperVoiceLivesLang,
   };
-  // const wrapperStepGame =
   createDomNode(descriptionWrapperStepGame);
-
-  // const descriptionStepGame = {
-  //   typeElement: 'li',
-  //   className: 'wrapper-step-game__step-game',
-  //   parentElement: wrapperStepGame,
-  // };
 
   const descriptionLangs = {
     typeElement: 'ul',
@@ -58,7 +52,6 @@ const baseMarkupAudioCall = () => {
     text: '/',
     parentElement: wrapperLangs,
   };
-  // const slash =
   createDomNode(descriptionSlash);
 
   const descriptionRus = {
@@ -84,7 +77,6 @@ const baseMarkupAudioCall = () => {
     className: 'container-game-audio-call__button-call-voice',
     parentElement: wrapperCallVoice,
   };
-  // const buttonCallVoice =
   createDomNode(descriptionButtonCallVoice);
 
   const descriptionButtonCallVoiceBack = {
@@ -99,8 +91,6 @@ const baseMarkupAudioCall = () => {
     className: 'button-call-voice__back__word-translate',
     parentElement: buttonCallVoiceBack,
   };
-
-  // const translateWord =
   createDomNode(descriptionTextWordInEnglish);
 
   const descriptionWrapperWords = {
@@ -108,15 +98,7 @@ const baseMarkupAudioCall = () => {
     className: 'container-game-audio-call__wrapper-words',
     parentElement: containerAudioCall,
   };
-  // const wrapperWords =
   createDomNode(descriptionWrapperWords);
-
-  // const descriptionWord = {
-  //   typeElement: 'li',
-  //   className: 'wrapper-words__word',
-  //   text: 'word-1',
-  //   parentElement: wrapperWords,
-  // };
 
   const descriptionButtonDontKnow = {
     typeElement: 'li',

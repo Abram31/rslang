@@ -4,7 +4,6 @@ import createWordContainer from './create-word-container';
 import createDomNode from './function-create-dom-node';
 import playAudio from './play-words';
 import './style.scss';
-import { addWordsToPage } from '../game-audio-call/get-voice-word';
 
 export const changeBackgroundChapters = () => {
   const chapterInMemory = sessionStorage.getItem('chapter-number');
@@ -38,19 +37,11 @@ export const miniButtonGames = (wrapper: HTMLElement) => {
   };
   const containerButtons = createDomNode(descriptionContainerButtons);
 
-  // const descriptionHome = {
-  //   typeElement: 'div',
-  //   className: 'container-buttons__home',
-  //   parentElement: containerButtons,
-  // };
-  // const buttonHome = createDomNode(descriptionHome);
-
   const descriptionSoundGame = {
     typeElement: 'button',
     className: 'container-buttons__game-audio-call',
     parentElement: containerButtons,
   };
-  // const buttonSoundGame =
   createDomNode(descriptionSoundGame);
 
   const descriptionSprintGame = {
@@ -58,7 +49,6 @@ export const miniButtonGames = (wrapper: HTMLElement) => {
     className: 'container-buttons__game-sprint',
     parentElement: containerButtons,
   };
-  // const buttonSprintGame =
   createDomNode(descriptionSprintGame);
 
   containerButtons.addEventListener('click', async (event) => {
@@ -105,7 +95,6 @@ const tutorialRender = () => {
     className: 'container-tutorial__title',
     parentElement: wrapperTutorial,
   };
-  // const wrapperTitle =
   createDomNode(descriptionTitle);
 
   const descriptionWrapperSelects = {

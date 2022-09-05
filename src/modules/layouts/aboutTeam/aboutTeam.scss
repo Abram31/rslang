@@ -22,6 +22,11 @@
 .icon-link {
   width: 35px;
   height: 35px;
+
+  &:hover {
+    @include hover();
+    transform: scale(1.2);
+  }
 }
 
 .github-link-team {
@@ -50,14 +55,14 @@
   width: 400px;
 }
 
-.container:after {
-  background-color: #f2f2f2;
-  content: "";
-  height: 10px;
-  position: absolute;
-  top: 390px;
-  width: 100%;
-}
+// .container:after {
+//   background-color: #f2f2f2;
+//   content: "";
+//   height: 10px;
+//   position: absolute;
+//   top: 390px;
+//   width: 100%;
+// }
 
 .container:hover {
   transform: scale(0.54);
@@ -109,9 +114,9 @@
 }
 
 .img3 {
-  left: -16px;
+  left: 30px;
   top: 144px;
-  width: 466px;
+  width: 330px;
 }
 
 .divider {
