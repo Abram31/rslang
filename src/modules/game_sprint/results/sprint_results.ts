@@ -4,6 +4,7 @@ import Statistics from '../../statistics/statistics';
 import {
   englishWords, russianWords, result, audioPaths, play,
 } from '../game_sprint';
+import App from '../../../components/app';
 
 const hideBackground = (page: HTMLElement) => {
   // eslint-disable-next-line no-param-reassign
@@ -23,6 +24,8 @@ const statsAboutGame = (array: Array<number>) => {
 	const percentCorrectAnswers = Math.round((array[0] / (array[0] + array[1])) * 100);
 	return percentCorrectAnswers;
 }
+
+const stats = new Statistics('sprint');
 
 const renderSprintResults = (score: number) => {
 	const page = document.querySelector('.sprint-game') as HTMLElement;
@@ -76,11 +79,8 @@ const resultButtons = createDomNode('div', ['result-buttons'], sprintResultsWrap
 
 	const count: Array<number> = answersCounter(result);
 	const percentCorrectAnswers: number = statsAboutGame(count);
-	console.log(statsAboutGame(count));
-
-	const stats = new Statistics('sprint');
-	stats.setStatisticsAboutSprintGame(percentCorrectAnswers)
-	console.log(JSON.parse(sessionStorage.statistics))
+	stats.setStatisticsAboutSprintGame(percentCorrectAnswers);
+	(new App).setStatistics();
 
 	hideBackground(page);
 }

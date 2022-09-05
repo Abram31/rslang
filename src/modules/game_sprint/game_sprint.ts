@@ -92,7 +92,6 @@ const getWords = async () => {
 		let filter = `?filter={"userWord.difficulty":"hard"}`;
 		const result = await (new App).getUserAggregateWords(filter);
 		const data: Array<IData> = result[0].paginatedResults;
-		console.log(data);
 		data.forEach(item => {
 			pathAudio.push(item.audio);
 			words.push(item.word);
