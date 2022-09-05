@@ -4,6 +4,8 @@ import './game_sprint.scss';
 import { renderSprintResults } from '../game_sprint/results/sprint_results';
 import { timer } from './timer';
 import App from '../../components/app';
+import Statistics from '../statistics/statistics';
+import { stat } from 'fs';
 
 interface IData {
 	id: string,
@@ -68,30 +70,33 @@ const getWords = async () => {
 	let words: Array<string> = [];
 	let wordsTranslate: Array<string> = [];
 	let pathAudio: Array<string> = [];
-
-	let difficulty: number = Number(window.location.href.split('/').reverse()[0]) - 1;
-
+	let wordsId: Array<string> = [];
+	let hash: Array<string> = window.location.href.split('/').reverse();
+	let difficulty: number = hash.length > 7 ? Number(hash[1]) - 1 : Number(hash[0]) - 1;
 	let chapterNumber: number = Number(sessionStorage.getItem('chapter-number')) - 1;
 	let pageNumber: number = Number(sessionStorage.getItem('page-number')) - 1;
 
 	if (difficulty <= 5) {
-		for (let i = 1; i <= 30; i++) {
+		for (let i = 0; i <= 30; i++) {
 			let result = await fetch(`https://base-rs-lang-1.herokuapp.com/words?group=${difficulty}&page=${i}`);
 			let data: Array<IData> = await result.json();
 			data.forEach(item => {
 				pathAudio.push(item.audio);
 				words.push(item.word);
 				wordsTranslate.push(item.wordTranslate);
+				wordsId.push(item.id);
 			})
 		}
 	} else if (difficulty === 6) {
 		let filter = `?filter={"userWord.difficulty":"hard"}`;
 		const result = await (new App).getUserAggregateWords(filter);
 		const data: Array<IData> = result[0].paginatedResults;
+		console.log(data);
 		data.forEach(item => {
 			pathAudio.push(item.audio);
 			words.push(item.word);
 			wordsTranslate.push(item.wordTranslate);
+			wordsId.push(item.id);
 		})
 	} else {
 		for (let i = pageNumber; i >= 0; i--) {
@@ -101,6 +106,7 @@ const getWords = async () => {
 				pathAudio.push(item.audio);
 				words.push(item.word);
 				wordsTranslate.push(item.wordTranslate);
+				wordsId.push(item.id);
 			})
 		}
 	}
@@ -149,13 +155,15 @@ const getWords = async () => {
 	window.addEventListener('hashchange', removeKeyboardEvents);
 	document.addEventListener('keydown', keyboardEvents);
 
-	return [words, wordsTranslate, answers, pathAudio];
+	return [words, wordsTranslate, answers, pathAudio, wordsId];
 }
 
 export let englishWords: Array<string> = []; 
 export let russianWords: Array<string> = []; 
 export let result: Array<boolean> = [];
 export let audioPaths: Array<string> = [];
+let wordsId: Array<string> = [];
+export const stats = new Statistics('sprint');
 
 const play = (path: string) => {
 	const url = 'https://base-rs-lang-1.herokuapp.com/';
@@ -195,15 +203,23 @@ const userResponse = async () => {
 		}
 	})
 
+	answers[4].forEach(id => {
+		if (typeof id === 'string') {
+			wordsId.push(id);
+		}
+	})
+
 	correctButton.addEventListener('click', () => {
 		if (answers[2][counter - 1]) {
 			let currentScore = Number(score.innerText)
 			score.innerText = (currentScore += 10).toString();
 			answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
 			result.push(true);
+			stats.wordCorrectAnswer(wordsId[counter - 1]);
 		} else {
 			answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
 			result.push(false);
+			stats.wordUncorrectAnswer(wordsId[counter - 1]);
 		} 
 	});
 
@@ -211,11 +227,13 @@ const userResponse = async () => {
 		if (answers[2][counter - 1]) {
 			answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
 			result.push(false)
+			stats.wordUncorrectAnswer(wordsId[counter - 1]);
 		} else {
 			let currentScore = Number(score.innerText)
 			score.innerText = (currentScore += 10).toString();
 			answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
 			result.push(true)
+			stats.wordCorrectAnswer(wordsId[counter - 1]);
 		}
 	});
 
@@ -226,19 +244,23 @@ const userResponse = async () => {
 				score.innerText = (currentScore += 10).toString();
 				answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
 				result.push(true)
+				stats.wordCorrectAnswer(wordsId[counter - 1]);
 			} else {
 				answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
 				result.push(false)
+				stats.wordUncorrectAnswer(wordsId[counter - 1]);
 			}
 		} else if (e.code === 'ArrowLeft') {
 			if (answers[2][counter - 1]) {
 				answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
 				result.push(false)
+				stats.wordUncorrectAnswer(wordsId[counter - 1]);
 			} else {
 				let currentScore = Number(score.innerText)
 				score.innerText = (currentScore += 10).toString();
 				answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
 				result.push(true)
+				stats.wordCorrectAnswer(wordsId[counter - 1]);
 			}
 		}
 	}

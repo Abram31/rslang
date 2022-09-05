@@ -1,9 +1,24 @@
 import createDomNode from '../../../utils/createDomNode';
 import './sprint_results.scss';
 import { englishWords, russianWords, result, audioPaths, play } from '../game_sprint';
+import Statistics from '../../statistics/statistics';
 
 const hideBackground = (page: HTMLElement) => {
 	page.style.background = 'none';
+}
+
+const answersCounter = (array: Array<boolean>) => {
+	let correctAnswers = 0;
+	let inCorrectAnswers = 0;
+	array.forEach(item => {
+		item ? correctAnswers++ : inCorrectAnswers++;
+	})
+	return [correctAnswers, inCorrectAnswers];
+}
+
+const statsAboutGame = (array: Array<number>) => {
+	let percentCorrectAnswers = Math.round((array[0] / (array[0] + array[1])) * 100);
+	return percentCorrectAnswers;
 }
 
 const renderSprintResults = (score: number) => {
@@ -55,6 +70,15 @@ const renderSprintResults = (score: number) => {
 			window.location.hash = '/games';
 		}
 	});
+
+	let count: Array<number> = answersCounter(result);
+	let percentCorrectAnswers: number = statsAboutGame(count);
+	console.log(statsAboutGame(count));
+
+	let stats = new Statistics('sprint');
+	stats.setStatisticsAboutSprintGame(percentCorrectAnswers)
+	console.log(JSON.parse(sessionStorage.statistics))
+
 
 	hideBackground(page);
 }

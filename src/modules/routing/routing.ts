@@ -122,20 +122,6 @@ const generateRouter = () => {
     userResponse();
   });
 
-  // // start
-  // template('game-sprint-some', async () => {
-  //   wrapper.innerHTML = '';
-  //   renderSprintGame();
-  //   userResponse();
-  // });
-
-  // template('game-sprint-another', async () => {
-  //   wrapper.innerHTML = '';
-  //   renderSprintGame();
-  //   userResponse();
-  // });
-  // // end
-
   template('page-book', () => {
     wrapper.innerHTML = '';
     getDifficultStudiedWords();
@@ -173,13 +159,13 @@ const generateRouter = () => {
   //   route(`/games/audio/random/${i}`, 'game-audio-call-random-page');
   // }
 
-  // NOW
   for (let i = 0; i <= 8; i += 1) {
+    for (let k = 0; k < 30; k += 1) {
+      route(`/games/sprint/random/${i}/${k}`, 'game-sprint');
+    }
     if (i === 7) {
       route(`/games/sprint/${i}`, 'game-sprint')
     } else if (i === 8) {
-      route(`/games/sprint/${i}`, 'game-sprint');
-    } else {
       route(`/games/sprint/${i}`, 'game-sprint');
     } 
   }
