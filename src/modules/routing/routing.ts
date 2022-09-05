@@ -185,17 +185,14 @@ const generateRouter = () => {
     }
 
     if (!window.location.href.match(/audio\//)) {
-      body.style.backgroundImage = 'none';
-      footer.style.display = 'inline-flex';
-      body.style.justifyContent = 'space-between';
-    } else {
-      footer.style.display = 'none';
-      body.style.justifyContent = 'start';
-    }
-
-    if (!window.location.href.match(/sprint\//)) {
-      footer.style.display = 'inline-flex';
-      body.style.justifyContent = 'space-between';
+      if (window.location.href.match(/sprint\//)) {
+        footer.style.display = 'none';
+        body.style.justifyContent = 'start';
+      } else {
+        body.style.backgroundImage = 'none';
+        footer.style.display = 'inline-flex';
+        body.style.justifyContent = 'space-between';
+      }
     } else {
       footer.style.display = 'none';
       body.style.justifyContent = 'start';
