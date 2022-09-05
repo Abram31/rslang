@@ -7,7 +7,6 @@ export const statisticByWords = () => {
     const newWordsOfDay: Array<string> = [];
     const newLearnedWordsOfDay: Array<string> = [];
     const percentsCurrentAnswers: Array<number> = [];
-
     Object.entries(data.optional.words).forEach((word) => {
       if (word[1].firstlyUsedWord === currentDate) {
         newWordsOfDay.push(word[0]);

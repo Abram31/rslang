@@ -4,6 +4,7 @@ import createWordContainer from './create-word-container';
 import createDomNode from './function-create-dom-node';
 import playAudio from './play-words';
 import './style.scss';
+import { listLearnedWords } from '../game-audio-call/get-voice-word';
 
 export const changeBackgroundChapters = () => {
   const chapterInMemory = sessionStorage.getItem('chapter-number');

@@ -112,7 +112,7 @@ export default class App {
 
   async getUserAggregateWords(filter: string) { // ---example ?filter={"userWord.difficulty":"hard"}
     const id = getStorage('id');
-    return this.request(`${this.userUrl}/${id}/aggregatedWords${filter}`, {
+    return this.request(`${this.userUrl}/${id}/aggregatedWords?wordsPerPage=1000&${filter}`, {
       method: 'GET',
     });
   }

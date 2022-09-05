@@ -111,12 +111,12 @@ export default class StatisticsPageRender {
       this.newWords = createDomNode('span', ['static__new-word'], this.staticItem, firstRow);
 
       this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, secondRow[0]);
-      this.learnedWord = createDomNode('span', ['static__learned-word'], this.staticItem, secondRow[1]);
+      this.learnedWord = createDomNode('span', ['static__learned-word'], this.staticItem, secondRow[1] === '-Infinity' ? '0' : secondRow[1]);
 
       this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'Правильные ответы за день: ');
 
       this.circle = createDomNode('div', ['circle'], this.contentStatic);
-      this.percent = createDomNode('p', ['percent'], this.circle, percents);
+      this.percent = createDomNode('p', ['percent'], this.circle, percents === 'NaN' ? '0' : percents);
       this.percentSign = createDomNode('span', ['percent-sign'], this.percent, '%');
     } else {
       this.contentStatic = createDomNode('div', ['content-static'], this.statiscticsWrapper);
