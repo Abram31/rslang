@@ -60,6 +60,7 @@ export default class App {
     const tokenData = await response.json();
     setStorage('token', tokenData.token);
     setStorage('refreshToken', tokenData.refreshToken);
+    setStorage('tokenDateCreation', String(Date.now()));
     return tokenData.token;
   }
 
@@ -76,6 +77,7 @@ export default class App {
         }
       }
 
+      // try {
       const requestPromise = await fetch(endpoint, {
         ...options,
         headers: {
@@ -84,8 +86,10 @@ export default class App {
           'Content-Type': 'application/json',
         },
       });
-
       return requestPromise.json();
+      // } catch (e) {
+      //   console.warn(e);
+      // }
     }
   }
 
@@ -154,19 +158,21 @@ export default class App {
     const id = getStorage('id');
     const token = getStorage('token');
     let statistics = sessionStorage.getItem('statistics');
+    console.log(JSON.parse(statistics!)); 
     if (JSON.parse(statistics!).id) {
       const data = JSON.parse(statistics!);
-      // delete data.id;
       statistics = JSON.stringify(data);
+      console.log(data);
+
     }
     return this.request(`${this.userUrl}/${id}/statistics`, {
-    method: 'PUT',
-    headers: {
-    Authorization: `Bearer ${token}`,
-    Accept: 'application/json',
-    'Content-Type': 'application/json' ,
-    },
-    body: statistics!,
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json' ,
+      },
+      body: statistics!,
     });
   }
 

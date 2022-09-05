@@ -2,7 +2,6 @@ import { fetchRequest } from './fetch/fetch';
 import createWordContainer from './create-word-container';
 import { changeBackgroundChapters } from './markup';
 import { IdataFromServer } from '../../interface/interface';
-import { deleteFromLearnedWords } from '../statistics/save-delete-learned-words';
 
 function updateUrl(numberPart: number | string, numberPage: string | number) {
   window.location.href = `/#/book/section-${numberPart}/${numberPage}`;
@@ -26,7 +25,6 @@ export const addListenersToChoicePageChapter = async () => {
   };
 
   valuePage.addEventListener('change', async (event: Event) => {
-
     const element = event.target as HTMLSelectElement;
     const numberPage = element.value.split(' ').slice(-1)[0];
     const numberPart = +valuePart.value.split(' ').slice(-1)[0] || '';

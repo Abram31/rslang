@@ -1,4 +1,4 @@
-import { addWordsToPage, listLearnedWords } from '../game-audio-call/get-voice-word';
+import { addWordsToPage } from '../game-audio-call/get-voice-word';
 import AboutTeam from '../layouts/aboutTeam/AboutTeam';
 import LevelGame from '../layouts/levelGame/LevelGame';
 import MainPageRender from '../layouts/mainPage/MainPageRender';
@@ -6,7 +6,6 @@ import MiniGamesListRender from '../layouts/miniGames/MiniGamesListRender';
 import StatisticsPageRender from '../layouts/statisticsPage/statisticsPage';
 import TextBookChapter from '../layouts/textBookChapter/TextBookChapter';
 import TextBookPage from '../layouts/textBookPage/textBookPage';
-import VideoRender from '../layouts/video/VideoRender';
 import { body } from '../tutorial/get words/render-result-find-to-page';
 import { addListenersToChoicePageChapter, addListenersToTextBookChapters, addListenersToTextBookPages } from '../tutorial/listeners';
 import tutorialRender, { changeBackgroundChapters } from '../tutorial/markup';
@@ -71,11 +70,6 @@ const generateRouter = () => {
     );
   });
 
-  template('video', () => {
-    wrapper.innerHTML = '';
-    new VideoRender(wrapper);
-  });
-
   template('about', () => {
     wrapper.innerHTML = '';
     new AboutTeam(wrapper);
@@ -105,7 +99,6 @@ const generateRouter = () => {
     baseMarkupAudioCall();
     await addWordsToPage();
     addListeners();
-
   });
 
   template('game-audio-call-random-page', async () => {
@@ -130,7 +123,6 @@ const generateRouter = () => {
 
   template('page-difficult-words', async () => {
     wrapper.innerHTML = '';
-    // listLearnedWords();
     await addDifficultWordsToPage();
   });
 
@@ -139,7 +131,6 @@ const generateRouter = () => {
   route('/games', 'games');
   route('/stats', 'stats');
   route('/about', 'about');
-  route('/video', 'video');
 
   for (let i = 0; i <= 7; i += 1) {
     if (i < 7) {
@@ -162,7 +153,7 @@ const generateRouter = () => {
       route(`/games/sprint/${i}`, 'game-sprint');
     } else if (i === 8) {
       route(`/games/sprint/${i}`, 'game-sprint');
-    } 
+    }
   }
 
   for (let i = 0; i < 7; i += 1) {
@@ -194,9 +185,14 @@ const generateRouter = () => {
     }
 
     if (!window.location.href.match(/audio\//)) {
-      body.style.backgroundImage = 'none';
-      footer.style.display = 'inline-flex';
-      body.style.justifyContent = 'space-between';
+      if (window.location.href.match(/sprint\//)) {
+        footer.style.display = 'none';
+        body.style.justifyContent = 'start';
+      } else {
+        body.style.backgroundImage = 'none';
+        footer.style.display = 'inline-flex';
+        body.style.justifyContent = 'space-between';
+      }
     } else {
       footer.style.display = 'none';
       body.style.justifyContent = 'start';

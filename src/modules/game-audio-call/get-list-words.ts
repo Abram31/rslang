@@ -1,14 +1,14 @@
 import { IdataFromServer } from '../../interface/interface';
 import createDomNode from '../tutorial/function-create-dom-node';
 import playAudio from '../tutorial/play-words';
-import { listLearnedWords, randomNumberWord, shuffle } from './get-voice-word';
+import { randomNumberWord, shuffle } from './get-voice-word';
 import { addSessionStorage, getSessinoStorage } from './sessionStorage';
 import stepGameIndicator from './step-game-indicator';
 
 export const addWords = (): IdataFromServer[] => {
   const result:IdataFromServer[] | never = [];
   const savedData: IdataFromServer[] = getSessinoStorage('game-audio-call') as IdataFromServer[];
-  
+
   const voiceElement = (document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement);
   const idVoice = voiceElement.id;
   const correctWord = savedData.find((word) => word.id === idVoice || word._id === idVoice);
@@ -21,7 +21,7 @@ export const addWords = (): IdataFromServer[] => {
     if ((savedData && savedData[numberWord].id === idVoice)
     || result.includes(savedData[numberWord])) {
       i -= 1;
-    } else if (JSON.parse(sessionStorage.getItem('list-game-audio')!) || []) {
+    } else if (JSON.parse(sessionStorage.getItem('list-game-audio') as string) || []) {
       result.push(savedData[numberWord]);
     }
   }

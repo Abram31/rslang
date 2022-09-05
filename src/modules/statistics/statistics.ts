@@ -150,15 +150,17 @@ class Statistics {
     const data = this.dataStatistics;
     if (data.optional.correctAnswersInGames) {
       data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
+        // eslint-disable-next-line object-shorthand
         percentCorrectAnswers: percentCorrectAnswers,
-        longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
+        longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers') as string)),
         nameGame: this.nameGame,
       };
     } else {
       data.optional.correctAnswersInGames = {};
       data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
+        // eslint-disable-next-line object-shorthand
         percentCorrectAnswers: percentCorrectAnswers,
-        longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
+        longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers') as string)),
         nameGame: this.nameGame,
       };
     }

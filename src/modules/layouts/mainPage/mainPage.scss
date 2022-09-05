@@ -35,3 +35,12 @@
   font-style: italic;
   margin-left: 20px;
 }
+
+.btn_link {
+  text-decoration: none;
+  background-color: transparent;
+    color: $colorRed;
+    border: 2px solid $colorRed;
+    text-align: center;
+    // display: block;
+}

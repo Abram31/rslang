@@ -7,9 +7,9 @@ import checkDifficultWordBeforeLoading from './difficult_words/check_difficult_w
 import { addToLearnedWords, deleteFromLearnedWords } from '../statistics/save-delete-learned-words';
 
 function addCountCorrectAnswer(id: string) {
-  debugger
+  debugger;
   const statistics = (JSON.parse(sessionStorage.getItem('statistics') as string));
-  let count = 0;
+  let count = 4;
   if (statistics) {
     Object.keys(statistics.optional.words).forEach((key) => {
       if (key === id) {
@@ -36,7 +36,7 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
   const wrapperWord: HTMLElement = createDomNode(descriptionWrapperWord);
 
   wrapperWord.addEventListener('click', (e: Event) => {
-    const target = e.target as HTMLElement;
+    const target = e.target as HTMLImageElement;
 
     if (target.classList.contains('hard')) {
       if ((target as HTMLImageElement).src.match(/star-word/)) {
@@ -132,10 +132,16 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
       oneBirds.src = './assets/svg/icons/green-bird.svg';
       twoBirds.src = './assets/svg/icons/green-bird.svg';
       threeBirds.src = './assets/svg/icons/grey-bird.svg';
-    } else {
+    } else if (num === 3) {
+      oneBirds.src = './assets/svg/icons/green-bird.svg';
+      twoBirds.src = './assets/svg/icons/green-bird.svg';
+      threeBirds.src = './assets/svg/icons/green-bird.svg';
+    } else if (num === 0) {
       oneBirds.src = './assets/svg/icons/grey-bird.svg';
       twoBirds.src = './assets/svg/icons/grey-bird.svg';
       threeBirds.src = './assets/svg/icons/grey-bird.svg';
+    } else if (num === 4) {
+      progressContainer.style.display = 'none';
     }
 
     const btnCompoundWord = {
@@ -144,7 +150,7 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
       parentElement: btns1,
     };
     const compoundWord = createDomNode(btnCompoundWord) as HTMLImageElement;
-    compoundWord.src = './assets/svg/icons/star-word.svg';
+    compoundWord.src = './assets/svg/icons/tutorial/star-word.svg';
     compoundWord.alt = 'Star';
 
     const btnLearnedWord = {
@@ -153,7 +159,7 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
       parentElement: btns1,
     };
     const learnedWord = createDomNode(btnLearnedWord) as HTMLImageElement;
-    learnedWord.src = './assets/svg/icons/info-bird.svg';
+    learnedWord.src = './assets/svg/icons/tutorial/info-bird.svg';
     learnedWord.alt = 'Learned';
   }
 
@@ -211,7 +217,7 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
   createDomNode(descriptionTextExampleTranslate);
 
   if (window.location.hash !== '#/book/section-7') {
-    checkDifficultWordBeforeLoading(wrapperWord, word.id, word, num);
+    checkDifficultWordBeforeLoading(wrapperWord, word.id);
   }
 
   return wordFragment;
