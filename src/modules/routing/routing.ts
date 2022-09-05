@@ -1,4 +1,4 @@
-import { addWordsToPage } from '../game-audio-call/get-voice-word';
+import { addWordsToPage, listLearnedWords } from '../game-audio-call/get-voice-word';
 import AboutTeam from '../layouts/aboutTeam/AboutTeam';
 import LevelGame from '../layouts/levelGame/LevelGame';
 import MainPageRender from '../layouts/mainPage/MainPageRender';
@@ -105,6 +105,7 @@ const generateRouter = () => {
     baseMarkupAudioCall();
     await addWordsToPage();
     addListeners();
+
   });
 
   template('game-audio-call-random-page', async () => {
@@ -129,6 +130,7 @@ const generateRouter = () => {
 
   template('page-difficult-words', async () => {
     wrapper.innerHTML = '';
+    // listLearnedWords();
     await addDifficultWordsToPage();
   });
 

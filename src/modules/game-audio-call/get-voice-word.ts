@@ -46,6 +46,7 @@ export const randomNumberWord = (
 ) => Math.floor(Math.random() * data.length);
 
 export const listLearnedWords = () => {
+  sessionStorage.removeItem('learnedWordsId')
   const statistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics')!);
   const wordsStatistics = Object.entries(statistics.optional.words);
   const learnedWordsId: Array<string> = [];
@@ -75,8 +76,8 @@ const choiсeNextWord = async (data: IdataFromServer[])
 
   if (usedIndexWords.includes(savedData[randomNumber].id)
     || usedIndexWords.includes(savedData[randomNumber]._id)
-    || learnedWords.includes(savedData[randomNumber].id)                
-    || learnedWords.includes(savedData[randomNumber]._id)
+    // || learnedWords.includes(savedData[randomNumber].id)                
+    // || learnedWords.includes(savedData[randomNumber]._id)
   ) {
     if (usedIndexWords.length >= savedData.length) {
       new Statistics('audio-call').setStatiscticAboutGame();
@@ -104,17 +105,14 @@ export const addWordsToPage = async () => {
   if (window.location.href.match(/random/)) {
     await getWordsFromServer(false, partHash, pageHash);
     savedData = getSessinoStorage('game-audio-call');
-    listLearnedWords();
     word = await choiсeNextWord(savedData);
   } else if (window.location.href.match(/book\/games/)) {
     await getWordsFromServer(false, partHash, pageHash);
     savedData = getSessinoStorage('game-audio-call');
-    listLearnedWords();
     word = await choiсeNextWord(savedData);
   } else if (window.location.href.match(/hard-word/)) {
     await getWordsFromServer(true);
     savedData = getSessinoStorage('game-audio-call');
-    listLearnedWords();
     word = await choiсeNextWord(savedData);
   } else {
     return;

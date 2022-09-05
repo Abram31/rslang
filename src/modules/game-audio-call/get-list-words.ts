@@ -8,6 +8,7 @@ import stepGameIndicator from './step-game-indicator';
 export const addWords = (): IdataFromServer[] => {
   const result:IdataFromServer[] | never = [];
   const savedData: IdataFromServer[] = getSessinoStorage('game-audio-call') as IdataFromServer[];
+  
   const voiceElement = (document.querySelector('.container-game-audio-call__button-call-voice') as HTMLElement);
   const idVoice = voiceElement.id;
   const correctWord = savedData.find((word) => word.id === idVoice || word._id === idVoice);
@@ -16,10 +17,11 @@ export const addWords = (): IdataFromServer[] => {
   }
   for (let i = 0; i <= 3; i += 1) {
     const numberWord: number = randomNumberWord(savedData);
+
     if ((savedData && savedData[numberWord].id === idVoice)
     || result.includes(savedData[numberWord])) {
       i -= 1;
-    } else if (getSessinoStorage('list-game-audio')) {
+    } else if (JSON.parse(sessionStorage.getItem('list-game-audio')!) || []) {
       result.push(savedData[numberWord]);
     }
   }

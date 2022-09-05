@@ -53,10 +53,26 @@ const addDifficultWordsToPage = async () => {
         prel.remove();
       }
     });
-    (wrapperWord.querySelectorAll('.container-tutorial__wrapper-word')).forEach((el) => {
+    const wrapperWords = wrapperWord.querySelectorAll('.container-tutorial__wrapper-word');
+    wrapperWords.forEach((el) => {
       // eslint-disable-next-line no-param-reassign
       (el.querySelector('.hard') as HTMLImageElement).src = './assets/svg/icons/star-word.svg';
     });
+    if (wrapperWords.length < 5) {
+      const descriptionNotWord = {
+        typeElement: 'h5',
+        className: 'wrapper-difficult-words__not-using',
+        text: 'Вы не можете использовать игры со сложными словами если у вас меньше 5 сложных слов',
+        parentElement: containerDifficultWords,
+      };
+      createDomNode(descriptionNotWord);
+      const buttonAudioCall = document.querySelector('.container-buttons__game-audio-call') as HTMLButtonElement;
+      buttonAudioCall.disabled = true;
+      buttonAudioCall.style.pointerEvents = 'none';
+      const buttonSprint = document.querySelector('.container-buttons__game-sprint') as HTMLButtonElement;
+      buttonSprint.disabled = true;
+      buttonSprint.style.pointerEvents = 'none';
+    }
   } else {
     prel.remove();
     document.querySelector('.wrapper-difficult-words')?.remove();
