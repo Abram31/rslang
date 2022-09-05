@@ -5,13 +5,20 @@ const timer = () => {
 	let time: number = Number(timerDiv.innerText);
 	const changeTime = setInterval(() => {
 		if (time <= 0) {
-			let counter = document.querySelector('.sprint-counter') as HTMLElement;
-			let score = Number(counter.innerText);
-			renderSprintResults(score);
+			try {
+				const counter = document.querySelector('.sprint-counter') as HTMLElement;
+				const score = Number(counter.innerText);
+				renderSprintResults(score);
+			} catch {
+				
+			}
 			clearInterval(changeTime);
 		} else {
-			
-			timerDiv.innerHTML = time.toString();
+			try {
+				timerDiv.innerHTML = time.toString();
+			} catch {
+				console.log('ended')
+			}	
 		}
 		time--;
 	}, 1000)

@@ -120,6 +120,9 @@ const getWords = async () => {
 
  	const translation: Array<string> = arrayGenerator(words, wordsTranslate);
 
+	 englishWord.innerText = words[0];
+	 russianWord.innerText = translation[0];
+
 	const changeWords = () => {
 		counter++
 		englishWord.innerText = words[counter];
@@ -129,13 +132,20 @@ const getWords = async () => {
 			icon.classList.remove('animated');
 		}, 700);
 		if (words[counter] === undefined || translation[counter] === undefined) {
-			let counter = document.querySelector('.sprint-counter') as HTMLElement;
-			let score = Number(counter.innerText);
-			renderSprintResults(score);
+			try {
+				const counter = document.querySelector('.sprint-counter') as HTMLElement;
+				const score = Number(counter.innerText);
+				renderSprintResults(score);
+			} catch {
+				
+			}
 		}
 	}
 
-  const answers = wordsCheck(wordsTranslate, translation);
+  	const answers = wordsCheck(wordsTranslate, translation);
+
+	correctButton.addEventListener('click', changeWords);
+	wrongButton.addEventListener('click', changeWords);
 
 	const keyboardEvents = (e: KeyboardEvent) => {	
 		if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
