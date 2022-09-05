@@ -1,0 +1,208 @@
+@import "../../utils/scss/mixin.scss";
+@import "../../utils/scss/constants.scss";
+
+.container-tutorial {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+
+  @media (max-width: 426px) {
+    padding-bottom: 50px;
+  }
+
+  h4 {
+    @include font(4rem, 600);
+    text-align: center;
+  }
+
+  .container-tutorial__wrapper-selects {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4rem;
+
+    .wrapper-selects__select-pages,
+    .wrapper-selects__select-parts {
+      border: 1px solid $colorRed;
+      width: 20em;
+      border-radius: 1.5em;
+      padding: 1em;
+      @include font(2rem, 700);
+    }
+  }
+
+  .container-tutorial__container-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    justify-content: space-around;
+    margin: 0 5rem;
+
+    .container-tutorial__wrapper-word {
+      @include flex($justify: space-between);
+      width: 32rem;
+      height: 35rem;
+      border-radius: $border-radius-container;
+      overflow: hidden;
+      box-shadow: 1rem 1rem 0.4rem #373c3bbd;
+      flex-direction: column;
+
+      .wrapper-word__container-img {
+        flex: 1;
+        width: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .wrapper-word__container-word {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 1rem;
+        height: 22rem;
+        width: 100%;
+        padding: 1rem;
+        background: $background-word-container;
+        overflow: overlay;
+        flex-basis: 60%;
+
+        &::-webkit-scrollbar-track {
+          border-radius: 4px;
+        }
+
+        &::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border-radius: 4px;
+          background: #f0f2f5;
+        }
+
+        &:hover::-webkit-scrollbar-thumb {
+          background: #6a7d9b;
+        }
+
+        span {
+          width: fit-content;
+          text-align: end;
+        }
+
+        h5 {
+          @include font(2.25rem, 700);
+          @include hover();
+          margin: 0;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          &::after {
+            content: "";
+            background-image: url('../../assets/svg/tutorial/sound.svg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 2rem;
+            height: 1.5rem;
+            @include hover();
+          }
+
+          &:active {
+            transform: scale(0.8);
+          }
+        }
+
+        .container-word__translate-transcription {
+          @include font(1.5rem, 400);
+        }
+
+        .container-word__text-meaning,
+        .container-word__text-example {
+          position: relative;
+          @include font(1.5rem, 400);
+          transition: 0.4s;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .container-word__text-meaning-translate {
+          @include font(1rem, 400);
+
+          &::after {
+            content: " ";
+            display: block;
+            height: 2px;
+            background-color: black;
+            margin: 1rem 0 0 0;
+          }
+        }
+
+        .container-word__text-example-translate {
+          @include font(1rem, 400);
+        }
+
+        // new buttons
+        .btns-word {
+          @include flex($justify: space-between);
+          position: absolute;
+          left: 1rem;
+        }
+
+        .container-btns {
+          position: relative;
+          display: flex;
+          gap: 10px;
+
+          .compound-word {
+            position: relative;
+            @include hover();
+
+            &:active {
+              transform: scale(0.8);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .container-tutorial__container-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+
+    .container-buttons__home,
+    .container-buttons__game-audio-call,
+    .container-buttons__game-sprint {
+      background-color: rgba(255, 255, 255, 0.6);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      border: 1px solid $border-color-buttons-game;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      width: 10rem;
+      height: 10rem;
+      @include hover();
+
+      &:active {
+        transform: scale(0.8);
+      }
+    }
+
+    .container-buttons__game-audio-call {
+      background-image: url('../../assets/svg/tutorial/sound_button.svg');
+    }
+
+    .container-buttons__game-sprint {
+      background-image: url('../../assets/svg/tutorial/rocket.svg');
+    }
+  }
+}
+
+.wrapper-progress {
+  display: flex;
+  gap: 10px;
+}

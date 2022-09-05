@@ -1,0 +1,111 @@
+@import "../../../utils/scss/constants.scss";
+@import "../../../utils/scss/mixin.scss";
+
+.textbook-wrapper {
+  @include flex();
+  gap: 3em;
+  flex-direction: column;
+}
+
+.textbook__container {
+  @include flex();
+  gap: 8em;
+  flex-wrap: wrap;
+}
+
+.textbook__left-side {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.textbook__right-side {
+  max-width: 56em;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5em;
+}
+
+.chapter {
+  border-radius: 1em;
+  @include flex();
+  gap: 1em;
+  width: 56em;
+  height: 5.5em;
+  text-decoration: none;
+
+  &:hover {
+    @include hover();
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    
+    .chapter-text {
+      @include hover();
+      color: $colorBlack;
+    }
+  }
+
+  @media (max-width: 570px) {
+    width: 32em;
+  }
+}
+
+.chapter-1 {
+  background-color: $colorLevelBtn1;
+}
+
+.chapter-2 {
+  background: $colorLevelBtn2;
+}
+
+.chapter-3 {
+  background: $colorLevelBtn3;
+}
+
+.chapter-4 {
+  background: $colorLevelBtn4;
+}
+
+.chapter-5 {
+  background: $colorLevelBtn5;
+}
+
+.chapter-6 {
+  background: $colorLevelBtn6;
+}
+
+.chapter-7 {
+  background: $colorLevelBtn7;
+}
+
+.chapter-text {
+  @include font(2rem, 700);
+  color: $colorWhite;
+}
+
+.textbook__description {
+  @include flex($align: flex-start);
+  gap: 2em;
+}
+
+.textbook__description-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.textbook__description-item {
+  @include font(2rem, 400);
+}
+
+.textbook__auth {
+  background-color: $colorPink;
+  border-radius: 2em;
+  display: flex;
+  gap: 2.5em;
+  padding: 1em;
+  flex-direction: column;
+}
+
+.text-bold {
+  font-weight: 700;
+}

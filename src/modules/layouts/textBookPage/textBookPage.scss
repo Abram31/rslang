@@ -1,0 +1,40 @@
+@import "../../../utils/scss/constants.scss";
+@import "../../../utils/scss/mixin.scss";
+
+.text-book-page-wrapper {
+  @include flex();
+  flex-direction: column;
+  gap: 2em;
+}
+
+.page-textbook-wrapper{
+  gap: 3em;
+  @include flex();
+  flex-direction: column;
+}
+
+.select-page {
+  border: 1px solid $colorRed;
+  width: 20em;
+  border-radius: 1.5em;
+  padding: 1em;
+  @include font(2rem, 700);
+
+  &:hover {
+    cursor: pointer;
+    border: 1px solid $colorYellow;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $colorRed;
+  }
+
+  @media (max-width: 420px) {
+    width: 15em;
+  }
+}
+
+.image-friend {
+  width: 70%;
+}
