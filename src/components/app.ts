@@ -158,19 +158,16 @@ export default class App {
     const id = getStorage('id');
     const token = getStorage('token');
     let statistics = sessionStorage.getItem('statistics');
-    console.log(JSON.parse(statistics!)); 
     if (JSON.parse(statistics!).id) {
       const data = JSON.parse(statistics!);
       statistics = JSON.stringify(data);
-      console.log(data);
-
     }
     return this.request(`${this.userUrl}/${id}/statistics`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
-        'Content-Type': 'application/json' ,
+        'Content-Type': 'application/json',
       },
       body: statistics!,
     });
