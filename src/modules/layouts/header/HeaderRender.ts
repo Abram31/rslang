@@ -4,7 +4,6 @@ import AuthModal from '../../authentication/AuthModal';
 import App from '../../../components/app';
 import { getStorage } from '../../../utils/storage';
 import NavigationSvg from '../../../interface/enumNavigationSvg';
-import AuthorizationStateWindow from '../authorizationStateWindow/authorizationStateWindow';
 import helpLoadNavigation from '../../../utils/helpLoadNavigation';
 import uploadStatistics from '../../statistics/upload-statistics';
 
@@ -127,13 +126,13 @@ export default class HeaderRender {
         .then((res) => {
           this.userName.innerHTML = res.name;
           this.authButton.innerHTML = 'Выйти';
-        })
-        .catch(() => {
-          new AuthorizationStateWindow('Время сессии истекло, вам необходимо авторизоваться');
         });
+      // .catch(() => {
+      //   new AuthorizationStateWindow('Время сессии истекло, вам необходимо авторизоваться');
+      // });
       // new App().getStatistics()
       //   .then((res) => sessionStorage.setItem('statistics', JSON.stringify(res)));
-      uploadStatistics()
+      uploadStatistics();
     }
 
     this.loadNavigation();

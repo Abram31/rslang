@@ -25,10 +25,11 @@ export default class MiniGamesListRender {
     this.title = createDomNode('h1', ['title'], this.gamesWrapper, 'Мини-игры');
 
     this.game = createDomNode('div', ['game', 'game-sprint'], this.gamesWrapper);
-    this.gameImage = createDomNode('img', ['game__image'], this.game, '', [{ src: './assets/jpg/sprint.png' }, { alt: 'Sprint' }]);
+    this.gameImage = createDomNode('img', ['game__image'], this.game, '', [{ src: './assets/png/image-sprint-game.png' }, { alt: 'Sprint' }]);
     this.gameText = createDomNode('div', ['game__text'], this.game);
     this.title = createDomNode('p', ['title'], this.gameText, 'Спринт');
     this.descriptionGame = createDomNode('p', ['game__description'], this.gameText, 'Тренировка Спринт поможет вам проверить знаете ли вы правильный перевод. Игра длится 1 минуту или пока не закончатся слова.');
+    this.descriptionGame = createDomNode('p', ['game__description'], this.gameText, 'Управление клавишами: ←, → выбор варианта.');
 
     this.btn = createDomNode('button', ['btn', 'btn_transparent'], this.gameText, 'Играть');
     this.btn.addEventListener('click', () => {
@@ -39,12 +40,13 @@ export default class MiniGamesListRender {
     this.gameText = createDomNode('div', ['game__text'], this.game);
     this.title = createDomNode('p', ['title'], this.gameText, 'Аудиовызов');
     this.descriptionGame = createDomNode('p', ['game__description'], this.gameText, 'Тренировка Аудиовызов улучшает восприятие речи на слух.');
+    this.descriptionGame = createDomNode('p', ['game__description'], this.gameText, 'Управление клавишами: "Enter" - следующий вопрос, "1...5" - выбор варианта');
 
     this.btn = createDomNode('button', ['btn', 'btn_transparent'], this.gameText, 'Играть');
     this.btn.addEventListener('click', () => {
       window.location.href = '#/games/audio';
     });
 
-    this.gameImage = createDomNode('img', ['game__image'], this.game, '', [{ src: './assets/jpg/game-audio-call/audio.png' }, { alt: 'Audio' }]);
+    this.gameImage = createDomNode('img', ['game__image'], this.game, '', [{ src: './assets/png/image-audio-game.png' }, { alt: 'Audio' }]);
   }
 }

@@ -46,8 +46,8 @@ export const randomNumberWord = (
 ) => Math.floor(Math.random() * data.length);
 
 export const listLearnedWords = () => {
-  sessionStorage.removeItem('learnedWordsId')
-  const statistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics')!);
+  sessionStorage.removeItem('learnedWordsId');
+  const statistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string);
   const wordsStatistics = Object.entries(statistics.optional.words);
   const learnedWordsId: Array<string> = [];
   wordsStatistics.forEach((word) => {
@@ -55,10 +55,7 @@ export const listLearnedWords = () => {
       learnedWordsId.push(word[0]);
     }
   });
-  sessionStorage.setItem('learnedWordsId', JSON.stringify(learnedWordsId)!)
-  console.log(learnedWordsId);
-  
-  
+  sessionStorage.setItem('learnedWordsId', JSON.stringify(learnedWordsId) as string);
 };
 
 const choiсeNextWord = async (data: IdataFromServer[])
@@ -71,13 +68,8 @@ const choiсeNextWord = async (data: IdataFromServer[])
   const randomNumber = randomNumberWord(savedData);
   const usedIndexWords = getSessinoStorage('used-index-words-in-audio-call');
 
-  const learnedWords: Array<string> = JSON.parse(sessionStorage.getItem('learnedWordsId')!);
-  
-
   if (usedIndexWords.includes(savedData[randomNumber].id)
     || usedIndexWords.includes(savedData[randomNumber]._id)
-    // || learnedWords.includes(savedData[randomNumber].id)                
-    // || learnedWords.includes(savedData[randomNumber]._id)
   ) {
     if (usedIndexWords.length >= savedData.length) {
       new Statistics('audio-call').setStatiscticAboutGame();

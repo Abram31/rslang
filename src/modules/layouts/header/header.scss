@@ -222,6 +222,10 @@
   gap: 3em;
 }
 
+.header__right-side {
+  flex-wrap: wrap-reverse;
+}
+
 .user-name {
   @include font(2.4rem, 400);
 }

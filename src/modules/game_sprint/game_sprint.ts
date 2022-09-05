@@ -1,5 +1,4 @@
-/* eslint-disable import/no-mutable-exports */
-/* eslint-disable no-await-in-loop */
+/* eslint-disable import/no-mutable-exports, no-await-in-loop */
 import createDomNode from '../../utils/createDomNode';
 import preload from '../game-audio-call/preload';
 import './game_sprint.scss';
@@ -7,7 +6,7 @@ import renderSprintResults from './results/sprint_results';
 import timer from './timer';
 import App from '../../components/app';
 import Statistics from '../statistics/statistics';
-import { stat } from 'fs';
+import playSoundsAfterAnswer from '../game-audio-call/play-sounds-after-answer';
 
 interface IData {
   id: string,
@@ -28,7 +27,6 @@ interface IData {
 
 const renderSprintGame = () => {
   const root = document.querySelector('#root') as HTMLElement;
-  root.innerHTML = '';
 
   const sprintPage = createDomNode('section', ['sprint-game'], root);
   const sprintContainer = createDomNode('div', ['wrapper', 'sprint-game-wrapper'], sprintPage);
@@ -36,15 +34,15 @@ const renderSprintGame = () => {
   const sprintHeader = createDomNode('div', ['sprint-header'], sprintContainer);
   createDomNode('p', ['sprint-english-word'], sprintContainer, '');
   createDomNode('p', ['sprint-russian-word'], sprintContainer, '');
-  createDomNode('img', ['sprint-answer-icon'], sprintContainer, '', [{ src: '../../assets/svg/icons/result-sprint-correct.svg' }]);
+  createDomNode('img', ['sprint-answer-icon'], sprintContainer);
   const sprintButtons = createDomNode('div', ['sprint-buttons'], sprintContainer);
 
   createDomNode('div', ['sprint-timer'], sprintHeader, '60');
-  createDomNode('img', ['sprint-sound-icon'], sprintHeader, '', [{ src: '../../assets/svg/icons/sprint-sound-icon.svg' }, { alt: 'Sprint sound icon' }]);
+  createDomNode('img', ['sprint-sound-icon'], sprintHeader, '', [{ src: './assets/svg/icons/game/voice.svg' }, { alt: 'Sprint sound icon' }]);
   createDomNode('div', ['sprint-counter'], sprintHeader, '0');
 
   createDomNode('button', ['btn', 'btn_red', 'wrong__button'], sprintButtons, 'Не верно');
-  createDomNode('button', ['btn', 'correct__button'], sprintButtons, 'Верно');
+  createDomNode('button', ['btn', 'btn_green', 'correct__button'], sprintButtons, 'Верно');
 };
 
 const arrayGenerator = (arrayEng: Array<string>, arrayRus: Array<string>) => {
@@ -68,107 +66,108 @@ const wordsCheck = (array: Array<string>, translation: Array<string>) => {
 let counter = 0;
 
 const getWords = async () => {
-	let words: Array<string> = [];
-	let wordsTranslate: Array<string> = [];
-	let pathAudio: Array<string> = [];
-	let wordsId: Array<string> = [];
-	let hash: Array<string> = window.location.href.split('/').reverse();
-	let difficulty: number = hash.length > 7 ? Number(hash[1]) - 1 : Number(hash[0]) - 1;
-	let chapterNumber: number = Number(sessionStorage.getItem('chapter-number')) - 1;
-	let pageNumber: number = Number(sessionStorage.getItem('page-number')) - 1;
+  const words: Array<string> = [];
+  const wordsTranslate: Array<string> = [];
+  const pathAudio: Array<string> = [];
+  const wordsId: Array<string> = [];
+  const hash: Array<string> = window.location.href.split('/').reverse();
+  const difficulty: number = hash.length > 7 ? Number(hash[1]) - 1 : Number(hash[0]) - 1;
+  const chapterNumber: number = Number(sessionStorage.getItem('chapter-number')) - 1;
+  const pageNumber: number = Number(sessionStorage.getItem('page-number')) - 1;
 
-	if (difficulty <= 5) {
-		for (let i = 0; i <= 30; i++) {
-			let result = await fetch(`https://base-rs-lang-1.herokuapp.com/words?group=${difficulty}&page=${i}`);
-			let data: Array<IData> = await result.json();
-			data.forEach(item => {
-				pathAudio.push(item.audio);
-				words.push(item.word);
-				wordsTranslate.push(item.wordTranslate);
-				wordsId.push(item.id);
-			})
-		}
-	} else if (difficulty === 6) {
-		let filter = `?filter={"userWord.difficulty":"hard"}`;
-		const result = await (new App).getUserAggregateWords(filter);
-		const data: Array<IData> = result[0].paginatedResults;
-		console.log(data);
-		data.forEach(item => {
-			pathAudio.push(item.audio);
-			words.push(item.word);
-			wordsTranslate.push(item.wordTranslate);
-			wordsId.push(item.id);
-		})
-	} else {
-		for (let i = pageNumber; i >= 0; i--) {
-			let result = await fetch(`https://base-rs-lang-1.herokuapp.com/words?group=${chapterNumber}&page=${i}`);
-			let data: Array<IData> = await result.json();
-			data.forEach(item => {
-				pathAudio.push(item.audio);
-				words.push(item.word);
-				wordsTranslate.push(item.wordTranslate);
-				wordsId.push(item.id);
-			})
-		}
-	}
-	
-	let englishWord = document.querySelector('.sprint-english-word') as HTMLElement;
-	let russianWord = document.querySelector('.sprint-russian-word') as HTMLElement;
-	const correctButton = document.querySelector('.correct__button') as HTMLElement;
-	const wrongButton = document.querySelector('.wrong__button') as HTMLElement;
-	let icon = document.querySelector('.sprint-answer-icon') as HTMLElement;
+  if (difficulty <= 5) {
+    for (let i = 0; i <= 30; i += 1) {
+      const result = await fetch(`https://base-rs-lang-1.herokuapp.com/words?group=${difficulty}&page=${i}`);
+      const data: Array<IData> = await result.json();
+      data.forEach((item) => {
+        pathAudio.push(item.audio);
+        words.push(item.word);
+        wordsTranslate.push(item.wordTranslate);
+        wordsId.push(item.id);
+      });
+    }
+  } else if (difficulty === 6) {
+    const filter = '?filter={"userWord.difficulty":"hard"}';
+    const result = await new App().getUserAggregateWords(filter);
+    const data: Array<IData> = result[0].paginatedResults;
+    data.forEach((item) => {
+      pathAudio.push(item.audio);
+      words.push(item.word);
+      wordsTranslate.push(item.wordTranslate);
+      wordsId.push(item.id);
+    });
+  } else {
+    for (let i = pageNumber; i >= 0; i -= 1) {
+      const result = await fetch(`https://base-rs-lang-1.herokuapp.com/words?group=${chapterNumber}&page=${i}`);
+      const data: Array<IData> = await result.json();
+      data.forEach((item) => {
+        pathAudio.push(item.audio);
+        words.push(item.word);
+        wordsTranslate.push(item.wordTranslate);
+        wordsId.push(item.id);
+      });
+    }
+  }
 
- 	const translation: Array<string> = arrayGenerator(words, wordsTranslate);
+  const englishWord = document.querySelector('.sprint-english-word') as HTMLElement;
+  const russianWord = document.querySelector('.sprint-russian-word') as HTMLElement;
+  const correctButton = document.querySelector('.correct__button') as HTMLElement;
+  const wrongButton = document.querySelector('.wrong__button') as HTMLElement;
+  const icon = document.querySelector('.sprint-answer-icon') as HTMLElement;
 
-	 englishWord.innerText = words[0];
-	 russianWord.innerText = translation[0];
+  const translation: Array<string> = arrayGenerator(words, wordsTranslate);
 
-	const changeWords = () => {
-		counter++
-		englishWord.innerText = words[counter];
-		russianWord.innerText = translation[counter];
-		icon.classList.add('animated');
-		setTimeout(() => {
-			icon.classList.remove('animated');
-		}, 700);
-		if (words[counter] === undefined || translation[counter] === undefined) {
-			try {
-				const counter = document.querySelector('.sprint-counter') as HTMLElement;
-				const score = Number(counter.innerText);
-				renderSprintResults(score);
-			} catch {
-				
-			}
-		}
-	}
+  // eslint-disable-next-line prefer-destructuring
+  englishWord.innerText = words[0];
+  // eslint-disable-next-line prefer-destructuring
+  russianWord.innerText = translation[0];
 
-  	const answers = wordsCheck(wordsTranslate, translation);
+  const changeWords = () => {
+    counter += 1;
+    englishWord.innerText = words[counter];
+    russianWord.innerText = translation[counter];
+    icon.classList.add('animated');
+    setTimeout(() => {
+      icon.classList.remove('animated');
+    }, 700);
+    if (words[counter] === undefined || translation[counter] === undefined) {
+      try {
+        const counter = document.querySelector('.sprint-counter') as HTMLElement;
+        const score = Number(counter.innerText);
+        renderSprintResults(score);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn('error');
+      }
+    }
+  };
 
-	correctButton.addEventListener('click', changeWords);
-	wrongButton.addEventListener('click', changeWords);
+  const answers = wordsCheck(wordsTranslate, translation);
 
-	const keyboardEvents = (e: KeyboardEvent) => {	
-		if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
-			changeWords();
-		}
-	}
+  correctButton.addEventListener('click', changeWords);
+  wrongButton.addEventListener('click', changeWords);
 
-	const removeKeyboardEvents = () => {
-		document.removeEventListener('keydown', keyboardEvents);
-	}
+  const keyboardEvents = (e: KeyboardEvent) => {
+    if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
+      changeWords();
+    }
+  };
 
-	window.addEventListener('hashchange', removeKeyboardEvents);
-	document.addEventListener('keydown', keyboardEvents);
+  const removeKeyboardEvents = () => {
+    document.removeEventListener('keydown', keyboardEvents);
+  };
 
-	return [words, wordsTranslate, answers, pathAudio, wordsId];
-}
+  window.addEventListener('hashchange', removeKeyboardEvents);
+  document.addEventListener('keydown', keyboardEvents);
 
+  return [words, wordsTranslate, answers, pathAudio, wordsId];
+};
 
 export let englishWords: Array<string> = [];
 export let russianWords: Array<string> = [];
 export let result: Array<boolean> = [];
 export let audioPaths: Array<string> = [];
-let wordsId: Array<string> = [];
+const wordsId: Array<string> = [];
 export const stats = new Statistics('sprint');
 
 const play = (path: string) => {
@@ -209,74 +208,82 @@ const userResponse = async () => {
     }
   });
 
-	answers[4].forEach(id => {
-		if (typeof id === 'string') {
-			wordsId.push(id);
-		}
-	})
+  answers[4].forEach((id) => {
+    if (typeof id === 'string') {
+      wordsId.push(id);
+    }
+  });
 
-	correctButton.addEventListener('click', () => {
-		if (answers[2][counter - 1]) {
-			let currentScore = Number(score.innerText)
-			score.innerText = (currentScore += 10).toString();
-			answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
-			result.push(true);
-			stats.wordCorrectAnswer(wordsId[counter - 1]);
-		} else {
-			answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
-			result.push(false);
-			stats.wordUncorrectAnswer(wordsId[counter - 1]);
-		} 
-	});
+  correctButton.addEventListener('click', () => {
+    if (answers[2][counter - 1]) {
+      let currentScore = Number(score.innerText);
+      score.innerText = (currentScore += 10).toString();
+      playSoundsAfterAnswer('./sounds-game-audio-call/correct-answer-sound-3.mp3');
+      answerResult.src = './assets/svg/icons/green-bird.svg';
+      result.push(true);
+      stats.wordCorrectAnswer(wordsId[counter - 1]);
+    } else {
+      playSoundsAfterAnswer('./sounds-game-audio-call/incorrect-answer-sound-3.mp3');
+      answerResult.src = './assets/svg/icons/game/cross.svg';
+      result.push(false);
+      stats.wordUncorrectAnswer(wordsId[counter - 1]);
+    }
+  });
 
-	wrongButton.addEventListener('click', () => {
-		if (answers[2][counter - 1]) {
-			answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
-			result.push(false)
-			stats.wordUncorrectAnswer(wordsId[counter - 1]);
-		} else {
-			let currentScore = Number(score.innerText)
-			score.innerText = (currentScore += 10).toString();
-			answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
-			result.push(true)
-			stats.wordCorrectAnswer(wordsId[counter - 1]);
-		}
-	});
+  wrongButton.addEventListener('click', () => {
+    if (answers[2][counter - 1]) {
+      playSoundsAfterAnswer('./sounds-game-audio-call/incorrect-answer-sound-3.mp3');
+      answerResult.src = './assets/svg/icons/game/cross.svg';
+      result.push(false);
+      stats.wordUncorrectAnswer(wordsId[counter - 1]);
+    } else {
+      let currentScore = Number(score.innerText);
+      score.innerText = (currentScore += 10).toString();
+      playSoundsAfterAnswer('./sounds-game-audio-call/correct-answer-sound-3.mp3');
+      answerResult.src = './assets/svg/icons/green-bird.svg';
+      result.push(true);
+      stats.wordCorrectAnswer(wordsId[counter - 1]);
+    }
+  });
 
-	const keyboardEvents = (e: KeyboardEvent) => {
-		if (e.code === 'ArrowRight') {
-			if (answers[2][counter - 1]) {
-				let currentScore = Number(score.innerText)
-				score.innerText = (currentScore += 10).toString();
-				answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
-				result.push(true)
-				stats.wordCorrectAnswer(wordsId[counter - 1]);
-			} else {
-				answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
-				result.push(false)
-				stats.wordUncorrectAnswer(wordsId[counter - 1]);
-			}
-		} else if (e.code === 'ArrowLeft') {
-			if (answers[2][counter - 1]) {
-				answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
-				result.push(false)
-				stats.wordUncorrectAnswer(wordsId[counter - 1]);
-			} else {
-				let currentScore = Number(score.innerText)
-				score.innerText = (currentScore += 10).toString();
-				answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
-				result.push(true)
-				stats.wordCorrectAnswer(wordsId[counter - 1]);
-			}
-		}
-	}
+  const keyboardEvents = (e: KeyboardEvent) => {
+    if (e.code === 'ArrowRight') {
+      if (answers[2][counter - 1]) {
+        let currentScore = Number(score.innerText);
+        score.innerText = (currentScore += 10).toString();
+        playSoundsAfterAnswer('./sounds-game-audio-call/correct-answer-sound-3.mp3');
+        answerResult.src = './assets/svg/icons/green-bird.svg';
+        result.push(true);
+        stats.wordCorrectAnswer(wordsId[counter - 1]);
+      } else {
+        playSoundsAfterAnswer('./sounds-game-audio-call/incorrect-answer-sound-3.mp3');
+        answerResult.src = './assets/svg/icons/game/cross.svg';
+        result.push(false);
+        stats.wordUncorrectAnswer(wordsId[counter - 1]);
+      }
+    } else if (e.code === 'ArrowLeft') {
+      if (answers[2][counter - 1]) {
+        playSoundsAfterAnswer('./sounds-game-audio-call/incorrect-answer-sound-3.mp3');
+        answerResult.src = './assets/svg/icons/game/cross.svg';
+        result.push(false);
+        stats.wordUncorrectAnswer(wordsId[counter - 1]);
+      } else {
+        let currentScore = Number(score.innerText);
+        score.innerText = (currentScore += 10).toString();
+        playSoundsAfterAnswer('./sounds-game-audio-call/correct-answer-sound-3.mp3');
+        answerResult.src = './assets/svg/icons/green-bird.svg';
+        result.push(true);
+        stats.wordCorrectAnswer(wordsId[counter - 1]);
+      }
+    }
+  };
 
-	const removeKeyboardEvents = () => {
-		document.removeEventListener('keydown', keyboardEvents);
-	}
+  const removeKeyboardEvents = () => {
+    document.removeEventListener('keydown', keyboardEvents);
+  };
 
-	window.addEventListener('hashchange', removeKeyboardEvents)
-	document.addEventListener('keydown', keyboardEvents);
+  window.addEventListener('hashchange', removeKeyboardEvents);
+  document.addEventListener('keydown', keyboardEvents);
 
   soundIcon.addEventListener('click', () => {
     audioPaths.forEach((path, idx) => {
