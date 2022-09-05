@@ -1,7 +1,7 @@
 import { IdataFromServer } from '../../interface/interface';
 import createDomNode from '../tutorial/function-create-dom-node';
 import playAudio from '../tutorial/play-words';
-import { randomNumberWord, shuffle } from './get-voice-word';
+import { listLearnedWords, randomNumberWord, shuffle } from './get-voice-word';
 import { addSessionStorage, getSessinoStorage } from './sessionStorage';
 import stepGameIndicator from './step-game-indicator';
 

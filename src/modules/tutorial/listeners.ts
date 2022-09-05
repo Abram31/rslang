@@ -3,7 +3,6 @@ import createWordContainer from './create-word-container';
 import { changeBackgroundChapters } from './markup';
 import { IdataFromServer } from '../../interface/interface';
 import { body } from './get words/render-result-find-to-page';
-import { deleteDifficultWord } from '../statistics/save-delete-learned-words';
 // import Statistics from '../statistics/statistics';
 
 function updateUrl(numberPart: number | string, numberPage: string | number) {
@@ -28,7 +27,6 @@ export const addListenersToChoicePageChapter = async () => {
   };
 
   valuePage.addEventListener('change', async (event: Event) => {
-    deleteDifficultWord('1111111111111111111');
 
     const element = event.target as HTMLSelectElement;
     const numberPage = element.value.split(' ').slice(-1)[0];
