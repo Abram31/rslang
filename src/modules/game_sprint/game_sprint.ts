@@ -26,7 +26,6 @@ interface IData {
 }
 
 const renderSprintGame = () => {
-  // document.body.style.backgroundImage = 'url(./assets/jpg/bg-sprint.jpg)';
   const root = document.querySelector('#root') as HTMLElement;
 
   const sprintPage = createDomNode('section', ['sprint-game'], root);
@@ -39,7 +38,7 @@ const renderSprintGame = () => {
   const sprintButtons = createDomNode('div', ['sprint-buttons'], sprintContainer);
 
   createDomNode('div', ['sprint-timer'], sprintHeader, '60');
-  createDomNode('img', ['sprint-sound-icon'], sprintHeader, '', [{ src: '../../assets/svg/icons/sprint-sound-icon.svg' }, { alt: 'Sprint sound icon' }]);
+  createDomNode('img', ['sprint-sound-icon'], sprintHeader, '', [{ src: './assets/svg/icons/game/voice.svg' }, { alt: 'Sprint sound icon' }]);
   createDomNode('div', ['sprint-counter'], sprintHeader, '0');
 
   createDomNode('button', ['btn', 'btn_red', 'wrong__button'], sprintButtons, 'Не верно');
@@ -220,12 +219,12 @@ const userResponse = async () => {
       let currentScore = Number(score.innerText);
       score.innerText = (currentScore += 10).toString();
       playSoundsAfterAnswer('./sounds-game-audio-call/correct-answer-sound-3.mp3');
-      answerResult.src = '../../assets/svg/game-audio-call/birds.svg'; // '../../assets/svg/icons/result-sprint-correct.svg';
+      answerResult.src = './assets/svg/icons/green-bird.svg';
       result.push(true);
       stats.wordCorrectAnswer(wordsId[counter - 1]);
     } else {
       playSoundsAfterAnswer('./sounds-game-audio-call/incorrect-answer-sound-3.mp3');
-      answerResult.src = '../../assets/svg/game-audio-call/cross.svg'; // '../../assets/svg/icons/result-sprint-incorrect.svg';
+      answerResult.src = './assets/svg/icons/game/cross.svg';
       result.push(false);
       stats.wordUncorrectAnswer(wordsId[counter - 1]);
     }
@@ -234,14 +233,14 @@ const userResponse = async () => {
   wrongButton.addEventListener('click', () => {
     if (answers[2][counter - 1]) {
       playSoundsAfterAnswer('./sounds-game-audio-call/incorrect-answer-sound-3.mp3');
-      answerResult.src = '../../assets/svg/game-audio-call/cross.svg'; // '../../assets/svg/icons/result-sprint-incorrect.svg';
+      answerResult.src = './assets/svg/icons/game/cross.svg';
       result.push(false);
       stats.wordUncorrectAnswer(wordsId[counter - 1]);
     } else {
       let currentScore = Number(score.innerText);
       score.innerText = (currentScore += 10).toString();
       playSoundsAfterAnswer('./sounds-game-audio-call/correct-answer-sound-3.mp3');
-      answerResult.src = '../../assets/svg/game-audio-call/birds.svg'; // '../../assets/svg/icons/result-sprint-correct.svg';
+      answerResult.src = './assets/svg/icons/green-bird.svg';
       result.push(true);
       stats.wordCorrectAnswer(wordsId[counter - 1]);
     }
@@ -253,26 +252,26 @@ const userResponse = async () => {
         let currentScore = Number(score.innerText);
         score.innerText = (currentScore += 10).toString();
         playSoundsAfterAnswer('./sounds-game-audio-call/correct-answer-sound-3.mp3');
-        answerResult.src = '../../assets/svg/game-audio-call/birds.svg'; // '../../assets/svg/icons/result-sprint-correct.svg';
+        answerResult.src = './assets/svg/icons/green-bird.svg';
         result.push(true);
         stats.wordCorrectAnswer(wordsId[counter - 1]);
       } else {
         playSoundsAfterAnswer('./sounds-game-audio-call/incorrect-answer-sound-3.mp3');
-        answerResult.src = '../../assets/svg/game-audio-call/cross.svg'; // '../../assets/svg/icons/result-sprint-incorrect.svg';
+        answerResult.src = './assets/svg/icons/game/cross.svg';
         result.push(false);
         stats.wordUncorrectAnswer(wordsId[counter - 1]);
       }
     } else if (e.code === 'ArrowLeft') {
       if (answers[2][counter - 1]) {
         playSoundsAfterAnswer('./sounds-game-audio-call/incorrect-answer-sound-3.mp3');
-        answerResult.src = '../../assets/svg/game-audio-call/cross.svg'; // '../../assets/svg/icons/result-sprint-incorrect.svg';
+        answerResult.src = './assets/svg/icons/game/cross.svg';
         result.push(false);
         stats.wordUncorrectAnswer(wordsId[counter - 1]);
       } else {
         let currentScore = Number(score.innerText);
         score.innerText = (currentScore += 10).toString();
         playSoundsAfterAnswer('./sounds-game-audio-call/correct-answer-sound-3.mp3');
-        answerResult.src = '../../assets/svg/game-audio-call/birds.svg'; // '../../assets/svg/icons/result-sprint-correct.svg';
+        answerResult.src = './assets/svg/icons/green-bird.svg';
         result.push(true);
         stats.wordCorrectAnswer(wordsId[counter - 1]);
       }

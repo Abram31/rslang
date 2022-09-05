@@ -25,7 +25,7 @@ export default class MiniGamesListRender {
     this.title = createDomNode('h1', ['title'], this.gamesWrapper, 'Мини-игры');
 
     this.game = createDomNode('div', ['game', 'game-sprint'], this.gamesWrapper);
-    this.gameImage = createDomNode('img', ['game__image'], this.game, '', [{ src: './assets/jpg/sprint.png' }, { alt: 'Sprint' }]);
+    this.gameImage = createDomNode('img', ['game__image'], this.game, '', [{ src: './assets/png/image-sprint-game.png' }, { alt: 'Sprint' }]);
     this.gameText = createDomNode('div', ['game__text'], this.game);
     this.title = createDomNode('p', ['title'], this.gameText, 'Спринт');
     this.descriptionGame = createDomNode('p', ['game__description'], this.gameText, 'Тренировка Спринт поможет вам проверить знаете ли вы правильный перевод. Игра длится 1 минуту или пока не закончатся слова.');
@@ -47,6 +47,6 @@ export default class MiniGamesListRender {
       window.location.href = '#/games/audio';
     });
 
-    this.gameImage = createDomNode('img', ['game__image'], this.game, '', [{ src: './assets/jpg/game-audio-call/audio.png' }, { alt: 'Audio' }]);
+    this.gameImage = createDomNode('img', ['game__image'], this.game, '', [{ src: './assets/png/image-audio-game.png' }, { alt: 'Audio' }]);
   }
 }

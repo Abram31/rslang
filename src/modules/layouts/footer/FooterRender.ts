@@ -38,7 +38,7 @@ export default class FooterRender {
 
   createItemsGithub(linkGithub: string, nameGithub: string) {
     this.githubLink = createDomNode('a', ['github__link'], this.githubWrapper, '', [{ href: `${linkGithub}` }]) as HTMLAnchorElement;
-    this.githubIcon = createDomNode('img', [], this.githubLink, '', [{ src: './assets/svg/Github.svg' }, { alt: 'GitHub' }]) as HTMLImageElement;
+    this.githubIcon = createDomNode('img', [], this.githubLink, '', [{ src: './assets/svg/social/Github.svg' }, { alt: 'GitHub' }]) as HTMLImageElement;
     this.githubSpan = createDomNode('span', ['github__name'], this.githubLink, `${nameGithub}`);
   }
 }

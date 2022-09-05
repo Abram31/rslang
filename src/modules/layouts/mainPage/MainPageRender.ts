@@ -31,10 +31,7 @@ export default class MainPageRender {
     this.descriptionLi = createDomNode('li', ['description-li'], this.descriptionItem, 'Статистика');
 
     this.btnTransparent = createDomNode('a', ['btn', 'btn_link'], this.description, 'Видeooбзop приложения', [{ href: 'https://www.youtube.com/watch?v=aXXA2DWbcwE' }, { target: 'blank' }]);
-    // this.btnTransparent.addEventListener('click', () => {
-    //   window.location.href = '#/video';
-    // });
 
-    this.mainPageImage = createDomNode('img', ['main-page-image'], this.mainWrapper, '', [{ src: './assets/girl-main.jpg' }, { alt: 'Girl' }]);
+    this.mainPageImage = createDomNode('img', ['main-page-image'], this.mainWrapper, '', [{ src: './assets/jpg/girl-main.jpg' }, { alt: 'Girl' }]);
   }
 }

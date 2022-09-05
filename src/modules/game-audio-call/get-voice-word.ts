@@ -5,7 +5,7 @@ import { addToPageResults } from './results_game';
 import { addSessionStorage, getSessinoStorage } from './sessionStorage';
 import './game-audio-call.scss';
 import getDifficultStudiedWords from '../tutorial/difficult_words/get_difficult_studied_words';
-import Statistics from '../statistics/statistics';
+import Statistics, { IdataStatistics } from '../statistics/statistics';
 import { IdataFromServer } from '../../interface/interface';
 
 export const shuffle = (array: IdataFromServer[]) => {
@@ -45,6 +45,19 @@ export const randomNumberWord = (
   data: IdataFromServer[],
 ) => Math.floor(Math.random() * data.length);
 
+export const listLearnedWords = () => {
+  sessionStorage.removeItem('learnedWordsId');
+  const statistics: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string);
+  const wordsStatistics = Object.entries(statistics.optional.words);
+  const learnedWordsId: Array<string> = [];
+  wordsStatistics.forEach((word) => {
+    if (word[1].dateLearnedWord) {
+      learnedWordsId.push(word[0]);
+    }
+  });
+  sessionStorage.setItem('learnedWordsId', JSON.stringify(learnedWordsId) as string);
+};
+
 const choiсeNextWord = async (data: IdataFromServer[])
 : Promise<IdataFromServer | false> => {
   let savedData = getSessinoStorage('game-audio-call');
@@ -56,12 +69,13 @@ const choiсeNextWord = async (data: IdataFromServer[])
   const usedIndexWords = getSessinoStorage('used-index-words-in-audio-call');
 
   if (usedIndexWords.includes(savedData[randomNumber].id)
-  || usedIndexWords.includes(savedData[randomNumber]._id)) {
+    || usedIndexWords.includes(savedData[randomNumber]._id)
+  ) {
     if (usedIndexWords.length >= savedData.length) {
       new Statistics('audio-call').setStatiscticAboutGame();
       addToPageResults();
-      sessionStorage.setItem('used-index-words-in-audio-call', '[]');
-      sessionStorage.setItem('unguessed-words-id', '[]'); /// /TODO данные на сервер
+      sessionStorage.removeItem('used-index-words-in-audio-call');
+      sessionStorage.removeItem('unguessed-words-id'); /// /TODO данные на сервер
       return false;
     }
     return choiсeNextWord(data);

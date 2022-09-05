@@ -37,13 +37,13 @@ const renderSprintResults = (score: number) => {
 
   for (let i = 0; i < result.length; i += 1) {
     const row = createDomNode('div', ['results-container__row'], resultsContainer);
-    createDomNode('img', ['results-sound-icon'], row, '', [{ src: '../../assets/svg/icons/result-sprint-sound.svg' }, { alt: 'Results sound icon' }]);
+    createDomNode('img', ['results-sound-icon'], row, '', [{ src: './assets/svg/icons/game/result/sound.svg' }, { alt: 'Results sound icon' }]);
     const wordsWrapper = createDomNode('div', ['results-words-wrapper'], row);
     createDomNode('p', ['results__english-word'], wordsWrapper, `${englishWords[i]}`);
     createDomNode('p', ['results__russian-word'], wordsWrapper, `${russianWords[i]}`);
     createDomNode('img', ['results-icon'], row, '', [
       {
-        src: result[i] ? '../../assets/svg/icons/result-sprint-correct.svg' : '../../assets/svg/icons/result-sprint-incorrect.svg',
+        src: result[i] ? './assets/svg/icons/game/result/correct.svg' : './assets/svg/icons/game/result/incorrect.svg',
       },
       {
         alt: 'Results icon',

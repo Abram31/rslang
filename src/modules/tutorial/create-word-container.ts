@@ -7,11 +7,11 @@ import checkDifficultWordBeforeLoading from './difficult_words/check_difficult_w
 import { addToLearnedWords, deleteFromLearnedWords } from '../statistics/save-delete-learned-words';
 
 function addCountCorrectAnswer(id: string) {
+  debugger;
   const statistics = (JSON.parse(sessionStorage.getItem('statistics') as string));
   let count = 4;
   if (statistics) {
     Object.keys(statistics.optional.words).forEach((key) => {
-      // console.log(statistics.optional.words)
       if (key === id) {
         count = statistics.optional.words[key].correctAnswers;
       }
@@ -21,11 +21,8 @@ function addCountCorrectAnswer(id: string) {
 }
 
 const createWordContainer = (word: IdataFromServer, idS?: string) => {
-  const statistics = (JSON.parse(sessionStorage.getItem('statistics') as string));
-
   const currentIdWord = word.id || word._id;
   const num = addCountCorrectAnswer(currentIdWord);
-  console.log(num);
 
   const wordFragment = document.createDocumentFragment();
 
@@ -42,22 +39,20 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
     const target = e.target as HTMLImageElement;
 
     if (target.classList.contains('hard')) {
-      if ((target as HTMLImageElement).src.match(/star-word/)) { // если звезд
+      if ((target as HTMLImageElement).src.match(/star-word/)) {
         new App().postUserWords(word, 'hard');
         hightlitingDifficultWords(target, 'hard');
-      } else if ((target as HTMLImageElement).src.match(/cross-red/)) { // если крестик
+      } else if ((target as HTMLImageElement).src.match(/cross-red/)) {
         new App().deleteUserWord((target.parentNode as HTMLElement)?.dataset.id as string);
         hightlitingDifficultWords(target, 'easyHard');
       }
     }
     if (target.classList.contains('studied')) {
-      if ((target as HTMLImageElement).src.match(/info-bird/)) { // если галка
-        // new App().putUserWord(word._id);
-        // console.log(word)
+      if ((target as HTMLImageElement).src.match(/info-bird/)) {
         new App().postUserWords(word, 'studied');
         addToLearnedWords((target.parentNode as HTMLElement)?.dataset.id as string);
         hightlitingDifficultWords(target, 'studied');
-      } else if ((target as HTMLImageElement).src.match(/cross-green/)) { // ээ если крест
+      } else if ((target as HTMLImageElement).src.match(/cross-green/)) {
         new App().deleteUserWord((target.parentNode as HTMLElement)?.dataset.id as string);
         deleteFromLearnedWords((target.parentNode as HTMLElement)?.dataset.id as string);
         hightlitingDifficultWords(target, 'easyStudied');
@@ -155,7 +150,7 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
       parentElement: btns1,
     };
     const compoundWord = createDomNode(btnCompoundWord) as HTMLImageElement;
-    compoundWord.src = './assets/svg/icons/star-word.svg';
+    compoundWord.src = './assets/svg/icons/tutorial/star-word.svg';
     compoundWord.alt = 'Star';
 
     const btnLearnedWord = {
@@ -164,7 +159,7 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
       parentElement: btns1,
     };
     const learnedWord = createDomNode(btnLearnedWord) as HTMLImageElement;
-    learnedWord.src = './assets/svg/icons/info-bird.svg';
+    learnedWord.src = './assets/svg/icons/tutorial/info-bird.svg';
     learnedWord.alt = 'Learned';
   }
 
@@ -222,7 +217,7 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
   createDomNode(descriptionTextExampleTranslate);
 
   if (window.location.hash !== '#/book/section-7') {
-    checkDifficultWordBeforeLoading(wrapperWord, word.id, word, num);
+    checkDifficultWordBeforeLoading(wrapperWord, word.id);
   }
 
   return wordFragment;

@@ -64,18 +64,6 @@ const clickAudioGame = (event:MouseEvent) => {
     sessionStorage.setItem('correctness of the choice', 'false');
   }
   if (element.classList.contains('wrapper-buttons__finish')) {
-    // if (!window.location.href.match(/random/) && !window.location.href.match(/hard-word/)) {
-    //   const hash = window.location.href.split('/');
-    //   const partHash = hash[hash.length - 2];
-    //   const pageHash = hash[hash.length - 1];
-    //   // window.location.reload();
-    //   window.location.hash = `/book/section-${partHash}/${pageHash}`;
-    // } else if (window.location.href.match(/random/)) {
-    //   window.location.hash = '/games';
-    // } else if (window.location.href.match(/hard-word/)) {
-    //   window.location.hash = '/book/section-7';
-    // }
-    // window.location.reload();
     window.location.hash = '/games';
     document.querySelectorAll('.navigation__item').forEach((el) => {
       el.classList.remove('active');
@@ -108,6 +96,8 @@ const addListeners = () => {
     sessionStorage.removeItem('unguessed-words-id');
     sessionStorage.removeItem('series-of-correct-answers');
     sessionStorage.removeItem('longest-series-of-correct-answers');
+    sessionStorage.removeItem('learnedWordsId');
+
     body.removeEventListener('click', clickAudioGame);
   });
 };

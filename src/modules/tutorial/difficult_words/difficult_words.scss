@@ -12,7 +12,7 @@ body {
 
     &::after {
       content: " ";
-      background-image: url("../../../assets/svg/icons/star-transp.svg");
+      background-image: url("../../../assets/svg/icons/tutorial/star-transp.svg");
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
@@ -92,7 +92,7 @@ body {
 
         &::after {
           content: "";
-          background-image: url(../../../assets/svg/tutorial/sound.svg);
+          background-image: url('../../../assets/svg/icons/game/result/sound.svg');
           background-position: center;
           background-repeat: no-repeat;
           background-size: cover;
@@ -185,11 +185,11 @@ body {
   }
 
   .container-buttons__game-audio-call {
-    background-image: url('../../../assets/svg/tutorial/sound_button.svg');
+    background-image: url('../../../assets/svg/icons/tutorial/sound_button.svg');
   }
 
   .container-buttons__game-sprint {
-    background-image: url('../../../assets/svg/tutorial/rocket.svg');
+    background-image: url('../../../assets/svg/icons/tutorial/rocket.svg');
   }
 }
 
@@ -201,4 +201,12 @@ body {
 
 .wrapper-difficult-words__not-world {
   padding: 2rem;
+  text-align: center;
+}
+
+.wrapper-difficult-words__not-using {
+  padding: 2rem;
+  text-align: center;
+  font-size: 3rem;
+    font-weight: 600;
 }
