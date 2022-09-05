@@ -10,6 +10,10 @@
 	font-weight: 600;
 }
 
+.results-score {
+	font-size: 20px;
+}
+
 .sprint-results__container {
 	margin-top: 20px;
 	padding: 12px;
@@ -51,4 +55,10 @@
 	&:hover {
 		cursor: pointer;
 	}
+}
+
+.result-buttons {
+	width: 480px;
+	display: flex;
+	justify-content: space-between;
 }

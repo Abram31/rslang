@@ -145,6 +145,26 @@ class Statistics {
     }
     sessionStorage.setItem('statistics', JSON.stringify(data));
   }
+
+  setStatisticsAboutSprintGame(percentCorrectAnswers: number) {
+    const data = this.dataStatistics;
+    if (data.optional.correctAnswersInGames) {
+      data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
+        percentCorrectAnswers: percentCorrectAnswers,
+        longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
+        nameGame: this.nameGame,
+      };
+    } else {
+      data.optional.correctAnswersInGames = {};
+      data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
+        percentCorrectAnswers: percentCorrectAnswers,
+        longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers')!)),
+        nameGame: this.nameGame,
+      };
+    }
+
+    sessionStorage.setItem('statistics', JSON.stringify(data));
+  }
 }
 
 export default Statistics;

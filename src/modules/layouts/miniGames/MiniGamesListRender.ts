@@ -28,7 +28,7 @@ export default class MiniGamesListRender {
     this.gameImage = createDomNode('img', ['game__image'], this.game, '', [{ src: './assets/jpg/sprint.png' }, { alt: 'Sprint' }]);
     this.gameText = createDomNode('div', ['game__text'], this.game);
     this.title = createDomNode('p', ['title'], this.gameText, 'Спринт');
-    this.descriptionGame = createDomNode('p', ['game__description'], this.gameText, 'Тренировка Спринт поможет вам проверить знаете ли вы правильный перевод. Игра длится 1 минуту или пока не закончаться слова');
+    this.descriptionGame = createDomNode('p', ['game__description'], this.gameText, 'Тренировка Спринт поможет вам проверить знаете ли вы правильный перевод. Игра длится 1 минуту или пока не закончатся слова.');
 
     this.btn = createDomNode('button', ['btn', 'btn_transparent'], this.gameText, 'Играть');
     this.btn.addEventListener('click', () => {

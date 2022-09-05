@@ -6,6 +6,8 @@ import './game_sprint.scss';
 import renderSprintResults from './results/sprint_results';
 import timer from './timer';
 import App from '../../components/app';
+import Statistics from '../statistics/statistics';
+import { stat } from 'fs';
 
 interface IData {
   id: string,
@@ -34,7 +36,7 @@ const renderSprintGame = () => {
   const sprintHeader = createDomNode('div', ['sprint-header'], sprintContainer);
   createDomNode('p', ['sprint-english-word'], sprintContainer, '');
   createDomNode('p', ['sprint-russian-word'], sprintContainer, '');
-  createDomNode('img', ['sprint-answer-icon'], sprintContainer, '', [{ src: '' }]);
+  createDomNode('img', ['sprint-answer-icon'], sprintContainer, '', [{ src: '../../assets/svg/icons/result-sprint-correct.svg' }]);
   const sprintButtons = createDomNode('div', ['sprint-buttons'], sprintContainer);
 
   createDomNode('div', ['sprint-timer'], sprintHeader, '10');
@@ -66,85 +68,108 @@ const wordsCheck = (array: Array<string>, translation: Array<string>) => {
 let counter = 0;
 
 const getWords = async () => {
-  const words: Array<string> = [];
-  const wordsTranslate: Array<string> = [];
-  const pathAudio: Array<string> = [];
+	let words: Array<string> = [];
+	let wordsTranslate: Array<string> = [];
+	let pathAudio: Array<string> = [];
+	let wordsId: Array<string> = [];
+	let hash: Array<string> = window.location.href.split('/').reverse();
+	let difficulty: number = hash.length > 7 ? Number(hash[1]) - 1 : Number(hash[0]) - 1;
+	let chapterNumber: number = Number(sessionStorage.getItem('chapter-number')) - 1;
+	let pageNumber: number = Number(sessionStorage.getItem('page-number')) - 1;
 
-  const difficulty: number = Number(window.location.href.split('/').reverse()[0]) - 1;
+	if (difficulty <= 5) {
+		for (let i = 0; i <= 30; i++) {
+			let result = await fetch(`https://base-rs-lang-1.herokuapp.com/words?group=${difficulty}&page=${i}`);
+			let data: Array<IData> = await result.json();
+			data.forEach(item => {
+				pathAudio.push(item.audio);
+				words.push(item.word);
+				wordsTranslate.push(item.wordTranslate);
+				wordsId.push(item.id);
+			})
+		}
+	} else if (difficulty === 6) {
+		let filter = `?filter={"userWord.difficulty":"hard"}`;
+		const result = await (new App).getUserAggregateWords(filter);
+		const data: Array<IData> = result[0].paginatedResults;
+		console.log(data);
+		data.forEach(item => {
+			pathAudio.push(item.audio);
+			words.push(item.word);
+			wordsTranslate.push(item.wordTranslate);
+			wordsId.push(item.id);
+		})
+	} else {
+		for (let i = pageNumber; i >= 0; i--) {
+			let result = await fetch(`https://base-rs-lang-1.herokuapp.com/words?group=${chapterNumber}&page=${i}`);
+			let data: Array<IData> = await result.json();
+			data.forEach(item => {
+				pathAudio.push(item.audio);
+				words.push(item.word);
+				wordsTranslate.push(item.wordTranslate);
+				wordsId.push(item.id);
+			})
+		}
+	}
+	
+	let englishWord = document.querySelector('.sprint-english-word') as HTMLElement;
+	let russianWord = document.querySelector('.sprint-russian-word') as HTMLElement;
+	const correctButton = document.querySelector('.correct__button') as HTMLElement;
+	const wrongButton = document.querySelector('.wrong__button') as HTMLElement;
+	let icon = document.querySelector('.sprint-answer-icon') as HTMLElement;
 
-  const chapterNumber: number = Number(sessionStorage.getItem('chapter-number')) - 1;
-  const pageNumber: number = Number(sessionStorage.getItem('page-number')) - 1;
+ 	const translation: Array<string> = arrayGenerator(words, wordsTranslate);
 
-  if (difficulty <= 5) {
-    for (let i = 1; i <= 30; i += 1) {
-      const result = await fetch(`https://base-rs-lang-1.herokuapp.com/words?group=${difficulty}&page=${i}`);
-      const data: Array<IData> = await result.json();
-      data.forEach((item) => {
-        pathAudio.push(item.audio);
-        words.push(item.word);
-        wordsTranslate.push(item.wordTranslate);
-      });
-    }
-  } else if (difficulty === 6) {
-    const filter = '?filter={"userWord.difficulty":"hard"}';
-    const result = await (new App()).getUserAggregateWords(filter);
-    const data: Array<IData> = result[0].paginatedResults;
-    data.forEach((item) => {
-      pathAudio.push(item.audio);
-      words.push(item.word);
-      wordsTranslate.push(item.wordTranslate);
-    });
-  } else {
-    for (let i = pageNumber; i >= 0; i -= 1) {
-      const result = await fetch(`https://base-rs-lang-1.herokuapp.com/words?group=${chapterNumber}&page=${i}`);
-      const data: Array<IData> = await result.json();
-      data.forEach((item) => {
-        pathAudio.push(item.audio);
-        words.push(item.word);
-        wordsTranslate.push(item.wordTranslate);
-      });
-    }
-  }
+	 englishWord.innerText = words[0];
+	 russianWord.innerText = translation[0];
 
-  const englishWord = document.querySelector('.sprint-english-word') as HTMLElement;
-  const russianWord = document.querySelector('.sprint-russian-word') as HTMLElement;
-  const correctButton = document.querySelector('.correct__button') as HTMLElement;
-  const wrongButton = document.querySelector('.wrong__button') as HTMLElement;
+	const changeWords = () => {
+		counter++
+		englishWord.innerText = words[counter];
+		russianWord.innerText = translation[counter];
+		icon.classList.add('animated');
+		setTimeout(() => {
+			icon.classList.remove('animated');
+		}, 700);
+		if (words[counter] === undefined || translation[counter] === undefined) {
+			try {
+				const counter = document.querySelector('.sprint-counter') as HTMLElement;
+				const score = Number(counter.innerText);
+				renderSprintResults(score);
+			} catch {
+				
+			}
+		}
+	}
 
-  const translation: Array<string> = arrayGenerator(words, wordsTranslate);
+  	const answers = wordsCheck(wordsTranslate, translation);
 
-  englishWord.innerText = words[counter];
-  russianWord.innerText = translation[counter];
+	correctButton.addEventListener('click', changeWords);
+	wrongButton.addEventListener('click', changeWords);
 
-  const answers = wordsCheck(wordsTranslate, translation);
+	const keyboardEvents = (e: KeyboardEvent) => {	
+		if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
+			changeWords();
+		}
+	}
 
-  const changeWords = () => {
-    counter += 1;
-    englishWord.innerText = words[counter];
-    russianWord.innerText = translation[counter];
-    if (words[counter] === undefined || translation[counter] === undefined) {
-      renderSprintResults();
-    }
-  };
+	const removeKeyboardEvents = () => {
+		document.removeEventListener('keydown', keyboardEvents);
+	}
 
-  correctButton.addEventListener('click', changeWords);
-  wrongButton.addEventListener('click', changeWords);
+	window.addEventListener('hashchange', removeKeyboardEvents);
+	document.addEventListener('keydown', keyboardEvents);
 
-  const keyboardEvents = (e: KeyboardEvent) => {
-    if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
-      changeWords();
-    }
-  };
+	return [words, wordsTranslate, answers, pathAudio, wordsId];
+}
 
-  document.addEventListener('keydown', keyboardEvents);
-
-  return [words, wordsTranslate, answers, pathAudio];
-};
 
 export let englishWords: Array<string> = [];
 export let russianWords: Array<string> = [];
 export let result: Array<boolean> = [];
 export let audioPaths: Array<string> = [];
+let wordsId: Array<string> = [];
+export const stats = new Statistics('sprint');
 
 const play = (path: string) => {
   const url = 'https://base-rs-lang-1.herokuapp.com/';
@@ -184,53 +209,74 @@ const userResponse = async () => {
     }
   });
 
-  correctButton.addEventListener('click', () => {
-    if (answers[2][counter - 1]) {
-      let currentScore = Number(score.innerText);
-      score.innerText = (currentScore += 10).toString();
-      answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
-      result.push(true);
-    } else {
-      answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
-      result.push(false);
-    }
-  });
+	answers[4].forEach(id => {
+		if (typeof id === 'string') {
+			wordsId.push(id);
+		}
+	})
 
-  wrongButton.addEventListener('click', () => {
-    if (answers[2][counter - 1]) {
-      answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
-      result.push(false);
-    } else {
-      let currentScore = Number(score.innerText);
-      score.innerText = (currentScore += 10).toString();
-      answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
-      result.push(true);
-    }
-  });
+	correctButton.addEventListener('click', () => {
+		if (answers[2][counter - 1]) {
+			let currentScore = Number(score.innerText)
+			score.innerText = (currentScore += 10).toString();
+			answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
+			result.push(true);
+			stats.wordCorrectAnswer(wordsId[counter - 1]);
+		} else {
+			answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
+			result.push(false);
+			stats.wordUncorrectAnswer(wordsId[counter - 1]);
+		} 
+	});
 
-  document.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.code === 'ArrowRight') {
-      if (answers[2][counter - 1]) {
-        let currentScore = Number(score.innerText);
-        score.innerText = (currentScore += 10).toString();
-        answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
-        result.push(true);
-      } else {
-        answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
-        result.push(false);
-      }
-    } else if (e.code === 'ArrowLeft') {
-      if (answers[2][counter - 1]) {
-        answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
-        result.push(false);
-      } else {
-        let currentScore = Number(score.innerText);
-        score.innerText = (currentScore += 10).toString();
-        answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
-        result.push(true);
-      }
-    }
-  });
+	wrongButton.addEventListener('click', () => {
+		if (answers[2][counter - 1]) {
+			answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
+			result.push(false)
+			stats.wordUncorrectAnswer(wordsId[counter - 1]);
+		} else {
+			let currentScore = Number(score.innerText)
+			score.innerText = (currentScore += 10).toString();
+			answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
+			result.push(true)
+			stats.wordCorrectAnswer(wordsId[counter - 1]);
+		}
+	});
+
+	const keyboardEvents = (e: KeyboardEvent) => {
+		if (e.code === 'ArrowRight') {
+			if (answers[2][counter - 1]) {
+				let currentScore = Number(score.innerText)
+				score.innerText = (currentScore += 10).toString();
+				answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
+				result.push(true)
+				stats.wordCorrectAnswer(wordsId[counter - 1]);
+			} else {
+				answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
+				result.push(false)
+				stats.wordUncorrectAnswer(wordsId[counter - 1]);
+			}
+		} else if (e.code === 'ArrowLeft') {
+			if (answers[2][counter - 1]) {
+				answerResult.src = '../../assets/svg/icons/result-sprint-incorrect.svg';
+				result.push(false)
+				stats.wordUncorrectAnswer(wordsId[counter - 1]);
+			} else {
+				let currentScore = Number(score.innerText)
+				score.innerText = (currentScore += 10).toString();
+				answerResult.src = '../../assets/svg/icons/result-sprint-correct.svg';
+				result.push(true)
+				stats.wordCorrectAnswer(wordsId[counter - 1]);
+			}
+		}
+	}
+
+	const removeKeyboardEvents = () => {
+		document.removeEventListener('keydown', keyboardEvents);
+	}
+
+	window.addEventListener('hashchange', removeKeyboardEvents)
+	document.addEventListener('keydown', keyboardEvents);
 
   soundIcon.addEventListener('click', () => {
     audioPaths.forEach((path, idx) => {
