@@ -4,6 +4,13 @@ import Statistics from '../../statistics/statistics';
 import {
   englishWords, russianWords, result, audioPaths, play,
 } from '../game_sprint';
+import App from '../../../components/app';
+
+interface ISprintStats {
+	percentCorrectAnswers: number;
+	longestSeriesOfCorrectAnswers: number;
+	newWordsGameDay?: string;
+}
 
 const hideBackground = (page: HTMLElement) => {
   // eslint-disable-next-line no-param-reassign
@@ -23,6 +30,21 @@ const statsAboutGame = (array: Array<number>) => {
   const percentCorrectAnswers = Math.round((array[0] / (array[0] + array[1])) * 100);
   return percentCorrectAnswers;
 };
+
+export const generateStatistics = () => {
+	const data: Array<ISprintStats> = Object.values(JSON.parse(sessionStorage.getItem('statistics')!).optional.correctAnswersInGames);
+	const percentCorrectAnswers: Array<number> = [];
+	const longestSeriesAnswers: Array<number> = [];
+	data.forEach(item => {
+		percentCorrectAnswers.push(item.percentCorrectAnswers)
+		longestSeriesAnswers.push(item.longestSeriesOfCorrectAnswers)
+	})
+	const percent: number = Math.round((percentCorrectAnswers.reduce((acc, curr) => acc + curr)) / percentCorrectAnswers.length);
+	const series: number = longestSeriesAnswers.sort((a, b) => b - a)[0];
+	return [percent, series];
+}
+
+const stats = new Statistics('sprint');
 
 const renderSprintResults = (score: number) => {
   const page = document.querySelector('.sprint-game') as HTMLElement;
@@ -83,14 +105,14 @@ const renderSprintResults = (score: number) => {
     }
   });
 
-  const count: Array<number> = answersCounter(result);
-  const percentCorrectAnswers: number = statsAboutGame(count);
-  // console.log(statsAboutGame(count));
+	hideBackground(page);
 
-  const stats = new Statistics('sprint');
-  stats.setStatisticsAboutSprintGame(percentCorrectAnswers);
-  // console.log(JSON.parse(sessionStorage.statistics));
+	const count: Array<number> = answersCounter(result);
+	const percentCorrectAnswers: number = statsAboutGame(count);
+	stats.setStatisticsAboutSprintGame(percentCorrectAnswers);
+	
+	(new App).setStatistics();
 
-  hideBackground(page);
-};
+}
+
 export default renderSprintResults;
