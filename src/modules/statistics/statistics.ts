@@ -147,12 +147,12 @@ class Statistics {
     }
 
     console.log(Object.entries(data.optional.correctAnswersInGames));
-    
 
     // console.log(unguessedWords.length);
     // console.log(guessedWords.length);
     sessionStorage.setItem('statistics', JSON.stringify(data));
   }
+
 }
 
 export default Statistics;

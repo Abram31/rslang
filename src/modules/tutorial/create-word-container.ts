@@ -4,6 +4,7 @@ import App from '../../components/app';
 import hightlitingDifficultWords from './difficult_words/hightliting_difficult_words';
 import { IdataAboutWordDificulty, IdataFromServer } from '../../interface/interface';
 import checkDifficultWordBeforeLoading from './difficult_words/check_difficult_word_before_loading';
+import { addToLearnedWords, deleteFromLearnedWords } from '../statistics/save-delete-difficult-words';
 
 function updateBird(id: string) {
   const stat = (JSON.parse(sessionStorage.getItem('statistics') as string));
@@ -19,8 +20,8 @@ function updateBird(id: string) {
 }
 
 const createWordContainer = (word: IdataFromServer, idS?: string) => {
-  const num = updateBird(word.id);
-  const num1 = updateBird(word._id);
+  const currentTrue = word.id || word._id;
+  const num = updateBird(currentTrue);
 
   const wordFragment = document.createDocumentFragment();
 
@@ -47,10 +48,13 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
     }
     if (target.classList.contains('studied')) {
       if ((target as HTMLImageElement).src.match(/info-bird/)) {
+        // console.log(num);
         new App().postUserWords(word, 'studied');
+        addToLearnedWords((target.parentNode as HTMLElement)?.dataset.id as string);
         hightlitingDifficultWords(target, 'studied');
       } else if ((target as HTMLImageElement).src.match(/cross-green/)) {
         new App().deleteUserWord((target.parentNode as HTMLElement)?.dataset.id as string);
+        deleteFromLearnedWords((target.parentNode as HTMLElement)?.dataset.id as string);
         hightlitingDifficultWords(target, 'easyStudied');
       }
     }
@@ -114,39 +118,35 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
 
     const oneBird = {
       typeElement: 'img',
-      className: 'first-bird',
+      className: 'bird first-bird',
       parentElement: progressContainer,
     };
     const oneBirds = createDomNode(oneBird) as HTMLImageElement;
 
     const twoBird = {
       typeElement: 'img',
-      className: 'two-bird',
+      className: 'bird two-bird',
       parentElement: progressContainer,
     };
     const twoBirds = createDomNode(twoBird) as HTMLImageElement;
 
     const threeBird = {
       typeElement: 'img',
-      className: 'three-bird',
+      className: 'bird three-bird',
       parentElement: progressContainer,
     };
     const threeBirds = createDomNode(threeBird) as HTMLImageElement;
 
     // console.log(word);
 
-    if (num === 1 || num1 === 1) {
+    if (num === 1) {
       oneBirds.src = './assets/svg/icons/green-bird.svg';
       twoBirds.src = './assets/svg/icons/grey-bird.svg';
       threeBirds.src = './assets/svg/icons/grey-bird.svg';
-    } else if (num === 2 || num1 === 2) {
+    } else if (num === 2) {
       oneBirds.src = './assets/svg/icons/green-bird.svg';
       twoBirds.src = './assets/svg/icons/green-bird.svg';
       threeBirds.src = './assets/svg/icons/grey-bird.svg';
-    } else if (num === 3 || num1 === 3) {
-      oneBirds.src = './assets/svg/icons/green-bird.svg';
-      twoBirds.src = './assets/svg/icons/green-bird.svg';
-      threeBirds.src = './assets/svg/icons/green-bird.svg';
     } else {
       oneBirds.src = './assets/svg/icons/grey-bird.svg';
       twoBirds.src = './assets/svg/icons/grey-bird.svg';
@@ -175,10 +175,13 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
 
     // console.log(word);
 
-    const one = [oneBirds.src, twoBirds.src, threeBirds.src].every((elem) => elem.match(/green/));
-    if (one) {
-      new App().putUserWord(word._id);
-    }
+    // const birdsCardsAll = [oneBirds.src, twoBirds.src, threeBirds.src].every((elem) => elem.match(/green/));
+    
+    // let birdsCardsOne = false;
+
+    // if (!birdsCardsAll) {
+    //   birdsCardsOne = [oneBirds.src, twoBirds.src, threeBirds.src].some((elem) => elem.match(/green/));
+    // }
   }
   const descriptionTitle = {
     typeElement: 'h5',
@@ -236,7 +239,12 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
   createDomNode(descriptionTextExampleTranslate);
 
   if (window.location.hash !== '#/book/section-7') {
-    checkDifficultWordBeforeLoading(wrapperWord, word.id);
+    // if (num) {
+      checkDifficultWordBeforeLoading(wrapperWord, word.id, word, num);
+    // } 
+    // else if (num1) {
+    //   checkDifficultWordBeforeLoading(wrapperWord, word.id, word, num1);
+    // }
   }
 
   return wordFragment;
