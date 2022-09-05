@@ -2,7 +2,7 @@ import { IdataStatistics } from './statistics';
 
 export const statisticByWords = () => {
   if (localStorage.getItem('id')) {
-    const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics')!);
+    const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string);
     const currentDate = new Date().toLocaleDateString('en-US');
     const newWordsOfDay: Array<string> = [];
     const newLearnedWordsOfDay: Array<string> = [];
@@ -39,7 +39,7 @@ export const statisticByWords = () => {
 
 export const statisticsGame = (nameOfGame: string) => {
   if (localStorage.getItem('id')) {
-    const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics')!);
+    const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string);
     const currentDate = new Date().toLocaleDateString('en-US');
     const newWordsGameDay: Array<string> = [];
     const mostLongSeriesAnswers: Array<number> = [];
@@ -72,7 +72,7 @@ export const statisticsGame = (nameOfGame: string) => {
 };
 
 export const numberNewWordsEachDay = () => {
-  const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics')!);
+  const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string);
   const newWordsOfDay: { [key:string]: number } = {};
   Object.entries(data.optional.words).forEach((word) => {
     if (newWordsOfDay[word[1].firstlyUsedWord]) {
@@ -86,15 +86,15 @@ export const numberNewWordsEachDay = () => {
 };
 
 export const numbersLearnedWordsEveryDay = () => {
-  const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics')!);
+  const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string);
   debugger;
   const learnedWordsOfDay: { [key: string]: number } = {};
   Object.entries(data.optional.words).forEach((word) => {
     if (word[1].dateLearnedWord && word[1].correctAnswers === 3
-    && learnedWordsOfDay[word[1].dateLearnedWord!]) {
-      learnedWordsOfDay[word[1].dateLearnedWord!] += 1;
+    && learnedWordsOfDay[word[1].dateLearnedWord as string]) {
+      learnedWordsOfDay[word[1].dateLearnedWord as string] += 1;
     } else if (word[1].dateLearnedWord && word[1].correctAnswers === 3) {
-      learnedWordsOfDay[word[1].dateLearnedWord!] = 1;
+      learnedWordsOfDay[word[1].dateLearnedWord as string] = 1;
     }
   });
   return learnedWordsOfDay;

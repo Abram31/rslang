@@ -1,9 +1,13 @@
 const hightlitingDifficultWords = (element: HTMLElement, typeHightlitinig: string) => {
   const elem = element;
-  const wrapperWord = element.closest('.container-tutorial__wrapper-word') as HTMLDivElement;
   if (typeHightlitinig === 'hard') {
+    const wrapperWord = element.closest('.container-tutorial__wrapper-word') as HTMLDivElement;
     if ((wrapperWord.querySelector('.studied') as HTMLImageElement).src.match(/cross-green/)) {
       (wrapperWord.querySelector('.studied') as HTMLImageElement).src = './assets/svg/icons/info-bird.svg';
+      Array.from((wrapperWord.querySelectorAll('.bird'))).forEach((el) => {
+        // eslint-disable-next-line no-param-reassign
+        (el as HTMLImageElement).src = './assets/svg/icons/grey-bird.svg';
+      });
     }
 
     elem.style.transform = 'scale(.8)';
@@ -13,6 +17,7 @@ const hightlitingDifficultWords = (element: HTMLElement, typeHightlitinig: strin
     (wrapperWord.querySelector('.hard') as HTMLImageElement).src = './assets/svg/icons/cross-red.svg';
   }
   if (typeHightlitinig === 'studied') {
+    const wrapperWord = element.closest('.container-tutorial__wrapper-word') as HTMLDivElement;
     if ((wrapperWord.querySelector('.hard') as HTMLImageElement).src.match(/cross-red/)) {
       (wrapperWord.querySelector('.hard') as HTMLImageElement).src = './assets/svg/icons/star-word.svg';
     }
@@ -22,8 +27,13 @@ const hightlitingDifficultWords = (element: HTMLElement, typeHightlitinig: strin
     hardElement.style.transform = 'scale(1)';
     wrapperWord.style.boxShadow = '1rem 1rem 0.4rem rgb(10 227 70 / 80%)';
     (wrapperWord.querySelector('.studied') as HTMLImageElement).src = './assets/svg/icons/cross-green.svg';
+    Array.from((wrapperWord.querySelectorAll('.bird'))).forEach((el) => {
+      // eslint-disable-next-line no-param-reassign
+      (el as HTMLImageElement).src = './assets/svg/icons/green-bird.svg';
+    });
   }
   if (typeHightlitinig === 'easyHard') {
+    const wrapperWord = element.closest('.container-tutorial__wrapper-word') as HTMLDivElement;
     const hardElement = (element.closest('.container-btns') as HTMLDivElement).querySelector('.hard') as HTMLDivElement;
     hardElement.style.transform = 'scale(1)';
     wrapperWord.style.boxShadow = 'none';
@@ -31,6 +41,7 @@ const hightlitingDifficultWords = (element: HTMLElement, typeHightlitinig: strin
   }
 
   if (typeHightlitinig === 'easyStudied') {
+    const wrapperWord = element.closest('.container-tutorial__wrapper-word') as HTMLDivElement;
     const hardElement = (element.closest('.container-btns') as HTMLDivElement).querySelector('.studied') as HTMLDivElement;
     hardElement.style.transform = 'scale(1)';
     wrapperWord.style.boxShadow = 'none';

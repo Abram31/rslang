@@ -181,6 +181,7 @@ export default class HeaderRender {
     this.btnGoOut = createDomNode('button', ['btn', 'btn_red'], this.modalWindow, 'Да') as HTMLButtonElement;
     this.btnGoOut.addEventListener('click', () => {
       localStorage.clear();
+      sessionStorage.clear();
       window.location.reload();
       this.userName.innerHTML = '';
       this.authButton.innerHTML = 'Вход';
