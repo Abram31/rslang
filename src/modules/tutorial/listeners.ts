@@ -26,7 +26,6 @@ export const addListenersToChoicePageChapter = async () => {
   };
 
   valuePage.addEventListener('change', async (event: Event) => {
-    deleteFromLearnedWords('1111111111111111111'); // Это чего такое?
 
     const element = event.target as HTMLSelectElement;
     const numberPage = element.value.split(' ').slice(-1)[0];

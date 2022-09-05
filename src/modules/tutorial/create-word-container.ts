@@ -7,6 +7,7 @@ import checkDifficultWordBeforeLoading from './difficult_words/check_difficult_w
 import { addToLearnedWords, deleteFromLearnedWords } from '../statistics/save-delete-learned-words';
 
 function addCountCorrectAnswer(id: string) {
+  debugger
   const statistics = (JSON.parse(sessionStorage.getItem('statistics') as string));
   let count = 0;
   if (statistics) {

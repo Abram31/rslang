@@ -5,7 +5,7 @@ import playAudio from '../tutorial/play-words';
 import { cardFlipAfterChoice, cardUnflip } from './card-flip-after-choice';
 import changeLanguages from './change-languages';
 import changeVoiceLinkToImage from './change-voice-link-to-image';
-import { addWordsToPage } from './get-voice-word';
+import { addWordsToPage, listLearnedWords } from './get-voice-word';
 import keyboardControl from './keyboard_control';
 import { addToPageResults } from './results_game';
 import { addSessionStorage, getSessinoStorage } from './sessionStorage';
@@ -96,6 +96,8 @@ const addListeners = () => {
     sessionStorage.removeItem('unguessed-words-id');
     sessionStorage.removeItem('series-of-correct-answers');
     sessionStorage.removeItem('longest-series-of-correct-answers');
+    sessionStorage.removeItem('learnedWordsId');
+
     body.removeEventListener('click', clickAudioGame);
   });
 };
