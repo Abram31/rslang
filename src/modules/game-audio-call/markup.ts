@@ -107,7 +107,7 @@ const baseMarkupAudioCall = () => {
   };
   createDomNode(descriptionButtonDontKnow);
 
-  body.style.backgroundImage = 'url(./assets/jpg/game-audio-call/background.jpg)';
+  body.style.backgroundImage = 'url(./assets/jpg/bg-audio-game.jpg)';
 
   wrap.appendChild(fragmentSprint);
 };

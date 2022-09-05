@@ -56,7 +56,7 @@ const addDifficultWordsToPage = async () => {
     const wrapperWords = wrapperWord.querySelectorAll('.container-tutorial__wrapper-word');
     wrapperWords.forEach((el) => {
       // eslint-disable-next-line no-param-reassign
-      (el.querySelector('.hard') as HTMLImageElement).src = './assets/svg/icons/star-word.svg';
+      (el.querySelector('.hard') as HTMLImageElement).src = './assets/svg/icons/tutorial/star-word.svg';
     });
     if (wrapperWords.length < 5) {
       const descriptionNotWord = {

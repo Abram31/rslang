@@ -49,7 +49,7 @@ export default class TextBookChapter {
     }
 
     this.textBookDescription = createDomNode('div', ['textbook__description'], this.sectionText);
-    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/info-circle.svg' }, { alt: 'Info' }]);
+    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/tutorial/info-circle.svg' }, { alt: 'Info' }]);
     this.textBookDescriptionWrapper = createDomNode('div', ['textbook__description-wrapper'], this.textBookDescription);
     this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item'], this.textBookDescriptionWrapper, 'Учебник содержит 3600 часто употребляемых английских слов');
     this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item'], this.textBookDescriptionWrapper, 'Слова в коллекции отсортированы от более простых и известных к более сложным. Вся коллекция разбита на шесть разделов, в каждом разделе 30 страниц, на каждой странице 20 слов для изучения');
@@ -58,15 +58,15 @@ export default class TextBookChapter {
     this.textBookAuth = createDomNode('div', ['textbook__auth'], this.sectionText);
 
     this.textBookDescription = createDomNode('div', ['textbook__description'], this.textBookAuth);
-    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/star.svg' }, { alt: 'Star' }]);
+    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/tutorial/star.svg' }, { alt: 'Star' }]);
     this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item'], this.textBookDescription, 'Сложные слова можно отметить нажав на звёздочку. Эти слова будут находиться в разделе "Сложные слова"');
 
     this.textBookDescription = createDomNode('div', ['textbook__description'], this.textBookAuth);
-    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/check-mark.svg' }, { alt: 'Сheck-mark' }]);
+    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/tutorial/check-mark.svg' }, { alt: 'Сheck-mark' }]);
     this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item'], this.textBookDescription, 'Изученные слова можно отметить нажав на птичку. Изученные слова не задействуются в мини-играх, которые запускаются на страницах учебника');
 
     this.textBookDescription = createDomNode('div', ['textbook__description'], this.textBookAuth);
-    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/info-circle-red.svg' }, { alt: 'Info' }]);
+    this.iconInfo = createDomNode('img', ['icon-info'], this.textBookDescription, '', [{ src: './assets/svg/icons/tutorial/info-circle-red.svg' }, { alt: 'Info' }]);
     this.textBookDescriptionItem = createDomNode('p', ['textbook__description-item', 'text-bold'], this.textBookDescription, 'Данная функция доступна только для авторизированных пользователей');
   }
 
@@ -74,7 +74,7 @@ export default class TextBookChapter {
     this.chapter = createDomNode('a', ['chapter', `chapter-${item}`], this.sectionList, '', [{ href: `#/book/section-${item}` }]) as HTMLAnchorElement;
 
     if (diffucult) {
-      this.iconStar = createDomNode('img', ['icon-star'], this.chapter, '', [{ src: './assets/svg/icons/star-transp.svg' }]) as HTMLImageElement;
+      this.iconStar = createDomNode('img', ['icon-star'], this.chapter, '', [{ src: './assets/svg/icons/tutorial/star-transp.svg' }]) as HTMLImageElement;
       this.chapterText = createDomNode('span', ['chapter-text'], this.chapter, 'Сложные слова') as HTMLParagraphElement;
     } else {
       this.chapterText = createDomNode('span', ['chapter-text'], this.chapter, `Раздел ${item}`) as HTMLParagraphElement;
