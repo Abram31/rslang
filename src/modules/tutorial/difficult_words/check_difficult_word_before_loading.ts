@@ -28,9 +28,10 @@ const checkDifficultWordBeforeLoading = async (
 ) => {
   if (getStorage('id')) {
 
-    // const difficult = await wordState(wordId);
-    // console.log(difficult);
-    // const btn = container.querySelector('.hard') as HTMLElement;
+    const difficult = await wordState(wordId);
+
+    console.log(difficult);
+    const btn = container.querySelector('.hard') as HTMLElement;
     // if (num === 3 && difficult !== 'studied') { // если все галочки зеленые но слово не записано как изученное
     //   new App().postUserWords(word, 'studied');
     //   addToLearnedWords(wordId);
@@ -42,11 +43,11 @@ const checkDifficultWordBeforeLoading = async (
     //   new App().postUserWords(word, 'studied');
     // }
 
-    // if (difficult === 'hard') {
-    //   hightlitingDifficultWords(btn, 'hard');
-    // } else if (difficult === 'studied') {
-    //   hightlitingDifficultWords(btn, 'studied');
-    // }
+    if (difficult === 'hard') {
+      hightlitingDifficultWords(btn, 'hard');
+    } else if (difficult === 'studied') {
+      hightlitingDifficultWords(btn, 'studied');
+    }
   }
 };
 

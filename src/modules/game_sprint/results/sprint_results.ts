@@ -1,5 +1,6 @@
 import createDomNode from '../../../utils/createDomNode';
 import './sprint_results.scss';
+import Statistics from '../../statistics/statistics';
 import {
   englishWords, russianWords, result, audioPaths, play,
 } from '../game_sprint';
@@ -9,7 +10,21 @@ const hideBackground = (page: HTMLElement) => {
   page.style.background = 'none';
 };
 
-const renderSprintResults = () => {
+const answersCounter = (array: Array<boolean>) => {
+  let correctAnswers = 0;
+  let inCorrectAnswers = 0;
+  array.forEach((item) => {
+    item ? correctAnswers += 1 : inCorrectAnswers += 1;
+  });
+  return [correctAnswers, inCorrectAnswers];
+};
+
+const statsAboutGame = (array: Array<number>) => {
+  const percentCorrectAnswers = Math.round((array[0] / (array[0] + array[1])) * 100);
+  return percentCorrectAnswers;
+};
+
+const renderSprintResults = (score: number) => {
   const page = document.querySelector('.sprint-game') as HTMLElement;
   page.innerHTML = '';
 
@@ -17,6 +32,7 @@ const renderSprintResults = () => {
   const sprintResultsWrapper = createDomNode('div', ['wrapper', 'sprint-results-wrapper'], sprintResultsPage);
 
   createDomNode('h1', ['sprint-results__title'], sprintResultsWrapper, 'Результаты');
+  createDomNode('h3', ['results-score'], sprintResultsWrapper, `Ваш результат: ${score}`);
   const resultsContainer = createDomNode('div', ['sprint-results__container'], sprintResultsWrapper);
 
   for (let i = 0; i < result.length; i += 1) {
@@ -34,6 +50,10 @@ const renderSprintResults = () => {
       }]);
   }
 
+  const resultButtons = createDomNode('div', ['result-buttons'], sprintResultsWrapper);
+  createDomNode('button', ['btn', 'restart__button'], resultButtons, 'Начать сначала');
+  createDomNode('button', ['btn', 'btn_red', 'cancel__button'], resultButtons, 'Выйти');
+
   const soundIcon = document.querySelectorAll('.results-sound-icon') as NodeListOf<HTMLElement>;
   soundIcon.forEach((icon, iconIdx) => {
     icon.addEventListener('click', () => {
@@ -44,7 +64,33 @@ const renderSprintResults = () => {
       });
     });
   });
+
+  resultButtons.addEventListener('click', (e) => {
+    const button = e.target as HTMLDivElement;
+    if (button.classList.contains('restart__button')) {
+      window.location.hash = '/games/sprint';
+    } else if (button.classList.contains('cancel__button')) {
+      if (!window.location.href.match(/random/) && !window.location.href.match(/hard-word/)) {
+        const hash = window.location.href.split('/');
+        const partHash = hash[hash.length - 2];
+        const pageHash = hash[hash.length - 1];
+        window.location.hash = `/book/section-${partHash}/${pageHash}`;
+      } else if (window.location.href.match(/random/)) {
+        window.location.hash = '/games';
+      } else if (window.location.href.match(/hard-word/)) {
+        window.location.hash = '/book/section-7';
+      }
+    }
+  });
+
+  const count: Array<number> = answersCounter(result);
+  const percentCorrectAnswers: number = statsAboutGame(count);
+  // console.log(statsAboutGame(count));
+
+  const stats = new Statistics('sprint');
+  stats.setStatisticsAboutSprintGame(percentCorrectAnswers);
+  // console.log(JSON.parse(sessionStorage.statistics));
+
   hideBackground(page);
 };
-
 export default renderSprintResults;

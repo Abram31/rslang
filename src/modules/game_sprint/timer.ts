@@ -5,10 +5,22 @@ const timer = () => {
   let time = Number(timerDiv.innerText);
   const changeTime = setInterval(() => {
     if (time <= 0) {
-      renderSprintResults();
+      try {
+        const counter = document.querySelector('.sprint-counter') as HTMLElement;
+        const score = Number(counter.innerText);
+        renderSprintResults(score);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn('error');
+      }
       clearInterval(changeTime);
     } else {
-      timerDiv.innerHTML = time.toString();
+      try {
+        timerDiv.innerHTML = time.toString();
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn('error');
+      }
     }
     time -= 1;
   }, 1000);

@@ -8,7 +8,7 @@ import { addToLearnedWords, deleteFromLearnedWords } from '../statistics/save-de
 
 function addCountCorrectAnswer(id: string) {
   const statistics = (JSON.parse(sessionStorage.getItem('statistics') as string));
-  let count = 0;
+  let count = 4;
   if (statistics) {
     Object.keys(statistics.optional.words).forEach((key) => {
       // console.log(statistics.optional.words)
@@ -145,6 +145,8 @@ const createWordContainer = (word: IdataFromServer, idS?: string) => {
       oneBirds.src = './assets/svg/icons/grey-bird.svg';
       twoBirds.src = './assets/svg/icons/grey-bird.svg';
       threeBirds.src = './assets/svg/icons/grey-bird.svg';
+    } else if (num === 4) {
+      progressContainer.style.display = 'none';
     }
 
     const btnCompoundWord = {

@@ -6,7 +6,6 @@ import MiniGamesListRender from '../layouts/miniGames/MiniGamesListRender';
 import StatisticsPageRender from '../layouts/statisticsPage/statisticsPage';
 import TextBookChapter from '../layouts/textBookChapter/TextBookChapter';
 import TextBookPage from '../layouts/textBookPage/textBookPage';
-import VideoRender from '../layouts/video/VideoRender';
 import { body } from '../tutorial/get words/render-result-find-to-page';
 import { addListenersToChoicePageChapter, addListenersToTextBookChapters, addListenersToTextBookPages } from '../tutorial/listeners';
 import tutorialRender, { changeBackgroundChapters } from '../tutorial/markup';
@@ -71,11 +70,6 @@ const generateRouter = () => {
     );
   });
 
-  template('video', () => {
-    wrapper.innerHTML = '';
-    new VideoRender(wrapper);
-  });
-
   template('about', () => {
     wrapper.innerHTML = '';
     new AboutTeam(wrapper);
@@ -137,7 +131,6 @@ const generateRouter = () => {
   route('/games', 'games');
   route('/stats', 'stats');
   route('/about', 'about');
-  route('/video', 'video');
 
   for (let i = 0; i <= 7; i += 1) {
     if (i < 7) {
@@ -152,13 +145,13 @@ const generateRouter = () => {
 
   route('/games/audio/hard-word', 'game-audio-call-difficult');
 
-  // NOW
   for (let i = 0; i <= 8; i += 1) {
+    for (let k = 0; k < 30; k += 1) {
+      route(`/games/sprint/random/${i}/${k}`, 'game-sprint');
+    }
     if (i === 7) {
       route(`/games/sprint/${i}`, 'game-sprint');
     } else if (i === 8) {
-      route(`/games/sprint/${i}`, 'game-sprint');
-    } else {
       route(`/games/sprint/${i}`, 'game-sprint');
     }
   }
@@ -193,6 +186,14 @@ const generateRouter = () => {
 
     if (!window.location.href.match(/audio\//)) {
       body.style.backgroundImage = 'none';
+      footer.style.display = 'inline-flex';
+      body.style.justifyContent = 'space-between';
+    } else {
+      footer.style.display = 'none';
+      body.style.justifyContent = 'start';
+    }
+
+    if (!window.location.href.match(/sprint\//)) {
       footer.style.display = 'inline-flex';
       body.style.justifyContent = 'space-between';
     } else {
