@@ -1,7 +1,8 @@
 import App from '../../../components/app';
 import { IdataAboutWordDificulty, IdataFromServer } from '../../../interface/interface';
 import { getStorage } from '../../../utils/storage';
-import { addToLearnedWords } from '../../statistics/save-delete-learned-words';
+import { addToLearnedWords, deleteFromLearnedWords } from '../../statistics/save-delete-learned-words';
+// import { cl } from '../create-word-container';
 import hightlitingDifficultWords from './hightliting_difficult_words';
 
 const wordState = async (id: string) => {
@@ -26,24 +27,26 @@ const checkDifficultWordBeforeLoading = async (
   num: number,
 ) => {
   if (getStorage('id')) {
-    const difficult = await wordState(wordId);
 
-    if (num === 3 && difficult !== 'studied') { // если все галочки зеленые но слово не записано как изученное
-      new App().postUserWords(word, 'studied');
-      addToLearnedWords(wordId);
-    }
-    // else if (num === 0 && difficult === 'studied') {
+    // const difficult = await wordState(wordId);
+    // console.log(difficult);
+    // const btn = container.querySelector('.hard') as HTMLElement;
+    // if (num === 3 && difficult !== 'studied') { // если все галочки зеленые но слово не записано как изученное
+    //   new App().postUserWords(word, 'studied');
+    //   addToLearnedWords(wordId);
+    // } else if (num < 3 && difficult === 'studied') {
     //   new App().deleteUserWord(wordId);
     //   deleteFromLearnedWords(wordId);
     // }
+    // else if (num === 3 && difficult === 'hard') {
+    //   new App().postUserWords(word, 'studied');
+    // }
 
-    const btn = container.querySelector('.hard') as HTMLElement;
-
-    if (difficult === 'hard') {
-      hightlitingDifficultWords(btn, 'hard');
-    } else if (difficult === 'studied') {
-      hightlitingDifficultWords(btn, 'studied');
-    }
+    // if (difficult === 'hard') {
+    //   hightlitingDifficultWords(btn, 'hard');
+    // } else if (difficult === 'studied') {
+    //   hightlitingDifficultWords(btn, 'studied');
+    // }
   }
 };
 

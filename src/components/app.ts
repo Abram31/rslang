@@ -60,6 +60,7 @@ export default class App {
     const tokenData = await response.json();
     setStorage('token', tokenData.token);
     setStorage('refreshToken', tokenData.refreshToken);
+    setStorage('tokenDateCreation', String(Date.now()));
     return tokenData.token;
   }
 
@@ -76,6 +77,7 @@ export default class App {
         }
       }
 
+      // try {
       const requestPromise = await fetch(endpoint, {
         ...options,
         headers: {
@@ -84,8 +86,10 @@ export default class App {
           'Content-Type': 'application/json',
         },
       });
-
       return requestPromise.json();
+      // } catch (e) {
+      //   console.warn(e);
+      // }
     }
   }
 
