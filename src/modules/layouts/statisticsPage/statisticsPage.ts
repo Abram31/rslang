@@ -5,7 +5,7 @@ import createDomNode from '../../../utils/createDomNode';
 import {
   numberNewWordsEachDay, numbersLearnedWordsEveryDay, statisticByWords, statisticsGame,
 } from '../../statistics/addStatisticToPage';
-import { generateStatistics } from '../../game_sprint/results/sprint_results';
+import { generateStatisticsSprint } from '../../game_sprint/results/sprint_results';
 
 export default class StatisticsPageRender {
   private statisctics;
@@ -78,7 +78,7 @@ export default class StatisticsPageRender {
 
     this.btnSprint = createDomNode('button', ['btn-static'], this.btnGroup, 'Спринт');
     this.btnSprint.addEventListener('click', () => {
-      const sprintStats = generateStatistics();
+      const sprintStats = generateStatisticsSprint();
       this.statisc(
         this.statisticsAudioCallGame.newWordsGameDay,
         ['Самая длинная серия правильных ответов: ', sprintStats[1].toString()],

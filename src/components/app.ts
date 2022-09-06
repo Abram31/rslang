@@ -155,7 +155,6 @@ export default class App {
   }
 
   async setStatistics() {
-    debugger
     const id = getStorage('id');
     const token = getStorage('token');
     let statistics = JSON.parse(sessionStorage.getItem('statistics')!);
@@ -163,8 +162,6 @@ export default class App {
       const data = statistics!;
       delete data.id
       statistics = data;
-      console.log(data);
-
     }
     return this.request(`${this.userUrl}/${id}/statistics`, {
       method: 'PUT',

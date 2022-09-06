@@ -4,7 +4,6 @@ import { IdataFromServer } from '../../../interface/interface';
 const getDifficultStudiedWords = async () => {
   if (localStorage.getItem('id')) {
     const respHard = await new App().getUserAggregateWords('filter={"userWord.difficulty":"hard"}');
-    debugger;
     const hardWords: IdataFromServer[] = respHard[0].paginatedResults;
     sessionStorage.setItem('game-audio-call', JSON.stringify(hardWords));
     sessionStorage.setItem('difficult-words', JSON.stringify(hardWords));

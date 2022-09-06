@@ -37,7 +37,7 @@ const renderSprintGame = () => {
   createDomNode('img', ['sprint-answer-icon'], sprintContainer);
   const sprintButtons = createDomNode('div', ['sprint-buttons'], sprintContainer);
 
-  createDomNode('div', ['sprint-timer'], sprintHeader, '60');
+  createDomNode('div', ['sprint-timer'], sprintHeader, '10');
   createDomNode('img', ['sprint-sound-icon'], sprintHeader, '', [{ src: './assets/svg/icons/game/voice.svg' }, { alt: 'Sprint sound icon' }]);
   createDomNode('div', ['sprint-counter'], sprintHeader, '0');
 
@@ -72,6 +72,7 @@ const getWords = async () => {
   const wordsId: Array<string> = [];
   const hash: Array<string> = window.location.href.split('/').reverse();
   const difficulty: number = hash.length > 7 ? Number(hash[1]) - 1 : Number(hash[0]) - 1;
+  console.log(difficulty)
   const chapterNumber: number = Number(sessionStorage.getItem('chapter-number')) - 1;
   const pageNumber: number = Number(sessionStorage.getItem('page-number')) - 1;
 
@@ -222,11 +223,13 @@ const userResponse = async () => {
       answerResult.src = './assets/svg/icons/green-bird.svg';
       result.push(true);
       stats.wordCorrectAnswer(wordsId[counter - 1]);
+      new App().setStatistics();
     } else {
       playSoundsAfterAnswer('./sounds-game-audio-call/incorrect-answer-sound-3.mp3');
       answerResult.src = './assets/svg/icons/game/cross.svg';
       result.push(false);
       stats.wordUncorrectAnswer(wordsId[counter - 1]);
+      new App().setStatistics();
     }
   });
 
@@ -236,6 +239,7 @@ const userResponse = async () => {
       answerResult.src = './assets/svg/icons/game/cross.svg';
       result.push(false);
       stats.wordUncorrectAnswer(wordsId[counter - 1]);
+      new App().setStatistics();
     } else {
       let currentScore = Number(score.innerText);
       score.innerText = (currentScore += 10).toString();
@@ -243,6 +247,7 @@ const userResponse = async () => {
       answerResult.src = './assets/svg/icons/green-bird.svg';
       result.push(true);
       stats.wordCorrectAnswer(wordsId[counter - 1]);
+      new App().setStatistics();
     }
   });
 
@@ -255,11 +260,13 @@ const userResponse = async () => {
         answerResult.src = './assets/svg/icons/green-bird.svg';
         result.push(true);
         stats.wordCorrectAnswer(wordsId[counter - 1]);
+        new App().setStatistics();
       } else {
         playSoundsAfterAnswer('./sounds-game-audio-call/incorrect-answer-sound-3.mp3');
         answerResult.src = './assets/svg/icons/game/cross.svg';
         result.push(false);
         stats.wordUncorrectAnswer(wordsId[counter - 1]);
+        new App().setStatistics();
       }
     } else if (e.code === 'ArrowLeft') {
       if (answers[2][counter - 1]) {
@@ -267,6 +274,7 @@ const userResponse = async () => {
         answerResult.src = './assets/svg/icons/game/cross.svg';
         result.push(false);
         stats.wordUncorrectAnswer(wordsId[counter - 1]);
+        new App().setStatistics();
       } else {
         let currentScore = Number(score.innerText);
         score.innerText = (currentScore += 10).toString();
@@ -274,6 +282,7 @@ const userResponse = async () => {
         answerResult.src = './assets/svg/icons/green-bird.svg';
         result.push(true);
         stats.wordCorrectAnswer(wordsId[counter - 1]);
+        new App().setStatistics();
       }
     }
   };

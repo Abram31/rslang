@@ -86,7 +86,6 @@ export const numberNewWordsEachDay = () => {
 
 export const numbersLearnedWordsEveryDay = () => {
   const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string);
-  debugger;
   const learnedWordsOfDay: { [key: string]: number } = {};
   Object.entries(data.optional.words).forEach((word) => {
     if (word[1].dateLearnedWord && word[1].correctAnswers === 3
