@@ -1,8 +1,8 @@
 import { IdataStatistics } from './statistics';
 
 export const statisticByWords = () => {
-  if (localStorage.getItem('id')) {
-    const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string);
+  const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string);
+  if (localStorage.getItem('id') && data && data.optional && data.optional.words) {
     const currentDate = new Date().toLocaleDateString('en-US');
     const newWordsOfDay: Array<string> = [];
     const newLearnedWordsOfDay: Array<string> = [];
@@ -37,8 +37,8 @@ export const statisticByWords = () => {
 };
 
 export const statisticsGame = (nameOfGame: string) => {
-  if (localStorage.getItem('id')) {
-    const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string);
+  const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string);
+  if (localStorage.getItem('id') && data && data.optional && data.optional.words) {
     const currentDate = new Date().toLocaleDateString('en-US');
     const newWordsGameDay: Array<string> = [];
     const mostLongSeriesAnswers: Array<number> = [];
