@@ -155,13 +155,14 @@ export default class App {
   }
 
   async setStatistics() {
+    debugger
     const id = getStorage('id');
     const token = getStorage('token');
-    let statistics = sessionStorage.getItem('statistics');
-    console.log(JSON.parse(statistics!)); 
-    if (JSON.parse(statistics!).id) {
-      const data = JSON.parse(statistics!);
-      statistics = JSON.stringify(data);
+    let statistics = JSON.parse(sessionStorage.getItem('statistics')!);
+    if (statistics!.id) {
+      const data = statistics!;
+      delete data.id
+      statistics = data;
       console.log(data);
 
     }
@@ -172,7 +173,7 @@ export default class App {
         Accept: 'application/json',
         'Content-Type': 'application/json' ,
       },
-      body: statistics!,
+      body: JSON.stringify(statistics!),
     });
   }
 
