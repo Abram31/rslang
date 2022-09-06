@@ -1,9 +1,16 @@
 import createDomNode from '../../../utils/createDomNode';
 import './sprint_results.scss';
-import Statistics from '../../statistics/statistics';
 import {
-  englishWords, russianWords, result, audioPaths, play,
+  englishWords, russianWords, result, audioPaths, play, stats,
 } from '../game_sprint';
+import App from '../../../components/app';
+
+interface ISprintStats {
+  percentCorrectAnswers: number;
+  longestSeriesOfCorrectAnswers: number;
+  newWordsGameDay?: string;
+  nameGame: string;
+}
 
 const hideBackground = (page: HTMLElement) => {
   // eslint-disable-next-line no-param-reassign
@@ -23,6 +30,25 @@ const statsAboutGame = (array: Array<number>) => {
   const percentCorrectAnswers = Math.round((array[0] / (array[0] + array[1])) * 100);
   return percentCorrectAnswers;
 };
+
+export const generateStatisticsSprint = () => {
+  const data: Array<ISprintStats> = Object.values(JSON.parse(sessionStorage.getItem('statistics') as string).optional.correctAnswersInGames);
+  const percentCorrectAnswers: Array<number> = [];
+  const longestSeriesAnswers: Array<number> = [];
+  data.forEach((item) => {
+    const game: string = item.nameGame;
+    if (game === 'sprint') {
+      percentCorrectAnswers.push(item.percentCorrectAnswers);
+      longestSeriesAnswers.push(item.longestSeriesOfCorrectAnswers);
+    }
+  });
+  // eslint-disable-next-line max-len
+  const percent: number = Math.round((percentCorrectAnswers.reduce((acc, curr) => acc + curr)) / percentCorrectAnswers.length);
+  const series: number = longestSeriesAnswers.sort((a, b) => b - a)[0];
+  return [percent, series];
+};
+
+const app = new App();
 
 const renderSprintResults = (score: number) => {
   const page = document.querySelector('.sprint-game') as HTMLElement;
@@ -71,10 +97,7 @@ const renderSprintResults = (score: number) => {
       window.location.hash = '/games/sprint';
     } else if (button.classList.contains('cancel__button')) {
       if (!window.location.href.match(/random/) && !window.location.href.match(/hard-word/)) {
-        const hash = window.location.href.split('/');
-        const partHash = hash[hash.length - 2];
-        const pageHash = hash[hash.length - 1];
-        window.location.hash = `/book/section-${partHash}/${pageHash}`;
+        window.location.hash = '/book';
       } else if (window.location.href.match(/random/)) {
         window.location.hash = '/games';
       } else if (window.location.href.match(/hard-word/)) {
@@ -83,14 +106,13 @@ const renderSprintResults = (score: number) => {
     }
   });
 
+  hideBackground(page);
+
   const count: Array<number> = answersCounter(result);
   const percentCorrectAnswers: number = statsAboutGame(count);
-  // console.log(statsAboutGame(count));
-
-  const stats = new Statistics('sprint');
   stats.setStatisticsAboutSprintGame(percentCorrectAnswers);
-  // console.log(JSON.parse(sessionStorage.statistics));
 
-  hideBackground(page);
+  app.setStatistics();
 };
+
 export default renderSprintResults;

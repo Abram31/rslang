@@ -5,6 +5,7 @@ import createDomNode from '../../../utils/createDomNode';
 import {
   numberNewWordsEachDay, numbersLearnedWordsEveryDay, statisticByWords, statisticsGame,
 } from '../../statistics/addStatisticToPage';
+import { generateStatisticsSprint } from '../../game_sprint/results/sprint_results';
 
 export default class StatisticsPageRender {
   private statisctics;
@@ -49,6 +50,9 @@ export default class StatisticsPageRender {
 
   chartIncreaseTotalNumber: HTMLElement | undefined;
 
+  statisticsSprintGame: { newWordsGameDay: string;
+    longestSeriesAnswers: string; percentAnswers: string; };
+
   constructor(container: HTMLElement) {
     this.statisctics = createDomNode('main', ['statisctics'], container);
     this.statiscticsWrapper = createDomNode('div', ['wrapper', 'statisctics-wrapper'], this.statisctics);
@@ -77,9 +81,12 @@ export default class StatisticsPageRender {
 
     this.btnSprint = createDomNode('button', ['btn-static'], this.btnGroup, 'Спринт');
     this.btnSprint.addEventListener('click', () => {
-      this.contentStatic?.remove();
-      this.contentStatic = createDomNode('div', ['content-static'], this.statiscticsWrapper);
-      this.staticItem = createDomNode('p', ['static__item'], this.contentStatic, 'В РАЗРАБОТКЕ');
+      const sprintStats = generateStatisticsSprint();
+      this.statisc(
+        this.statisticsSprintGame.newWordsGameDay,
+        ['Самая длинная серия правильных ответов: ', sprintStats[1].toString()],
+        sprintStats[0].toString(),
+      );
     });
 
     this.btnStatic = createDomNode('button', ['btn-static'], this.btnGroup, 'Общая статистика');
@@ -94,6 +101,7 @@ export default class StatisticsPageRender {
     this.statisticsByWords = statisticByWords();
 
     this.statisticsAudioCallGame = statisticsGame('audio-call');
+    this.statisticsSprintGame = statisticsGame('sprint');
   }
 
   toogleBtn(element: HTMLElement) {

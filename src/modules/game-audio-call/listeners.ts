@@ -100,6 +100,7 @@ const addListeners = () => {
     sessionStorage.removeItem('longest-series-of-correct-answers');
     sessionStorage.removeItem('learnedWordsId');
 
+    document.removeEventListener('keyup', keyboardControl);
     body.removeEventListener('click', clickAudioGame);
   });
 };

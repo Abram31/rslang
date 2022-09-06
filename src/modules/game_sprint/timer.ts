@@ -11,7 +11,7 @@ const timer = () => {
         renderSprintResults(score);
       } catch (e) {
         // eslint-disable-next-line no-console
-        console.warn('error');
+        console.warn(e);
       }
       clearInterval(changeTime);
     } else {
@@ -19,7 +19,7 @@ const timer = () => {
         timerDiv.innerHTML = time.toString();
       } catch (e) {
         // eslint-disable-next-line no-console
-        console.warn('error');
+        console.warn(e);
       }
     }
     time -= 1;

@@ -5,12 +5,12 @@ import hightlitingDifficultWords from './difficult_words/hightliting_difficult_w
 import { IdataFromServer } from '../../interface/interface';
 import checkDifficultWordBeforeLoading from './difficult_words/check_difficult_word_before_loading';
 import { addToLearnedWords, deleteFromLearnedWords } from '../statistics/save-delete-learned-words';
+import { IdataStatistics } from '../statistics/statistics';
 
 function addCountCorrectAnswer(id: string) {
-  debugger;
-  const statistics = (JSON.parse(sessionStorage.getItem('statistics') as string));
+  const statistics:IdataStatistics = (JSON.parse(sessionStorage.getItem('statistics') as string));
   let count = 4;
-  if (statistics) {
+  if (statistics && statistics.optional && statistics.optional.words) {
     Object.keys(statistics.optional.words).forEach((key) => {
       if (key === id) {
         count = statistics.optional.words[key].correctAnswers;

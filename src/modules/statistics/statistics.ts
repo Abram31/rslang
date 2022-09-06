@@ -48,7 +48,7 @@ class Statistics {
       sessionStorage.setItem('longest-series-of-correct-answers', JSON.stringify(1));
     }
     const data: IdataStatistics = this.dataStatistics;
-    if (data) {
+    if (data && data.optional && data.optional.words) {
       if (Object.keys(data.optional.words).includes(idWord)) {
         if (data.optional.words[idWord].correctAnswers < 3) {
           data.optional.words[idWord].correctAnswers += 1;
@@ -87,7 +87,7 @@ class Statistics {
   wordUncorrectAnswer(idWord: string) {
     sessionStorage.setItem('series-of-correct-answers', JSON.stringify(0));
     const data: IdataStatistics = this.dataStatistics;
-    if (data) {
+    if (data && data.optional && data.optional.words) {
       if (Object.keys(data.optional.words).includes(idWord)) {
         if (data.optional.words[idWord].correctAnswers > 0) {
           data.optional.words[idWord].correctAnswers -= 1;
@@ -129,7 +129,7 @@ class Statistics {
     const statisticPercetCorrectAnswers = Math.round(guessedWords.length / (unguessedWords.length + guessedWords.length) * 100) || 0;
 
     const data = this.dataStatistics;
-    if (data.optional.correctAnswersInGames) {
+    if (data && data.optional && data.optional.correctAnswersInGames) {
       data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
         percentCorrectAnswers: statisticPercetCorrectAnswers,
         longestSeriesOfCorrectAnswers: Number(JSON.parse(sessionStorage.getItem('longest-series-of-correct-answers') as string)),
@@ -148,7 +148,7 @@ class Statistics {
 
   setStatisticsAboutSprintGame(percentCorrectAnswers: number) {
     const data = this.dataStatistics;
-    if (data.optional.correctAnswersInGames) {
+    if (data && data.optional && data.optional.correctAnswersInGames) {
       data.optional.correctAnswersInGames[`${new Date().toLocaleString()}`] = {
         // eslint-disable-next-line object-shorthand
         percentCorrectAnswers: percentCorrectAnswers,

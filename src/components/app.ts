@@ -157,10 +157,11 @@ export default class App {
   async setStatistics() {
     const id = getStorage('id');
     const token = getStorage('token');
-    let statistics = sessionStorage.getItem('statistics');
-    if (JSON.parse(statistics!).id) {
-      const data = JSON.parse(statistics!);
-      statistics = JSON.stringify(data);
+    let statistics = JSON.parse(sessionStorage.getItem('statistics') as string);
+    if (statistics.id) {
+      const data = statistics;
+      delete data.id;
+      statistics = data;
     }
     return this.request(`${this.userUrl}/${id}/statistics`, {
       method: 'PUT',
@@ -169,7 +170,7 @@ export default class App {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: statistics!,
+      body: JSON.stringify(statistics),
     });
   }
 
