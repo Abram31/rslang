@@ -142,7 +142,7 @@ export default class AuthModal {
     const emailUser = this.inputEmail.value;
     const passwordUser = this.inputPassword.value;
 
-    if (VALIDATION_EMAIL.test(emailUser) && passwordUser && nameUser) {
+    if (VALIDATION_EMAIL.test(emailUser) && passwordUser.length >= 8 && nameUser) {
       await this.app.createUser({ name: nameUser, email: emailUser, password: passwordUser })
         .then(() => {
           this.overlay?.remove();
