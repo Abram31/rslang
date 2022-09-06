@@ -2,7 +2,7 @@ import createDomNode from '../../../utils/createDomNode';
 import './sprint_results.scss';
 import Statistics from '../../statistics/statistics';
 import {
-  englishWords, russianWords, result, audioPaths, play,
+  englishWords, russianWords, result, audioPaths, play, stats
 } from '../game_sprint';
 import App from '../../../components/app';
 
@@ -44,7 +44,8 @@ export const generateStatistics = () => {
 	return [percent, series];
 }
 
-const stats = new Statistics('sprint');
+// export const stats = new Statistics('sprint');
+const app = new App();
 
 const renderSprintResults = (score: number) => {
   const page = document.querySelector('.sprint-game') as HTMLElement;
@@ -111,7 +112,7 @@ const renderSprintResults = (score: number) => {
 	const percentCorrectAnswers: number = statsAboutGame(count);
 	stats.setStatisticsAboutSprintGame(percentCorrectAnswers);
 	
-	(new App).setStatistics();
+	app.setStatistics();
 
 }
 
