@@ -1,6 +1,5 @@
 import createDomNode from '../../../utils/createDomNode';
 import './sprint_results.scss';
-import Statistics from '../../statistics/statistics';
 import {
   englishWords, russianWords, result, audioPaths, play, stats
 } from '../game_sprint';
@@ -10,6 +9,7 @@ interface ISprintStats {
 	percentCorrectAnswers: number;
 	longestSeriesOfCorrectAnswers: number;
 	newWordsGameDay?: string;
+  nameGame: string;
 }
 
 const hideBackground = (page: HTMLElement) => {
@@ -31,20 +31,22 @@ const statsAboutGame = (array: Array<number>) => {
   return percentCorrectAnswers;
 };
 
-export const generateStatistics = () => {
+export const generateStatisticsSprint = () => {
 	const data: Array<ISprintStats> = Object.values(JSON.parse(sessionStorage.getItem('statistics')!).optional.correctAnswersInGames);
 	const percentCorrectAnswers: Array<number> = [];
 	const longestSeriesAnswers: Array<number> = [];
 	data.forEach(item => {
-		percentCorrectAnswers.push(item.percentCorrectAnswers)
+    const game: string = item.nameGame;
+    if (game === 'sprint') {
+      percentCorrectAnswers.push(item.percentCorrectAnswers)
 		longestSeriesAnswers.push(item.longestSeriesOfCorrectAnswers)
+    }
 	})
 	const percent: number = Math.round((percentCorrectAnswers.reduce((acc, curr) => acc + curr)) / percentCorrectAnswers.length);
 	const series: number = longestSeriesAnswers.sort((a, b) => b - a)[0];
 	return [percent, series];
 }
 
-// export const stats = new Statistics('sprint');
 const app = new App();
 
 const renderSprintResults = (score: number) => {
@@ -94,10 +96,7 @@ const renderSprintResults = (score: number) => {
       window.location.hash = '/games/sprint';
     } else if (button.classList.contains('cancel__button')) {
       if (!window.location.href.match(/random/) && !window.location.href.match(/hard-word/)) {
-        const hash = window.location.href.split('/');
-        const partHash = hash[hash.length - 2];
-        const pageHash = hash[hash.length - 1];
-        window.location.hash = `/book/section-${partHash}/${pageHash}`;
+        window.location.hash = `/book`;
       } else if (window.location.href.match(/random/)) {
         window.location.hash = '/games';
       } else if (window.location.href.match(/hard-word/)) {

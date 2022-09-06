@@ -14,7 +14,6 @@ export const addToLearnedWords = (id: string) => {
 };
 
 export const deleteFromLearnedWords = (id: string) => {
-  debugger;
   const data: IdataStatistics = JSON.parse(sessionStorage.getItem('statistics') as string);
   if (data.optional.words[id] && data.optional.words[id].dateLearnedWord) {
     delete data.optional.words[id].dateLearnedWord;
